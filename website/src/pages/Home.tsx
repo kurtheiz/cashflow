@@ -3,8 +3,8 @@ import { TimeEntry } from '../components/TimeEntry';
 import { format } from 'date-fns';
 
 const employers = [
-  { id: '1', name: 'Petbarn', level: 'retail_employee_level_1' as const },
-  { id: '2', name: 'EQ Saddlery', level: 'retail_employee_level_1' as const },
+  { id: '1', name: 'Petbarn', level: 'retail_employee_level_1' as const, state: "VIC" as 'VIC' },
+  { id: '2', name: 'EQ Saddlery', level: 'retail_employee_level_1' as const, state: "VIC" as 'VIC' },
 ];
 
 const today = new Date();

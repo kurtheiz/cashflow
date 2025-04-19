@@ -8,6 +8,7 @@ interface Employer {
   id: string;
   name: string;
   level: keyof typeof configData.casual;
+  state: 'NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'NT' | 'ACT';
 }
 
 interface TimeEntryProps {
@@ -33,9 +34,76 @@ function getBreakMins(hours: number): number {
   return 0;
 }
 
-function getRate(level: keyof typeof configData.casual): number {
-  // Only ordinary rate for now
-  return configData.casual[level].hourly_rate;
+// Define holiday interface
+interface Holiday {
+  date: string;
+  name: string;
+  regional?: boolean | string;
+}
+
+// Function to check if a date is a public holiday and get its name
+function getPublicHolidayName(date: Date, state: 'NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'NT' | 'ACT'): string | null {
+  const dateStr = format(date, 'yyyy-MM-dd');
+  const year = date.getFullYear().toString();
+  
+  // Only check if we have holiday data for this year
+  if (configData.publicHolidays && 
+      (year === '2025' || year === '2026')) { // Only check years we have data for
+    
+    // Check national holidays
+    const nationalHolidays = year === '2025' 
+      ? configData.publicHolidays['2025'].national 
+      : configData.publicHolidays['2026'].national;
+      
+    const nationalHoliday = nationalHolidays.find((holiday: Holiday) => holiday.date === dateStr);
+    if (nationalHoliday) {
+      return nationalHoliday.name;
+    }
+    
+    // Check state holidays using the provided state
+    const stateHolidays = year === '2025' 
+      ? configData.publicHolidays['2025'][state] 
+      : configData.publicHolidays['2026'][state];
+      
+    if (stateHolidays) {
+      const stateHoliday = stateHolidays.find((holiday: Holiday) => holiday.date === dateStr);
+      if (stateHoliday) {
+        return stateHoliday.name;
+      }
+    }
+  }
+  
+  return null;
+}
+
+function getRate(level: keyof typeof configData.casual, date: Date, state: 'NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'NT' | 'ACT'): number {
+  const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  const hours = date.getHours();
+  const rates = configData.casual[level].rates;
+  
+  // Check if it's a public holiday
+  const holidayName = getPublicHolidayName(date, state);
+  if (holidayName) {
+    return rates.public_holiday;
+  }
+  
+  // Sunday rate
+  if (dayOfWeek === 0) {
+    return rates.sunday;
+  }
+  
+  // Saturday rate
+  if (dayOfWeek === 6) {
+    return rates.saturday;
+  }
+  
+  // Evening rate (Monday to Friday, 6pm to 9pm)
+  if (dayOfWeek >= 1 && dayOfWeek <= 5 && hours >= 18 && hours < 21) {
+    return rates.evening_mon_fri;
+  }
+  
+  // Default to ordinary rate
+  return rates.ordinary;
 }
 
 
@@ -46,8 +114,8 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
   
   // State for dynamic day range
   const [visibleDayRange, setVisibleDayRange] = useState({
-    startOffset: -30, // Days before reference date
-    endOffset: 30,    // Days after reference date
+    startOffset: 0,  // Start from the reference date
+    endOffset: 30,   // Days after reference date
   });
   
   // State for responsive design
@@ -262,7 +330,7 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
               if (diff < 0) diff += 24;
               breakMins = getBreakMins(diff);
               hours = Math.max(0, diff - breakMins / 60);
-              const rate = getRate(selectedEmployer.level);
+              const rate = getRate(selectedEmployer.level, day, selectedEmployer.state);
               pay = +(hours * rate).toFixed(2);
             }
             
@@ -288,6 +356,9 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
             // Check if this day has any time entries
             const hasTimeEntry = entry.start || entry.end;
             
+            // Check if this day is a public holiday
+            const holidayName = getPublicHolidayName(day, selectedEmployer.state);
+            
             return (
               <div key={dateStr} style={{ 
                 marginBottom: '16px',
@@ -304,31 +375,22 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
                   justifyContent: 'space-between', 
                   alignItems: 'center' 
                 }}>
-                  <span style={{ fontSize: '16px' }}>{format(day, 'EEEE, dd MMMM yyyy')}</span>
-                  {(entry.start || entry.end) && (
-                    <button
-                      onClick={() => clearEntry(dateStr, selectedEmployer.id)}
-                      style={{ 
+                  <div>
+                    <span style={{ fontSize: '16px' }}>{format(day, 'EEEE, dd MMMM yyyy')}</span>
+                    {holidayName && (
+                      <div style={{ 
                         fontSize: '12px', 
                         color: '#6b7280', 
-                        display: 'flex', 
-                        alignItems: 'center',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '0'
-                      }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '12px', width: '12px', marginRight: '4px' }} viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                      Clear
-                    </button>
-                  )}
+                        marginTop: '2px' 
+                      }}>
+                        {holidayName} (Public Holiday)
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
                 <div style={{ maxWidth: '320px', margin: '0 auto', paddingBottom: '12px' }}>
-                  <div style={{ display: 'flex', marginBottom: '8px', justifyContent: 'flex-start', gap: '20px' }}>
+                  <div style={{ display: 'flex', marginBottom: '8px', justifyContent: 'flex-start', gap: '20px', alignItems: 'flex-end' }}>
                     <div style={{ width: '35%' }}>
                       <div style={{ fontSize: '14px', color: '#374151', marginBottom: '4px' }}>Start</div>
                       <input
@@ -359,19 +421,46 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
                         onChange={e => handleTimeChange(dateStr, selectedEmployer.id, 'end', e.target.value)}
                       />
                     </div>
+                    {(entry.start || entry.end) && (
+                      <button
+                        onClick={() => clearEntry(dateStr, selectedEmployer.id)}
+                        style={{ 
+                          fontSize: '12px', 
+                          color: '#6b7280', 
+                          display: 'flex', 
+                          alignItems: 'center',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '0',
+                          marginBottom: '4px'
+                        }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '12px', width: '12px', marginRight: '4px' }} viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                        Clear
+                      </button>
+                    )}
                   </div>
                 </div>
                 
                 <div style={{ display: 'flex', fontSize: '14px' }}>
-                  <div style={{ width: '33.333%' }}>
+                  <div style={{ width: '25%' }}>
                     <div style={{ color: '#6b7280', fontSize: '14px' }}>Break</div>
                     <div style={{ fontWeight: '500', fontSize: '14px' }}>{breakMins || 0} min</div>
                   </div>
-                  <div style={{ width: '33.333%' }}>
+                  <div style={{ width: '25%' }}>
                     <div style={{ color: '#6b7280', fontSize: '14px' }}>Hours</div>
                     <div style={{ fontWeight: '500', fontSize: '14px' }}>{hours ? hours.toFixed(2) : '--'}</div>
                   </div>
-                  <div style={{ width: '33.333%' }}>
+                  <div style={{ width: '25%' }}>
+                    <div style={{ color: '#6b7280', fontSize: '14px' }}>Rate</div>
+                    <div style={{ fontWeight: '500', fontSize: '14px' }}>
+                      ${entry.start && entry.end ? getRate(selectedEmployer.level, day, selectedEmployer.state).toFixed(2) : '--'}/hr
+                    </div>
+                  </div>
+                  <div style={{ width: '25%' }}>
                     <div style={{ color: '#6b7280', fontSize: '14px' }}>Pay</div>
                     <div style={{ fontWeight: '500', fontSize: '14px' }}>${pay ? pay.toFixed(2) : '--'}</div>
                   </div>

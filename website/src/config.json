@@ -156,5 +156,147 @@
       "lastUpdated": "2024-07-01",
       "source": "Fair Work Ombudsman Pay Guide",
       "description": "Casual employee rates from the General Retail Industry Award [MA000004] effective from the first full pay period on or after 1 July 2024."
+    },
+    "publicHolidays": {
+      "2025": {
+        "national": [
+          {"date": "2025-01-01", "name": "New Year's Day"},
+          {"date": "2025-01-27", "name": "Australia Day holiday"},
+          {"date": "2025-04-18", "name": "Good Friday"},
+          {"date": "2025-04-19", "name": "Day following Good Friday"},
+          {"date": "2025-04-20", "name": "Easter Sunday"},
+          {"date": "2025-04-21", "name": "Easter Monday"},
+          {"date": "2025-04-25", "name": "Anzac Day"},
+          {"date": "2025-12-25", "name": "Christmas Day"},
+          {"date": "2025-12-26", "name": "Boxing Day"}
+        ],
+        "ACT": [
+          {"date": "2025-03-10", "name": "Canberra Day"},
+          {"date": "2025-06-02", "name": "Reconciliation Day"},
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-10-06", "name": "Labour Day"}
+        ],
+        "NSW": [
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-10-06", "name": "Labour Day"}
+        ],
+        "NT": [
+          {"date": "2025-05-05", "name": "May Day"},
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-07-04", "name": "Alice Springs Show Day", "regional": true},
+          {"date": "2025-07-11", "name": "Tennant Creek Show Day", "regional": true},
+          {"date": "2025-07-18", "name": "Katherine Show Day", "regional": true},
+          {"date": "2025-07-25", "name": "Darwin Show Day", "regional": true},
+          {"date": "2025-08-04", "name": "Picnic Day"},
+          {"date": "2025-08-15", "name": "Borroloola Show Day", "regional": true}
+        ],
+        "QLD": [
+          {"date": "2025-05-05", "name": "Labour Day"},
+          {"date": "2025-08-13", "name": "Royal Queensland Show", "regional": "Brisbane"},
+          {"date": "2025-10-06", "name": "King's Birthday"}
+        ],
+        "SA": [
+          {"date": "2025-03-10", "name": "Adelaide Cup Day"},
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-10-06", "name": "Labour Day"},
+          {"date": "2025-12-26", "name": "Proclamation Day"}
+        ],
+        "TAS": [
+          {"date": "2025-01-08", "name": "Devonport Cup", "regional": true},
+          {"date": "2025-02-10", "name": "Royal Hobart Regatta", "regional": true},
+          {"date": "2025-02-26", "name": "Launceston Cup", "regional": true},
+          {"date": "2025-03-04", "name": "King Island Show", "regional": true},
+          {"date": "2025-03-10", "name": "Eight Hours Day"},
+          {"date": "2025-05-02", "name": "AGFEST", "regional": true},
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-10-03", "name": "Burnie Show", "regional": true},
+          {"date": "2025-10-09", "name": "Royal Launceston Show", "regional": true},
+          {"date": "2025-10-17", "name": "Flinders Island Show", "regional": true},
+          {"date": "2025-10-23", "name": "Royal Hobart Show", "regional": true},
+          {"date": "2025-11-03", "name": "Recreation Day", "regional": true},
+          {"date": "2025-11-28", "name": "Devonport Show", "regional": true}
+        ],
+        "VIC": [
+          {"date": "2025-03-10", "name": "Labour Day"},
+          {"date": "2025-04-19", "name": "Saturday before Easter Sunday"},
+          {"date": "2025-06-09", "name": "King's Birthday"},
+          {"date": "2025-11-04", "name": "Melbourne Cup Day"}
+        ],
+        "WA": [
+          {"date": "2025-03-03", "name": "Labour Day"},
+          {"date": "2025-06-02", "name": "Western Australia Day"},
+          {"date": "2025-09-29", "name": "King's Birthday"}
+        ]
+      },
+      "2026": {
+        "national": [
+          {"date": "2026-01-01", "name": "New Year's Day"},
+          {"date": "2026-01-26", "name": "Australia Day"},
+          {"date": "2026-04-03", "name": "Good Friday"},
+          {"date": "2026-04-04", "name": "Easter Saturday"},
+          {"date": "2026-04-05", "name": "Easter Sunday"},
+          {"date": "2026-04-06", "name": "Easter Monday"},
+          {"date": "2026-04-25", "name": "Anzac Day"},
+          {"date": "2026-12-25", "name": "Christmas Day"},
+          {"date": "2026-12-26", "name": "Boxing Day"},
+          {"date": "2026-12-28", "name": "Boxing Day observed"}
+        ],
+        "ACT": [
+          {"date": "2026-03-09", "name": "Canberra Day"},
+          {"date": "2026-06-01", "name": "Reconciliation Day"},
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-10-05", "name": "Labour Day"}
+        ],
+        "NSW": [
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-10-05", "name": "Labour Day"}
+        ],
+        "NT": [
+          {"date": "2026-05-04", "name": "May Day"},
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-07-03", "name": "Alice Springs Show Day", "regional": true},
+          {"date": "2026-07-10", "name": "Tennant Creek Show Day", "regional": true},
+          {"date": "2026-07-17", "name": "Katherine Show Day", "regional": true},
+          {"date": "2026-07-24", "name": "Darwin Show Day", "regional": true},
+          {"date": "2026-08-03", "name": "Picnic Day"},
+          {"date": "2026-08-21", "name": "Borroloola Show Day", "regional": true}
+        ],
+        "QLD": [
+          {"date": "2026-05-04", "name": "Labour Day"},
+          {"date": "2026-08-12", "name": "Royal Queensland Show", "regional": "Brisbane"},
+          {"date": "2026-10-05", "name": "King's Birthday"}
+        ],
+        "SA": [
+          {"date": "2026-03-09", "name": "Adelaide Cup Day"},
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-10-05", "name": "Labour Day"}
+        ],
+        "TAS": [
+          {"date": "2026-01-07", "name": "Devonport Cup", "regional": true},
+          {"date": "2026-02-01", "name": "Royal Hobart Regatta", "regional": true},
+          {"date": "2026-02-25", "name": "Launceston Cup", "regional": true},
+          {"date": "2026-03-03", "name": "King Island Show", "regional": true},
+          {"date": "2026-03-09", "name": "Eight Hours Day"},
+          {"date": "2026-04-07", "name": "Easter Tuesday", "regional": true},
+          {"date": "2026-05-08", "name": "AGFEST", "regional": true},
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-10-02", "name": "Burnie Show", "regional": true},
+          {"date": "2026-10-08", "name": "Royal Launceston Show", "regional": true},
+          {"date": "2026-10-16", "name": "Flinders Island Show", "regional": true},
+          {"date": "2026-10-22", "name": "Royal Hobart Show", "regional": true},
+          {"date": "2026-11-02", "name": "Recreation Day", "regional": true},
+          {"date": "2026-11-27", "name": "Devonport Show", "regional": true}
+        ],
+        "VIC": [
+          {"date": "2026-03-09", "name": "Labour Day"},
+          {"date": "2026-06-08", "name": "King's Birthday"},
+          {"date": "2026-11-03", "name": "Melbourne Cup Day"}
+        ],
+        "WA": [
+          {"date": "2026-03-02", "name": "Labour Day"},
+          {"date": "2026-06-01", "name": "Western Australia Day"},
+          {"date": "2026-09-28", "name": "King's Birthday"}
+        ]
+      }
     }
   }

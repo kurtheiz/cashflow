@@ -13,6 +13,6 @@ export default defineConfig({
       },
     },
   },
-  // Ensure the app works with any base path
-  base: './',
+  // Use absolute paths for assets
+  base: '/',
 })

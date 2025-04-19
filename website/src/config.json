@@ -1,0 +1,160 @@
+{
+    "award": {
+      "name": "General Retail Industry Award",
+      "code": "MA000004",
+      "effectiveDate": "2024-07-01"
+    },
+    "breaks": {
+      "restBreak": {
+        "description": "A rest break is a 10 minute paid break that counts as time worked.",
+        "duration": 10,
+        "isPaid": true,
+        "countsAsTimeWorked": true
+      },
+      "mealBreak": {
+        "description": "A meal break is a 30-60 minute unpaid break that doesn't count as time worked, except for shiftworkers.",
+        "minDuration": 30,
+        "maxDuration": 60,
+        "isPaid": false,
+        "countsAsTimeWorked": false,
+        "shiftworkerException": {
+          "isPaid": true,
+          "countsAsTimeWorked": true
+        }
+      },
+      "breakSchedule": [
+        {
+          "hoursWorked": "less than 4 hours",
+          "hoursRange": [0, 3.99],
+          "restBreaks": 0,
+          "mealBreaks": 0
+        },
+        {
+          "hoursWorked": "4 or more hours - 5 hours",
+          "hoursRange": [4, 5],
+          "restBreaks": 1,
+          "mealBreaks": 0
+        },
+        {
+          "hoursWorked": "more than 5 - less than 7 hours",
+          "hoursRange": [5.01, 6.99],
+          "restBreaks": 1,
+          "mealBreaks": 1
+        },
+        {
+          "hoursWorked": "7 or more hours - less than 10 hours",
+          "hoursRange": [7, 9.99],
+          "restBreaks": 2,
+          "mealBreaks": 1
+        },
+        {
+          "hoursWorked": "10 or more hours",
+          "hoursRange": [10, null],
+          "restBreaks": 2,
+          "mealBreaks": 2
+        }
+      ],
+      "breakRules": [
+        "An employee who works for more than 5 hours must get at least 1 meal break.",
+        "The time to take breaks and the length of breaks form part of an employee's roster.",
+        "An employee who gets 2 rest breaks has to take 1 break in the first half of their shift, and the other break in the second half of their shift.",
+        "Employees can't be asked to take a rest or meal break within 1 hour of starting or finishing work.",
+        "Employees can't be asked to take a rest break combined with a meal break.",
+        "Employees can't be asked to work more than 5 hours without a meal break."
+      ]
+    },
+    "casual": {
+      "retail_employee_level_1": {
+        "hourly_rate": 32.06,
+        "rates": {
+          "ordinary": 32.06,
+          "evening_mon_fri": 38.48,
+          "saturday": 38.48,
+          "sunday": 44.89,
+          "public_holiday": 64.13
+        }
+      },
+      "retail_employee_level_2": {
+        "hourly_rate": 32.80,
+        "rates": {
+          "ordinary": 32.80,
+          "evening_mon_fri": 39.36,
+          "saturday": 39.36,
+          "sunday": 45.92,
+          "public_holiday": 65.60
+        }
+      },
+      "retail_employee_level_3": {
+        "hourly_rate": 33.31,
+        "rates": {
+          "ordinary": 33.31,
+          "evening_mon_fri": 39.98,
+          "saturday": 39.98,
+          "sunday": 46.64,
+          "public_holiday": 66.63
+        }
+      },
+      "retail_employee_level_4": {
+        "hourly_rate": 33.96,
+        "rates": {
+          "ordinary": 33.96,
+          "evening_mon_fri": 40.76,
+          "saturday": 40.76,
+          "sunday": 47.55,
+          "public_holiday": 67.93
+        }
+      },
+      "retail_employee_level_5": {
+        "hourly_rate": 35.35,
+        "rates": {
+          "ordinary": 35.35,
+          "evening_mon_fri": 42.42,
+          "saturday": 42.42,
+          "sunday": 49.49,
+          "public_holiday": 70.70
+        }
+      },
+      "retail_employee_level_6": {
+        "hourly_rate": 35.86,
+        "rates": {
+          "ordinary": 35.86,
+          "evening_mon_fri": 43.04,
+          "saturday": 43.04,
+          "sunday": 50.21,
+          "public_holiday": 71.73
+        }
+      },
+      "retail_employee_level_7": {
+        "hourly_rate": 37.66,
+        "rates": {
+          "ordinary": 37.66,
+          "evening_mon_fri": 45.20,
+          "saturday": 45.20,
+          "sunday": 52.73,
+          "public_holiday": 75.33
+        }
+      },
+      "retail_employee_level_8": {
+        "hourly_rate": 39.20,
+        "rates": {
+          "ordinary": 39.20,
+          "evening_mon_fri": 47.04,
+          "saturday": 47.04,
+          "sunday": 54.88,
+          "public_holiday": 78.40
+        }
+      }
+    },
+    "timeCategories": {
+      "ordinary": "Regular hours (Monday to Friday during day)",
+      "evening_mon_fri": "Monday to Friday after 6pm",
+      "saturday": "Saturday (non-shiftworkers)",
+      "sunday": "Sunday (non-shiftworkers)",
+      "public_holiday": "Public holiday (non-shiftworkers)"
+    },
+    "meta": {
+      "lastUpdated": "2024-07-01",
+      "source": "Fair Work Ombudsman Pay Guide",
+      "description": "Casual employee rates from the General Retail Industry Award [MA000004] effective from the first full pay period on or after 1 July 2024."
+    }
+  }

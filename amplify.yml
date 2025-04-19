@@ -5,6 +5,7 @@ frontend:
       commands:
         - cd website
         - npm ci
+        - npm install --save lucide-react
     build:
       commands:
         - npm run build

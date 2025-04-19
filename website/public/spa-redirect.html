@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <script>
+    // Single Page Application redirect script for AWS Amplify
+    // This helps handle client-side routing
+    (function() {
+      // Get the current path from the URL
+      const path = window.location.pathname;
+      
+      // If this is already the index page, don't redirect
+      if (path === '/' || path === '/index.html') {
+        return;
+      }
+      
+      // Redirect to the root with the path as a hash
+      window.location.href = '/#' + path;
+    })();
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "path": "/*",
+      "target": "/index.html",
+      "status": 200,
+      "conditions": {
+        "isFile": false
+      }
+    }
+  ]
+}

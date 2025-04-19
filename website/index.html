@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <title>Casual Pay Calculator</title>
+    <script>
+      // Handle redirects from 404.html
+      (function() {
+        // Check if coming from a redirect
+        if (sessionStorage.redirect) {
+          // Grab the redirect URL
+          const redirectUrl = sessionStorage.redirect;
+          // Clear the redirect URL
+          delete sessionStorage.redirect;
+          // Extract the pathname from the redirect URL
+          const pathname = new URL(redirectUrl).pathname;
+          // Push the pathname to history to maintain the URL
+          history.replaceState(null, null, pathname);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

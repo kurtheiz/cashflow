@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found</title>
+  <script>
+    // Single Page App 404 handler for AWS Amplify
+    // This redirects all requests to index.html
+    sessionStorage.redirect = location.href;
+    window.location.href = "/";
+  </script>
+</head>
+<body>
+  <p>Redirecting to home page...</p>
+</body>
+</html>

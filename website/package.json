@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && echo \"/* /index.html 200\" > dist/_redirects",
-    "lint": "eslint .",
+    "build": "tsc -b && vite build && npm run amplify-config",
+    "amplify-config": "echo /* /index.html 200 > dist/_redirects && copy public\\404.html dist\\404.html && copy public\\error.html dist\\error.html",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {

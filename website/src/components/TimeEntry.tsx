@@ -1,8 +1,8 @@
 import React, { useMemo, useState, Fragment } from 'react';
-import { Listbox, Transition } from '@headlessui/react';
+import { Listbox, Transition, Disclosure } from '@headlessui/react';
 import configData from '../config.json';
 import { format, addDays, parseISO } from 'date-fns';
-import { ChevronDown, Check } from 'lucide-react';
+import { ChevronDown, Check, ChevronRight } from 'lucide-react';
 
 interface Employer {
   id: string;
@@ -313,7 +313,7 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
             overflowY: 'auto',
             border: isMobile ? 'none' : '1px solid #e5e7eb',
             borderRadius: isMobile ? '0' : '6px',
-            padding: isMobile ? '0 16px' : '8px 12px'
+            padding: isMobile ? '12px 16px' : '16px 12px'
           }}
           onScroll={handleScroll}
         >
@@ -362,12 +362,41 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
             return (
               <div key={dateStr} style={{ 
                 marginBottom: '16px',
+                marginTop: '16px',
                 backgroundColor: hasTimeEntry ? '#ecfdf5' : 'white',
                 borderRadius: '8px',
                 padding: '16px',
                 boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                border: '1px solid #e5e7eb'
+                border: '1px solid #e5e7eb',
+                position: 'relative'
               }}>
+                {(entry.start || entry.end) && (
+                  <button
+                    onClick={() => clearEntry(dateStr, selectedEmployer.id)}
+                    style={{ 
+                      position: 'absolute',
+                      top: '-10px',
+                      right: '-10px',
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      backgroundColor: '#ef4444',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '2px solid white',
+                      cursor: 'pointer',
+                      padding: '0',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+                    }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '14px', width: '14px' }} viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                )}
+                
                 <div style={{ 
                   fontWeight: '500', 
                   marginBottom: '8px', 
@@ -421,49 +450,61 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
                         onChange={e => handleTimeChange(dateStr, selectedEmployer.id, 'end', e.target.value)}
                       />
                     </div>
-                    {(entry.start || entry.end) && (
-                      <button
-                        onClick={() => clearEntry(dateStr, selectedEmployer.id)}
-                        style={{ 
-                          fontSize: '12px', 
-                          color: '#6b7280', 
-                          display: 'flex', 
-                          alignItems: 'center',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0',
-                          marginBottom: '4px'
-                        }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '12px', width: '12px', marginRight: '4px' }} viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                        Clear
-                      </button>
-                    )}
+                    <div style={{ width: '20%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                      <div style={{ fontSize: '14px', color: '#374151', marginBottom: '4px' }}>Pay</div>
+                      <div style={{ fontWeight: '500', fontSize: '14px', height: '30px', display: 'flex', alignItems: 'center' }}>
+                        ${pay ? pay.toFixed(2) : '--'}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', fontSize: '14px' }}>
-                  <div style={{ width: '25%' }}>
-                    <div style={{ color: '#6b7280', fontSize: '14px' }}>Break</div>
-                    <div style={{ fontWeight: '500', fontSize: '14px' }}>{breakMins || 0} min</div>
-                  </div>
-                  <div style={{ width: '25%' }}>
-                    <div style={{ color: '#6b7280', fontSize: '14px' }}>Hours</div>
-                    <div style={{ fontWeight: '500', fontSize: '14px' }}>{hours ? hours.toFixed(2) : '--'}</div>
-                  </div>
-                  <div style={{ width: '25%' }}>
-                    <div style={{ color: '#6b7280', fontSize: '14px' }}>Rate</div>
-                    <div style={{ fontWeight: '500', fontSize: '14px' }}>
-                      ${entry.start && entry.end ? getRate(selectedEmployer.level, day, selectedEmployer.state).toFixed(2) : '--'}/hr
-                    </div>
-                  </div>
-                  <div style={{ width: '25%' }}>
-                    <div style={{ color: '#6b7280', fontSize: '14px' }}>Pay</div>
-                    <div style={{ fontWeight: '500', fontSize: '14px' }}>${pay ? pay.toFixed(2) : '--'}</div>
-                  </div>
+                <div style={{ maxWidth: '320px', margin: '0 auto' }}>
+                  <Disclosure>
+                    {({ open }) => (
+                      <div>
+                        <Disclosure.Button 
+                          className="w-full"
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px 0',
+                            color: '#6b7280',
+                            fontSize: '12px',
+                            marginTop: '4px'
+                          }}
+                        >
+                          <span>Details</span>
+                          <ChevronRight
+                            className={`${open ? 'transform rotate-90' : ''} ml-1`}
+                            size={14}
+                          />
+                        </Disclosure.Button>
+                        <Disclosure.Panel>
+                          <div style={{ display: 'flex', fontSize: '14px', justifyContent: 'flex-start', gap: '10px', marginTop: '8px' }}>
+                            <div style={{ width: '25%' }}>
+                              <div style={{ color: '#6b7280', fontSize: '14px' }}>Break</div>
+                              <div style={{ fontWeight: '500', fontSize: '14px' }}>{breakMins || 0} min</div>
+                            </div>
+                            <div style={{ width: '25%' }}>
+                              <div style={{ color: '#6b7280', fontSize: '14px' }}>Hours</div>
+                              <div style={{ fontWeight: '500', fontSize: '14px' }}>{hours ? hours.toFixed(2) : '--'}</div>
+                            </div>
+                            <div style={{ width: '25%' }}>
+                              <div style={{ color: '#6b7280', fontSize: '14px' }}>Rate</div>
+                              <div style={{ fontWeight: '500', fontSize: '14px' }}>
+                                ${entry.start && entry.end ? getRate(selectedEmployer.level, day, selectedEmployer.state).toFixed(2) : '--'}/hr
+                              </div>
+                            </div>
+                          </div>
+                        </Disclosure.Panel>
+                      </div>
+                    )}
+                  </Disclosure>
                 </div>
                 
                 {overlap && (

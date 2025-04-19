@@ -33,7 +33,7 @@ function getBreakMins(hours: number): number {
   return 0;
 }
 
-function getRate(level: keyof typeof configData.casual, date: Date): number {
+function getRate(level: keyof typeof configData.casual): number {
   // Only ordinary rate for now
   return configData.casual[level].hourly_rate;
 }
@@ -262,7 +262,7 @@ export const TimeEntry: React.FC<TimeEntryProps> = ({ employers, entries, onChan
               if (diff < 0) diff += 24;
               breakMins = getBreakMins(diff);
               hours = Math.max(0, diff - breakMins / 60);
-              const rate = getRate(selectedEmployer.level, day);
+              const rate = getRate(selectedEmployer.level);
               pay = +(hours * rate).toFixed(2);
             }
             

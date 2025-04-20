@@ -143,30 +143,32 @@ export const calculateMonthlySummaries = (
 };
 
 /**
- * Filter shifts for the next two months
+ * Filter shifts for the current and next month
+ * Includes all shifts in these months, even if they are in the past
  */
 export const filterShiftsForNextTwoMonths = (shifts: Shift[]): Shift[] => {
   const now = new Date();
-  const twoMonthsFromNow = new Date();
-  twoMonthsFromNow.setMonth(now.getMonth() + 2);
+  const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const twoMonthsFromNow = new Date(now.getFullYear(), now.getMonth() + 2, 0);
   
   return shifts.filter(shift => {
     const shiftDate = new Date(shift.date);
-    return shiftDate >= now && shiftDate <= twoMonthsFromNow;
+    return shiftDate >= startOfCurrentMonth && shiftDate <= twoMonthsFromNow;
   });
 };
 
 /**
- * Filter pay dates for the next two months
+ * Filter pay dates for the current and next month
+ * Includes all pay dates in these months, even if they are in the past
  */
 export const filterPayDatesForNextTwoMonths = (payDates: PayDate[]): PayDate[] => {
   const now = new Date();
-  const twoMonthsFromNow = new Date();
-  twoMonthsFromNow.setMonth(now.getMonth() + 2);
+  const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const twoMonthsFromNow = new Date(now.getFullYear(), now.getMonth() + 2, 0);
   
   const filteredPayDates = payDates.filter(payDate => {
     const payDateObj = new Date(payDate.date);
-    return payDateObj >= now && payDateObj <= twoMonthsFromNow;
+    return payDateObj >= startOfCurrentMonth && payDateObj <= twoMonthsFromNow;
   });
   
   // Sort by date

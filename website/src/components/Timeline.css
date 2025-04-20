@@ -1,5 +1,10 @@
 /* Custom styles for the vertical timeline component */
 
+/* Make the vertical line grey */
+.vertical-timeline::before {
+  background: #d1d5db !important; /* Tailwind gray-300 */
+}
+
 /* Adjust spacing for timeline elements */
 .custom-timeline .vertical-timeline-element {
   margin: 2rem 0;

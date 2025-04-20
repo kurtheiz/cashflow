@@ -1,7 +1,7 @@
 import React from 'react';
 import { VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { Disclosure, Transition } from '@headlessui/react';
-import { CalendarIcon, DollarSignIcon, ChevronDownIcon } from 'lucide-react';
+import { CalendarIcon, ChevronDownIcon } from 'lucide-react';
 import { PayDateItemProps } from './types';
 
 /**
@@ -14,30 +14,30 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
   formatDate 
 }) => {
   const payDateColor = getEmployerColor(payDate.employerId);
+  const backgroundColor = `${payDateColor}15`; // Adding 15 as hex opacity (approx 10%)
   
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={{ 
-        background: `${payDateColor}15`, // Adding 15 as hex opacity (approx 10%)
+        background: backgroundColor,
         color: '#333', 
         boxShadow: '0 3px 10px rgba(0,0,0,0.08)', 
         borderTop: `3px solid ${payDateColor}` 
       }}
-      contentArrowStyle={{ borderRight: '7px solid white' }}
+      contentArrowStyle={{ borderRight: `7px solid ${backgroundColor}` }}
       date={formatDate(payDate.date)}
       iconStyle={{ background: payDateColor, color: '#fff' }}
-      icon={<DollarSignIcon className="w-5 h-5" />}
+      icon={<div className="flex items-center justify-center">$</div>}
     >
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-sm font-medium">{payDate.employer} Pay</div>
           <div className="flex flex-col items-end">
-            <div className="flex items-center font-semibold">
-              <DollarSignIcon className="h-3.5 w-3.5 mr-1 text-green-600" />
-              <span className="text-green-600 text-sm">${payDate.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            <div>
+              <span className="text-gray-800 text-sm font-bold">${payDate.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-sm text-green-600 font-bold">
               Net: ${payDate.netPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
           </div>

@@ -80,14 +80,14 @@ export const Timeline: React.FC<TimelineProps> = ({
 
   return (
     <div className="timeline-container">
-      <h2 className="text-xl font-semibold mb-4 text-center">Shifts for {getMonthsText()}</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center">All Shifts for {getMonthsText()}</h2>
       
       {/* Monthly Summaries Section */}
       <MonthlySummaries summaries={monthlySummaries} />
       
       {filteredShifts.length === 0 && filteredPayDates.length === 0 ? (
         <div className="text-center text-gray-500 my-8">
-          No upcoming shifts or pay dates in the next two months.
+          No shifts or pay dates for the current and next month.
         </div>
       ) : (
         <VerticalTimeline>

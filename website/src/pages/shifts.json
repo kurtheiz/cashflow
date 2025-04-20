@@ -1,6 +1,62 @@
 {
     "shifts": [
         {
+            "date": "2025-04-01",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "08:15",
+            "end": "16:00"
+        },
+        {
+            "date": "2025-04-02",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15"
+        },
+        {
+            "date": "2025-04-03",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:00",
+            "end": "17:00"
+        },
+        {
+            "date": "2025-04-09",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "18:15"
+        },
+        {
+            "date": "2025-04-10",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:00",
+            "end": "17:00"
+        },
+        {
+            "date": "2025-04-11",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "12:00",
+            "end": "19:15"
+        },
+        {
+            "date": "2025-04-12",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "16:00"
+        },
+        {
+            "date": "2025-04-17",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:30",
+            "end": "17:30"
+        },
+        {
             "date": "2025-04-21",
             "employerId": "PETBARN",
             "employer": "Petbarn",

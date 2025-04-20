@@ -1,4 +1,5 @@
 import { generateTimelineData } from './shiftCalculator';
+import { applyTaxesToTimeline } from './timelineTaxProcessor';
 import shiftsData from '../pages/shifts.json';
 import userData from '../pages/user.json';
 import configData from '../config.json';
@@ -36,8 +37,11 @@ export const getTimelineData = () => {
     employers: employersWithColors
   };
 
-  // Generate the timeline data using the utility function
-  return generateTimelineData(shiftsData, enhancedUserData, configData);
+  // Step 1: Generate the basic timeline data
+  const timelineData = generateTimelineData(shiftsData, enhancedUserData, configData);
+  
+  // Step 2: Apply tax calculations to the timeline data
+  return applyTaxesToTimeline(timelineData, enhancedUserData.employers);
 };
 
 /**

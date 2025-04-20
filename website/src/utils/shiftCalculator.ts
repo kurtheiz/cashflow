@@ -102,6 +102,8 @@ export interface PayDate {
   periodEnd: string;
   hoursByRate: Record<string, number>; // Track hours worked at each pay rate
   payByRate: Record<string, number>; // Track money earned at each pay rate
+  tax: number; // Tax amount withheld
+  netPay: number; // Net pay after tax
 }
 
 export interface Employer {
@@ -395,7 +397,9 @@ export const calculateShiftDetails = (
         periodStart: periodStart.toISOString().split('T')[0],
         periodEnd: payDateObj.toISOString().split('T')[0],
         hoursByRate,
-        payByRate
+        payByRate,
+        tax: 0, // Initialize tax to zero
+        netPay: pay // Initialize netPay to the gross amount
       };
     } else {
       // Update existing pay date
@@ -459,56 +463,64 @@ const generateEmptyPayPeriods = (
   
   // For each employer, generate all pay periods in the date range
   employers.forEach(employer => {
-    // Start with the employer's next pay date and work backwards
+    // Start with the employer's next pay date and work forward/backward as needed
     let currentPayDate = new Date(employer.nextPayDate);
     
-    // Go back to find the first pay date before or on the start date
-    while (currentPayDate > end) {
-      // Move back one pay cycle
+    // First, find a pay date that's after our end date
+    // This ensures we don't miss any pay dates in our range
+    while (currentPayDate <= end) {
+      // Move forward one pay cycle
       if (employer.paycycle === 'weekly') {
-        currentPayDate.setDate(currentPayDate.getDate() - 7);
+        currentPayDate.setDate(currentPayDate.getDate() + 7);
       } else if (employer.paycycle === 'fortnightly') {
-        currentPayDate.setDate(currentPayDate.getDate() - 14);
+        currentPayDate.setDate(currentPayDate.getDate() + 14);
       }
     }
     
-    // Now generate all pay dates from this point forward until we pass the end date
-    while (currentPayDate >= start) {
-      const payDateStr = currentPayDate.toISOString().split('T')[0];
-      const payDateKey = `${employer.id}-${payDateStr}`;
-      
-      // Only add if this pay date doesn't already exist
-      if (!existingPayDates[payDateKey]) {
-        // Calculate pay period start and end dates
-        const periodEnd = new Date(currentPayDate);
-        periodEnd.setDate(periodEnd.getDate() - 1); // Day before pay date
-        
-        const periodStart = new Date(periodEnd);
-        periodStart.setDate(periodStart.getDate() - employer.payPeriodDays + 1);
-        
-        // Create an empty pay date entry
-        emptyPayDates.push({
-          date: payDateStr,
-          employer: employer.name,
-          employerId: employer.id,
-          amount: 0,
-          totalHours: 0,
-          shiftCount: 0,
-          shifts: [],
-          periodStart: periodStart.toISOString().split('T')[0],
-          periodEnd: periodEnd.toISOString().split('T')[0],
-          hoursByRate: {},
-          payByRate: {}
-        });
-      }
-      
+    // Now go backwards to generate all pay dates in our range
+    // We start from a date that's definitely after our end date
+    // and work backwards until we're before the start date
+    do {
       // Move back one pay cycle
       if (employer.paycycle === 'weekly') {
         currentPayDate.setDate(currentPayDate.getDate() - 7);
       } else if (employer.paycycle === 'fortnightly') {
         currentPayDate.setDate(currentPayDate.getDate() - 14);
       }
-    }
+      
+      // Check if this pay date is within our range
+      if (currentPayDate >= start && currentPayDate <= end) {
+        const payDateStr = currentPayDate.toISOString().split('T')[0];
+        const payDateKey = `${employer.id}-${payDateStr}`;
+        
+        // Only add if this pay date doesn't already exist
+        if (!existingPayDates[payDateKey]) {
+          // Calculate pay period start and end dates
+          const periodEnd = new Date(currentPayDate);
+          periodEnd.setDate(periodEnd.getDate() - 1); // Day before pay date
+          
+          const periodStart = new Date(periodEnd);
+          periodStart.setDate(periodStart.getDate() - employer.payPeriodDays + 1);
+          
+          // Create an empty pay date entry
+          emptyPayDates.push({
+            date: payDateStr,
+            employer: employer.name,
+            employerId: employer.id,
+            amount: 0,
+            totalHours: 0,
+            shiftCount: 0,
+            shifts: [],
+            periodStart: periodStart.toISOString().split('T')[0],
+            periodEnd: periodEnd.toISOString().split('T')[0],
+            hoursByRate: {},
+            payByRate: {},
+            tax: 0,
+            netPay: 0
+          });
+        }
+      }
+    } while (currentPayDate >= start);
   });
   
   return emptyPayDates;
@@ -523,6 +535,13 @@ export const generateTimelineData = (
   // Calculate shift details for existing shifts
   const { shifts, payDates } = calculateShiftDetails(shiftsData.shifts, userData, configData);
   
+  // Initialize tax and netPay fields to zero
+  // Actual tax calculation will be done by timelineTaxProcessor.ts
+  payDates.forEach(payDate => {
+    payDate.tax = 0;
+    payDate.netPay = payDate.amount;
+  });
+  
   // Convert pay dates to a map for easy lookup
   const payDateMap: Record<string, PayDate> = {};
   payDates.forEach(payDate => {
@@ -530,17 +549,18 @@ export const generateTimelineData = (
     payDateMap[key] = payDate;
   });
   
-  // Generate empty pay periods for the last 3 months and next 1 month
+  // Generate empty pay periods for the last 3 months and next 2 months
+  // Extending to 2 months ahead to ensure we see upcoming pay dates
   const today = new Date();
   const threeMonthsAgo = new Date(today);
   threeMonthsAgo.setMonth(today.getMonth() - 3);
   
-  const oneMonthAhead = new Date(today);
-  oneMonthAhead.setMonth(today.getMonth() + 1);
+  const twoMonthsAhead = new Date(today);
+  twoMonthsAhead.setMonth(today.getMonth() + 2);
   
   const emptyPayDates = generateEmptyPayPeriods(
     threeMonthsAgo.toISOString().split('T')[0],
-    oneMonthAhead.toISOString().split('T')[0],
+    twoMonthsAhead.toISOString().split('T')[0],
     userData.employers,
     payDateMap
   );
@@ -552,7 +572,8 @@ export const generateTimelineData = (
   allPayDates.sort((a, b) => {
     if (a.date < b.date) return -1;
     if (a.date > b.date) return 1;
-    return 0;
+    // If dates are the same, sort by employer ID to keep them grouped
+    return a.employerId.localeCompare(b.employerId);
   });
   
   return { 

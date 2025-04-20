@@ -12,6 +12,25 @@
   padding: 12px;
 }
 
+/* Center icons in timeline element icons */
+.vertical-timeline-element-icon svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  display: block;
+  margin: 0;
+}
+
+/* Fix for vertical timeline icon centering */
+.vertical-timeline-element-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 /* Mobile optimizations */
 @media only screen and (max-width: 1169px) {
   .custom-timeline .vertical-timeline-element-content {
@@ -28,6 +47,7 @@
   
   .custom-timeline .vertical-timeline-element-date {
     font-size: 0.8rem !important;
+    display: none !important; /* Hide the date on the left in mobile view */
   }
   
   .custom-timeline .vertical-timeline-element-content h3 {
@@ -45,5 +65,14 @@
   
   .custom-timeline .vertical-timeline-element-content .text-xs {
     font-size: 0.7rem !important;
+  }
+  
+  /* Show mobile date at the top of timeline items */
+  .mobile-date {
+    display: block !important;
+    font-size: 0.8rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #6b7280 !important;
+    font-weight: 500 !important;
   }
 }

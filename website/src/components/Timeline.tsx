@@ -2,51 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import './Timeline.css';
-import { CalendarIcon, ClockIcon, DollarSignIcon, ChevronDownIcon } from 'lucide-react';
+import { CalendarIcon, ClockIcon, DollarSignIcon, ChevronDownIcon, BriefcaseIcon, WalletIcon } from 'lucide-react';
 import { Disclosure, Transition } from '@headlessui/react';
+import { Shift, PayDate, Employer } from '../utils/shiftCalculator';
 
-interface Shift {
-  date: string;
-  employerId: string;
-  employer: string;
-  start: string;
-  end: string;
-  break: number;
-  hoursWorked: number;
-  payrate: number;
-  pay: number;
-  payDate: string;
-  isPublicHoliday?: boolean;
-  holidayName?: string;
-  eveningHours?: number;
-  isSaturday?: boolean;
-}
 
-interface PayDate {
-  date: string;
-  employerId: string;
-  employer: string;
-  amount: number;
-  totalHours: number;
-  shiftCount: number;
-  averageHourlyRate: number;
-  shifts: string[];
-  periodStart: string;
-  periodEnd: string;
-}
-
-interface Employer {
-  id: string;
-  name: string;
-  level: string;
-  state: string;
-  paycycle: string;
-  payday: string;
-  payPeriodStart: string;
-  payPeriodDays: number;
-  nextPayDate: string;
-  color: string;
-}
 
 interface TimelineProps {
   shifts: Shift[];
@@ -55,6 +15,8 @@ interface TimelineProps {
   employers: Employer[];
   onPayPeriodSelect: (start: Date | null, end: Date | null, employerId: string | null) => void;
 }
+
+
 
 export const Timeline: React.FC<TimelineProps> = ({
   shifts,
@@ -65,7 +27,7 @@ export const Timeline: React.FC<TimelineProps> = ({
 }) => {
   const [filteredShifts, setFilteredShifts] = useState<Shift[]>([]);
   const [filteredPayDates, setFilteredPayDates] = useState<PayDate[]>([]);
-  
+
   useEffect(() => {
     // Get the current date and calculate the end date (2 months from now)
     const currentDate = new Date();
@@ -73,7 +35,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     const endDate = new Date(currentDate);
     endDate.setMonth(endDate.getMonth() + 2);
     
-    // Filter shifts for the next 2 months
+    // Use the shifts that are passed in (already filtered by employer and item type)
     const shiftsForNextTwoMonths = shifts.filter(shift => {
       const shiftDate = new Date(shift.date);
       return shiftDate >= startDate && shiftDate <= endDate;
@@ -86,7 +48,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     
     setFilteredShifts(sortedShifts);
     
-    // Filter pay dates for the next 2 months if available
+    // Use the pay dates that are passed in (already filtered by employer and item type)
     if (payDates && payDates.length > 0) {
       const payDatesForNextTwoMonths = payDates.filter(payDate => {
         const date = new Date(payDate.date);
@@ -94,6 +56,8 @@ export const Timeline: React.FC<TimelineProps> = ({
       });
       
       setFilteredPayDates(payDatesForNextTwoMonths);
+    } else {
+      setFilteredPayDates([]);
     }
     
     // If a date is selected, check if it's a pay date and highlight the corresponding pay period
@@ -141,9 +105,29 @@ export const Timeline: React.FC<TimelineProps> = ({
     return employer?.color || '#f59e0b'; // Default to orange if not found
   };
 
+  // Get month names with years for the current and next month
+  const getMonthsText = () => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+    const currentYear = currentDate.getFullYear();
+    
+    const nextMonthDate = new Date(currentDate);
+    nextMonthDate.setMonth(currentDate.getMonth() + 1);
+    const nextMonth = nextMonthDate.toLocaleString('default', { month: 'long' });
+    const nextYear = nextMonthDate.getFullYear();
+    
+    if (currentYear === nextYear) {
+      // If both months are in the same year
+      return `${currentMonth} and ${nextMonth} ${currentYear}`;
+    } else {
+      // If the months span different years
+      return `${currentMonth} ${currentYear} and ${nextMonth} ${nextYear}`;
+    }
+  };
+
   return (
     <div className="timeline-container">
-      <h2 className="text-xl font-semibold mb-4">Shifts for the Next 2 Months</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center">Shifts for {getMonthsText()}</h2>
       
       {filteredShifts.length === 0 && filteredPayDates.length === 0 ? (
         <div className="text-center py-8 text-gray-500">
@@ -180,18 +164,19 @@ export const Timeline: React.FC<TimelineProps> = ({
                       padding: '12px'
                     }}
                     contentArrowStyle={{ borderRight: `7px solid ${getEmployerColor(shift.employerId)}20` }}
-                    date=""
+                    date={formatDate(shift.date)}
                     iconStyle={{ 
                       background: getEmployerColor(shift.employerId),
                       color: '#fff',
                       boxShadow: '0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05)'
                     }}
-                    icon={<div className="flex items-center justify-center h-full w-full font-bold text-white">{shift.employer.charAt(0)}</div>}
+                    icon={<BriefcaseIcon className="text-white" />}
                     position="right"
                   >
                     <div>
+                      {/* Mobile date display - only visible on small screens */}
+                      <div className="mobile-date hidden">{formatDate(shift.date)}</div>
                       <div className="flex flex-col">
-                        <div className="text-sm font-medium text-gray-600 mb-1">{formatDate(shift.date)}</div>
                         <div className="flex justify-between items-center">
                           <h3 className="text-sm font-medium">{shift.employer}</h3>
                           <div className="flex items-center font-semibold">
@@ -280,13 +265,13 @@ export const Timeline: React.FC<TimelineProps> = ({
                       padding: '12px'
                     }}
                     contentArrowStyle={{ borderRight: '7px solid #10b98120' }}
-                    date=""
+                    date={formatDate(payDate.date)}
                     iconStyle={{ 
                       background: '#10b981', // Green background for pay dates
                       color: '#fff',
                       boxShadow: '0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05)'
                     }}
-                    icon={<div className="flex items-center justify-center h-full w-full font-bold text-white">{payDate.employer.charAt(0)}</div>}
+                    icon={<WalletIcon className="text-white" />}
                     position="right"
                     onTimelineElementClick={() => {
                       // Find the employer to get pay period details
@@ -304,10 +289,11 @@ export const Timeline: React.FC<TimelineProps> = ({
                     }}
                   >
                     <div>
+                      {/* Mobile date display - only visible on small screens */}
+                      <div className="mobile-date hidden">{formatDate(payDate.date)}</div>
                       <div className="flex flex-col">
-                        <div className="text-sm font-medium text-gray-600 mb-1">{formatDate(payDate.date)}</div>
                         <div className="flex justify-between items-center">
-                          <div className="text-sm font-medium">{payDate.employer}</div>
+                          <div className="text-sm font-medium">{payDate.employer} Pay</div>
                           <div className="flex items-center font-semibold">
                             <DollarSignIcon className="h-3.5 w-3.5 mr-1 text-green-600" />
                             <span className="text-green-600 text-sm">${payDate.amount.toFixed(2)}</span>
@@ -342,9 +328,25 @@ export const Timeline: React.FC<TimelineProps> = ({
                                   {payDate.shiftCount || 0} shifts in this pay period
                                 </div>
                                 
-                                <div className="text-xs text-gray-500 mt-0.5">
-                                  Average hourly rate: ${payDate.averageHourlyRate ? payDate.averageHourlyRate.toFixed(2) : '0.00'}
-                                </div>
+                                {payDate.hoursByRate && Object.keys(payDate.hoursByRate).length > 0 ? (
+                                  <div className="text-xs text-gray-600 mt-1">
+                                    <div className="font-medium mb-0.5">Hours & Pay by Rate:</div>
+                                    {Object.entries(payDate.hoursByRate).map(([rateType, hours], idx) => {
+                                      const pay = payDate.payByRate?.[rateType] || 0;
+                                      return (
+                                        <div key={idx} className="flex justify-between pl-2">
+                                          <span>{rateType}:</span>
+                                          <span>
+                                            {hours.toFixed(1)} hrs
+                                            <span className="text-green-600 ml-1">
+                                              (${pay.toFixed(2)})
+                                            </span>
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                ) : null}
                               </Disclosure.Panel>
                             </Transition>
                           </div>

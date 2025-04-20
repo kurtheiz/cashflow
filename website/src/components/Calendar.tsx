@@ -3,7 +3,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-import { format, parseISO, isSameDay } from 'date-fns';
+import { format, parseISO, isSameDay, addMonths } from 'date-fns';
 
 interface Shift {
   date: string;
@@ -49,6 +49,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   onDateChange,
   highlightedPayPeriod
 }) => {
+  // State for the next month's calendar
+  const [nextMonthValue, setNextMonthValue] = React.useState<Date>(addMonths(selectedDate, 1));
   // Custom day renderer to highlight days with shifts or paydays
   const ServerDay = (props: React.ComponentProps<typeof PickersDay>) => {
     const { day } = props;
@@ -129,31 +131,73 @@ export const Calendar: React.FC<CalendarProps> = ({
     );
   };
   
+  // Update next month value when selected date changes
+  React.useEffect(() => {
+    setNextMonthValue(addMonths(selectedDate, 1));
+  }, [selectedDate]);
+  
   return (
     <div className="w-full overflow-hidden">
-      <div className="flex justify-center">
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DateCalendar
-            value={selectedDate}
-            onChange={(newDate) => {
-              if (newDate) {
-                onDateChange(newDate);
-              }
-            }}
-            slots={{
-              day: ServerDay
-            }}
-            sx={{
-              width: '100%',
-              '& .MuiPickersDay-root.Mui-selected': {
-                backgroundColor: '#10b981', // Tailwind emerald-500
-                '&:hover': {
-                  backgroundColor: '#059669' // Tailwind emerald-600
+      <h2 className="text-xl font-semibold mb-4">Calendar View (2 Months)</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Current Month Calendar */}
+        <div className="bg-white rounded-lg shadow p-2">
+          <h3 className="text-md font-medium mb-2 text-center">
+            {format(selectedDate, 'MMMM yyyy')}
+          </h3>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateCalendar
+              value={selectedDate}
+              onChange={(newDate) => {
+                if (newDate) {
+                  onDateChange(newDate);
                 }
-              }
-            }}
-          />
-        </LocalizationProvider>
+              }}
+              slots={{
+                day: ServerDay
+              }}
+              sx={{
+                width: '100%',
+                '& .MuiPickersDay-root.Mui-selected': {
+                  backgroundColor: '#10b981', // Tailwind emerald-500
+                  '&:hover': {
+                    backgroundColor: '#059669' // Tailwind emerald-600
+                  }
+                }
+              }}
+            />
+          </LocalizationProvider>
+        </div>
+        
+        {/* Next Month Calendar */}
+        <div className="bg-white rounded-lg shadow p-2">
+          <h3 className="text-md font-medium mb-2 text-center">
+            {format(nextMonthValue, 'MMMM yyyy')}
+          </h3>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateCalendar
+              value={nextMonthValue}
+              onChange={(newDate) => {
+                if (newDate) {
+                  onDateChange(newDate);
+                  setNextMonthValue(addMonths(newDate, 1));
+                }
+              }}
+              slots={{
+                day: ServerDay
+              }}
+              sx={{
+                width: '100%',
+                '& .MuiPickersDay-root.Mui-selected': {
+                  backgroundColor: '#10b981', // Tailwind emerald-500
+                  '&:hover': {
+                    backgroundColor: '#059669' // Tailwind emerald-600
+                  }
+                }
+              }}
+            />
+          </LocalizationProvider>
+        </div>
       </div>
     </div>
   );

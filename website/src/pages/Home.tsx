@@ -1,113 +1,178 @@
-import { Calendar } from '../components/Calendar';
+import { useState, useMemo } from 'react';
 import { Timeline } from '../components/Timeline';
 import userData from './user.json';
-import shiftsData from './shifts.json';
-import { useState, useMemo } from 'react';
-import { Tab } from '@headlessui/react';
-import { CalendarIcon, ListIcon } from 'lucide-react';
+import { getTimelineData } from '../utils/timelineDataGenerator';
+import { BriefcaseIcon, WalletIcon } from 'lucide-react';
+
+// Item type filter options
+type ItemType = 'shifts' | 'paydays';
+
+const itemTypeOptions: { id: ItemType; name: string }[] = [
+  { id: 'shifts', name: 'Shifts' },
+  { id: 'paydays', name: 'Paydays' }
+];
 
 const Home = () => {
-  // State for the selected date from calendar
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // State for the selected date
+  const [selectedDate] = useState<Date>(new Date());
   
   // State for highlighted pay period (when a payday is selected)
-  const [highlightedPayPeriod, setHighlightedPayPeriod] = useState<{
+  const [, setHighlightedPayPeriod] = useState<{
     start: Date | null;
     end: Date | null;
     employerId: string | null;
   }>({ start: null, end: null, employerId: null });
   
-  // State for view type (timeline or calendar)
-  const [viewType, setViewType] = useState<'timeline' | 'calendar'>('timeline');
+  // Filter states - using arrays for multi-selection
+  // Initialize with all employer IDs selected
+  const [selectedEmployerIds, setSelectedEmployerIds] = useState<string[]>(
+    userData.employers.map(emp => emp.id)
+  );
+  const [selectedItemTypes, setSelectedItemTypes] = useState<ItemType[]>(['shifts', 'paydays']);
   
-  // Use pay dates directly from shifts.json
-  const payDates = useMemo(() => {
-    // Use the payDates array directly from shiftsData
-    return shiftsData.payDates.map(payDate => ({
-      date: payDate.date,
-      employerId: payDate.employerId,
-      employer: payDate.employer,
-      amount: payDate.totalPay,
-      totalHours: payDate.totalHours,
-      shiftCount: payDate.shiftCount,
-      averageHourlyRate: payDate.averageHourlyRate,
-      shifts: payDate.shifts,
-      periodStart: payDate.periodStart,
-      periodEnd: payDate.periodEnd
-    }));
-  }, [shiftsData.payDates]);
+  // Get the processed timeline data using our utility function
+  const timelineData = useMemo(() => {
+    return getTimelineData();
+  }, []);
   
-  // Transform user data to match the Employer interface
-  const employers = userData.employers.map((emp, index) => ({
-    id: index.toString(),
-    name: emp.name,
-    level: emp.level as 'retail_employee_level_1' | 'retail_employee_level_2' | 'retail_employee_level_3',
-    state: emp.state as 'NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'NT' | 'ACT',
-    paycycle: emp.paycycle,
-    payday: emp.payday,
-    payPeriodStart: emp.payPeriodStart,
-    payPeriodDays: emp.payPeriodDays,
-    nextPayDate: emp.nextPayDate,
-    color: index === 0 ? '#f59e0b' : '#3b82f6' // Orange for first employer, blue for second
-  }));
+  // Use the employers from userData with colors added
+  const employers = useMemo(() => {
+    return userData.employers.map((emp, index) => {
+      const colors = [
+        '#f59e0b', // amber-500
+        '#3b82f6', // blue-500
+        '#8b5cf6', // violet-500
+        '#ec4899', // pink-500
+        '#ef4444', // red-500
+        '#14b8a6', // teal-500
+        '#f97316'  // orange-500
+      ];
+      
+      return {
+        ...emp,
+        color: colors[index % colors.length]
+      };
+    });
+  }, []);
+  
+  // Filter shifts based on selected employers and item types
+  const filteredShifts = useMemo(() => {
+    let shifts = timelineData.shifts;
+    
+    // Filter by selected employers
+    shifts = shifts.filter(shift => selectedEmployerIds.includes(shift.employerId));
+    
+    // Return empty array if shifts are not selected in item types
+    if (!selectedItemTypes.includes('shifts')) {
+      return [];
+    }
+    
+    return shifts;
+  }, [timelineData.shifts, selectedEmployerIds, selectedItemTypes]);
+  
+  // Filter pay dates based on selected employers and item types
+  const filteredPayDates = useMemo(() => {
+    let payDates = timelineData.payDates || [];
+    
+    // Filter by selected employers
+    payDates = payDates.filter(payDate => selectedEmployerIds.includes(payDate.employerId));
+    
+    // Return empty array if paydays are not selected in item types
+    if (!selectedItemTypes.includes('paydays')) {
+      return [];
+    }
+    
+    return payDates;
+  }, [timelineData.payDates, selectedEmployerIds, selectedItemTypes]);
   
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Shift & Pay Calendar</h1>
+    <div className="container mx-auto md:px-4 px-0">
+      <h1 className="text-2xl font-bold mb-4 px-4 text-center">Shifts & Pay Timeline</h1>
       
-      {/* View Type Selector */}
-      <div className="w-full mb-4">
-        <Tab.Group selectedIndex={viewType === 'timeline' ? 0 : 1} onChange={(index) => setViewType(index === 0 ? 'timeline' : 'calendar')}>
-          <Tab.List className="flex space-x-1 rounded-xl bg-blue-100 p-1">
-            <Tab
-              className={({ selected }) =>
-                `w-full rounded-lg py-2.5 text-sm font-medium leading-5 flex items-center justify-center
-                 ${selected
-                  ? 'bg-white text-blue-700 shadow'
-                  : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-700'}`
-              }
-            >
-              <ListIcon className="h-4 w-4 mr-2" />
-              Timeline View
-            </Tab>
-            <Tab
-              className={({ selected }) =>
-                `w-full rounded-lg py-2.5 text-sm font-medium leading-5 flex items-center justify-center
-                 ${selected
-                  ? 'bg-white text-blue-700 shadow'
-                  : 'text-blue-500 hover:bg-white/[0.12] hover:text-blue-700'}`
-              }
-            >
-              <CalendarIcon className="h-4 w-4 mr-2" />
-              Calendar View
-            </Tab>
-          </Tab.List>
-          <Tab.Panels className="mt-2">
-            {/* Timeline View */}
-            <Tab.Panel className="rounded-xl bg-white p-3 shadow">
-              <Timeline 
-                shifts={shiftsData.shifts}
-                payDates={payDates}
-                selectedDate={selectedDate}
-                employers={employers}
-                onPayPeriodSelect={(start, end, employerId) => {
-                  setHighlightedPayPeriod({ start, end, employerId });
-                }}
-              />
-            </Tab.Panel>
-            
-            {/* Calendar View */}
-            <Tab.Panel className="rounded-xl bg-white p-3 shadow">
-              <Calendar 
-                selectedDate={selectedDate}
-                onDateChange={setSelectedDate}
-                shifts={shiftsData.shifts}
-                payDates={shiftsData.payDates}
-                highlightedPayPeriod={highlightedPayPeriod}
-              />
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
+      {/* Filters */}
+      <div className="px-4 mb-4 flex flex-col gap-4">
+        
+        {/* Touch-friendly Filter Buttons */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* Employer Filter - Toggle Buttons */}
+          <div className="w-full sm:w-1/2 flex flex-wrap gap-2">
+            {employers.map((employer) => {
+              const isSelected = selectedEmployerIds.includes(employer.id);
+              return (
+                <button
+                  key={employer.id}
+                  onClick={() => {
+                    if (isSelected && selectedEmployerIds.length > 1) {
+                      // Remove employer if already selected and not the last one selected
+                      setSelectedEmployerIds(selectedEmployerIds.filter(id => id !== employer.id));
+                    } else if (!isSelected) {
+                      // Add employer if not selected
+                      setSelectedEmployerIds([...selectedEmployerIds, employer.id]);
+                    }
+                    // If this is the only selected employer, do nothing (prevent deselection)
+                  }}
+                  className={`px-3 py-2 rounded-full text-sm font-medium ${
+                    isSelected
+                      ? 'border-2'
+                      : 'bg-gray-100 text-gray-800 border-2 border-transparent'
+                  }`}
+                  style={{
+                    backgroundColor: isSelected ? `${employer.color}20` : '',
+                    color: isSelected ? employer.color : '',
+                    borderColor: isSelected ? employer.color : 'transparent'
+                  }}
+                >
+                  {employer.name}
+                </button>
+              );
+            })}
+          </div>
+          
+          {/* Item Type Filter - Toggle Buttons */}
+          <div className="w-full sm:w-1/2 flex gap-2">
+            {itemTypeOptions.map((option) => {
+              const isSelected = selectedItemTypes.includes(option.id);
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => {
+                    if (isSelected) {
+                      // Remove item type if already selected (but don't allow removing both)
+                      if (selectedItemTypes.length > 1) {
+                        setSelectedItemTypes(selectedItemTypes.filter(type => type !== option.id));
+                      }
+                    } else {
+                      // Add item type if not selected
+                      setSelectedItemTypes([...selectedItemTypes, option.id]);
+                    }
+                  }}
+                  className={`flex-1 px-3 py-2 rounded-full text-sm font-medium flex items-center justify-center gap-2 ${
+                    isSelected
+                      ? 'bg-indigo-100 text-indigo-800 border-2 border-indigo-300'
+                      : 'bg-gray-100 text-gray-800 border-2 border-transparent'
+                  }`}
+                >
+                  {option.id === 'shifts' ? 
+                    <BriefcaseIcon className="h-4 w-4" /> : 
+                    <WalletIcon className="h-4 w-4" />}
+                  <span>{option.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      
+      <div className="w-full mb-4 md:rounded-xl md:bg-white md:p-3 md:shadow">
+        <Timeline 
+          shifts={filteredShifts}
+          payDates={filteredPayDates}
+          selectedDate={selectedDate}
+          employers={employers}
+          onPayPeriodSelect={(start, end, employerId) => {
+            setHighlightedPayPeriod({ start, end, employerId });
+          }}
+        />
       </div>
     </div>
   );

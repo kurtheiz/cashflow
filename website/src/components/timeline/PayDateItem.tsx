@@ -20,16 +20,19 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={{ 
-        background: backgroundColor,
+        background: backgroundColor, 
         color: '#333', 
         boxShadow: '0 3px 10px rgba(0,0,0,0.08)', 
         borderTop: `3px solid ${payDateColor}` 
       }}
       contentArrowStyle={{ borderRight: `7px solid ${backgroundColor}` }}
-      date={formatDate(payDate.date)}
+      date=""
       iconStyle={{ background: payDateColor, color: '#fff' }}
       icon={<div className="flex items-center justify-center">$</div>}
     >
+      <div className="text-sm font-medium text-gray-700 mb-2">
+        {formatDate(payDate.date)}
+      </div>
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-sm font-medium">{payDate.employer} Pay</div>
@@ -47,10 +50,9 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
       <Disclosure>
         {({ open }) => (
           <div>
-            <Disclosure.Button className="flex w-full justify-between items-center mt-1 text-sm text-gray-500 hover:text-gray-700">
-              <span>Details</span>
+            <Disclosure.Button className="flex w-full justify-center items-center mt-1 text-sm text-gray-500 hover:text-gray-700 py-1">
               <ChevronDownIcon
-                className={`${open ? 'rotate-180 transform' : ''} h-3 w-3`}
+                className={`${open ? 'rotate-180 transform' : ''} h-5 w-5`}
               />
             </Disclosure.Button>
             <Transition

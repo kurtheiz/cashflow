@@ -22,10 +22,13 @@ export const ShiftItem: React.FC<ShiftItemProps> = ({
       className="vertical-timeline-element--work"
       contentStyle={{ background: backgroundColor, color: '#333', boxShadow: '0 3px 10px rgba(0,0,0,0.08)', borderTop: `3px solid ${shiftColor}` }}
       contentArrowStyle={{ borderRight: `7px solid ${backgroundColor}` }}
-      date={formatDate(shift.date)}
+      date=""
       iconStyle={{ background: shiftColor, color: '#fff' }}
       icon={<BriefcaseIcon className="w-5 h-5" />}
     >
+      <div className="text-sm font-medium text-gray-700 mb-2">
+        {formatDate(shift.date)}
+      </div>
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium">{shift.employer}</h3>
@@ -35,16 +38,21 @@ export const ShiftItem: React.FC<ShiftItemProps> = ({
             </div>
           </div>
         </div>
+        <div className="flex items-center mt-1 text-sm text-gray-600">
+          <ClockIcon className="h-4 w-4 mr-1" />
+          <span>
+            <span className="font-medium">{formatTime(shift.start)} - {formatTime(shift.end)}</span> ({shift.hoursWorked.toFixed(1)} hrs)
+          </span>
+        </div>
       </div>
 
       <div className="flex justify-between items-center mt-1">
         <Disclosure>
           {({ open }) => (
             <div className="flex-grow">
-              <Disclosure.Button className="flex w-full justify-between items-center text-sm text-gray-500 hover:text-gray-700">
-                <span>Details</span>
+              <Disclosure.Button className="flex w-full justify-center items-center text-sm text-gray-500 hover:text-gray-700 py-1">
                 <ChevronDownIcon
-                  className={`${open ? 'rotate-180 transform' : ''} h-3 w-3`}
+                  className={`${open ? 'rotate-180 transform' : ''} h-5 w-5`}
                 />
               </Disclosure.Button>
               <Transition
@@ -56,20 +64,14 @@ export const ShiftItem: React.FC<ShiftItemProps> = ({
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Disclosure.Panel className="pt-2 text-sm">
-                  <div className="flex items-center mb-0.5 text-gray-600">
-                    <ClockIcon className="h-3 w-3 mr-1" />
-                    <span>
-                      {formatTime(shift.start)} - {formatTime(shift.end)}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center mb-0.5 text-gray-600">
-                    <CalendarIcon className="h-3 w-3 mr-1" />
-                    <span>
-                      {shift.hoursWorked.toFixed(1)} hours
-                      {shift.break > 0 && ` (${shift.break} min break)`}
-                    </span>
-                  </div>
+                  {shift.break > 0 && (
+                    <div className="flex items-center mb-0.5 text-gray-600">
+                      <CalendarIcon className="h-3 w-3 mr-1" />
+                      <span>
+                        {shift.break} min break
+                      </span>
+                    </div>
+                  )}
                   
                   <div className="flex items-center mt-0.5 text-gray-600">
                     <span className="text-xs">

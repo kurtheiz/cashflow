@@ -16,8 +16,8 @@
             "nextPayDate" : "2025-04-23"
         },
         {
-            "id" : "EQ SADDELRY",
-            "name": "EQ Saddelry",
+            "id" : "EQSADDLERY",
+            "name": "EQ Saddlery",
             "state": "VIC",
             "level": "retail_employee_level_1",
             "taxFreeThreshold": true,

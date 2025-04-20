@@ -1,40 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
+import { VerticalTimeline } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import './Timeline.css';
-import { CalendarIcon, ClockIcon, DollarSignIcon, ChevronDownIcon, BriefcaseIcon, WalletIcon, BarChart3Icon } from 'lucide-react';
-import { Disclosure, Transition } from '@headlessui/react';
-import { Shift, PayDate, Employer } from '../utils/shiftCalculator';
+import { Shift, PayDate } from '../utils/shiftCalculator';
 
-interface TimelineProps {
-  shifts: Shift[];
-  payDates?: PayDate[];
-  selectedDate: Date;
-  employers: Employer[];
-  onPayPeriodSelect: (start: Date | null, end: Date | null, employerId: string | null) => void;
-}
+// Import types
+import { TimelineProps, MonthlySummary } from './timeline/types';
 
-interface EmployerSummary {
-  name: string;
-  color: string;
-  shifts: number;
-  hours: number;
-  pay: number;
-  tax: number;
-  netPay: number;
-}
+// Import components
+import { MonthlySummaries } from './timeline/MonthlySummaries';
+import { ShiftItem } from './timeline/ShiftItem';
+import { PayDateItem } from './timeline/PayDateItem';
 
-interface MonthlySummary {
-  month: string;
-  year: number;
-  employers: Record<string, EmployerSummary>;
-  totalShifts: number;
-  totalHours: number;
-  totalPay: number;
-  totalTax: number;
-  totalNetPay: number;
-}
+// Import utility functions
+import { 
+  formatDate,
+  formatTime,
+  getMonthsText,
+  calculateMonthlySummaries,
+  filterShiftsForNextTwoMonths,
+  filterPayDatesForNextTwoMonths
+} from './timeline/timelineUtils';
 
+/**
+ * Timeline Component
+ * Displays shifts and pay dates in a vertical timeline format
+ * with monthly summaries
+ */
 export const Timeline: React.FC<TimelineProps> = ({
   shifts,
   payDates,
@@ -46,253 +38,29 @@ export const Timeline: React.FC<TimelineProps> = ({
   const [filteredPayDates, setFilteredPayDates] = useState<PayDate[]>([]);
   const [monthlySummaries, setMonthlySummaries] = useState<MonthlySummary[]>([]);
 
-  // Format date to display in a readable format
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-AU', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
-
-  // Format time to display in a readable format
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(':');
-    return `${hours}:${minutes}`;
-  };
-
   // Get employer color based on employerId
   const getEmployerColor = (employerId: string): string => {
     const employer = employers.find(emp => emp.id === employerId);
     return employer?.color || '#f59e0b'; // Default to orange if not found
   };
 
-  // Generate monthly summaries based on filtered shifts
-  const generateMonthlySummaries = (filteredShifts: Shift[]) => {
-    const summaryMap: Record<string, MonthlySummary> = {};
-    
-    // Process all shifts to build monthly summaries
-    filteredShifts.forEach(shift => {
-      const shiftDate = new Date(shift.date);
-      const monthYear = `${shiftDate.getFullYear()}-${shiftDate.getMonth() + 1}`;
-      const monthName = shiftDate.toLocaleString('default', { month: 'long' });
-      
-      // Initialize month summary if it doesn't exist
-      if (!summaryMap[monthYear]) {
-        summaryMap[monthYear] = {
-          month: monthName,
-          year: shiftDate.getFullYear(),
-          employers: {},
-          totalShifts: 0,
-          totalHours: 0,
-          totalPay: 0,
-          totalTax: 0,
-          totalNetPay: 0
-        };
-      }
-      
-      // Initialize employer summary if it doesn't exist
-      if (!summaryMap[monthYear].employers[shift.employerId]) {
-        const employer = employers.find(emp => emp.id === shift.employerId);
-        summaryMap[monthYear].employers[shift.employerId] = {
-          name: employer?.name || shift.employer,
-          color: getEmployerColor(shift.employerId),
-          shifts: 0,
-          hours: 0,
-          pay: 0,
-          tax: 0,
-          netPay: 0
-        };
-      }
-      
-      // Update employer summary
-      const employerSummary = summaryMap[monthYear].employers[shift.employerId];
-      employerSummary.shifts += 1;
-      employerSummary.hours += shift.hoursWorked;
-      employerSummary.pay += shift.pay;
-      
-      // Update month totals
-      summaryMap[monthYear].totalShifts += 1;
-      summaryMap[monthYear].totalHours += shift.hoursWorked;
-      summaryMap[monthYear].totalPay += shift.pay;
-    });
-    
-    // Convert map to array and sort by date (oldest first - ascending)
-    const summaries = Object.values(summaryMap).sort((a, b) => {
-      if (a.year !== b.year) return a.year - b.year;
-      return new Date(`${a.month} 1, ${a.year}`).getTime() - 
-             new Date(`${b.month} 1, ${b.year}`).getTime();
-    });
-    
-    setMonthlySummaries(summaries);
-  };
-
-  // Get month names with years for the current and next month
-  const getMonthsText = () => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
-    const currentYear = currentDate.getFullYear();
-    
-    const nextDate = new Date(currentDate);
-    nextDate.setMonth(currentDate.getMonth() + 1);
-    const nextMonth = nextDate.toLocaleString('default', { month: 'long' });
-    const nextYear = nextDate.getFullYear();
-    
-    if (currentYear === nextYear) {
-      return `${currentMonth} & ${nextMonth} ${currentYear}`;
-    } else {
-      return `${currentMonth} ${currentYear} & ${nextMonth} ${nextYear}`;
-    }
-  };
-
+  // Filter shifts and pay dates for the next two months
   useEffect(() => {
-    // Get current date and date 2 months from now
-    const now = new Date();
-    const twoMonthsFromNow = new Date();
-    twoMonthsFromNow.setMonth(now.getMonth() + 2);
-    
     // Filter shifts for the next two months
-    const filtered = shifts.filter(shift => {
-      const shiftDate = new Date(shift.date);
-      return shiftDate >= now && shiftDate <= twoMonthsFromNow;
-    });
-    
+    const filtered = filterShiftsForNextTwoMonths(shifts);
     setFilteredShifts(filtered);
     
-    // Calculate tax for monthly summaries
-    const calculateMonthlySummaries = () => {
-      const summaryMap: Record<string, MonthlySummary> = {};
-      
-      // Process all shifts to build monthly summaries
-      filtered.forEach(shift => {
-        const shiftDate = new Date(shift.date);
-        const monthYear = `${shiftDate.getFullYear()}-${shiftDate.getMonth() + 1}`;
-        const monthName = shiftDate.toLocaleString('default', { month: 'long' });
-        
-        // Initialize month summary if it doesn't exist
-        if (!summaryMap[monthYear]) {
-          summaryMap[monthYear] = {
-            month: monthName,
-            year: shiftDate.getFullYear(),
-            employers: {},
-            totalShifts: 0,
-            totalHours: 0,
-            totalPay: 0,
-            totalTax: 0,
-            totalNetPay: 0
-          };
-        }
-        
-        // Initialize employer summary if it doesn't exist
-        if (!summaryMap[monthYear].employers[shift.employerId]) {
-          const employer = employers.find(emp => emp.id === shift.employerId);
-          summaryMap[monthYear].employers[shift.employerId] = {
-            name: employer?.name || shift.employer,
-            color: getEmployerColor(shift.employerId),
-            shifts: 0,
-            hours: 0,
-            pay: 0,
-            tax: 0,
-            netPay: 0
-          };
-        }
-        
-        // Update employer summary
-        const employerSummary = summaryMap[monthYear].employers[shift.employerId];
-        employerSummary.shifts += 1;
-        employerSummary.hours += shift.hoursWorked;
-        employerSummary.pay += shift.pay;
-        
-        // Update month totals
-        summaryMap[monthYear].totalShifts += 1;
-        summaryMap[monthYear].totalHours += shift.hoursWorked;
-        summaryMap[monthYear].totalPay += shift.pay;
-      });
-      
-      // Calculate tax for each employer in each month
-      if (payDates) {
-        payDates.forEach(payDate => {
-          const payDateObj = new Date(payDate.date);
-          const monthYear = `${payDateObj.getFullYear()}-${payDateObj.getMonth() + 1}`;
-          
-          // Skip if this month is not in our summary
-          if (!summaryMap[monthYear]) return;
-          
-          // Find the employer in this month's summary
-          const employerId = payDate.employerId;
-          const employerSummary = summaryMap[monthYear].employers[employerId];
-          
-          // Skip if this employer is not in this month's summary
-          if (!employerSummary) return;
-          
-          // Calculate tax proportion for this employer in this month
-          // based on the proportion of pay in the pay date that falls in this month
-          const employerMonthlyPay = employerSummary.pay;
-          const proportionOfPayDate = employerMonthlyPay / payDate.amount;
-          
-          if (proportionOfPayDate > 0 && payDate.amount > 0) {
-            // Allocate tax proportionally
-            const allocatedTax = payDate.tax * proportionOfPayDate;
-            employerSummary.tax += allocatedTax;
-            employerSummary.netPay = employerSummary.pay - employerSummary.tax;
-            
-            // Update month totals
-            summaryMap[monthYear].totalTax += allocatedTax;
-            summaryMap[monthYear].totalNetPay = summaryMap[monthYear].totalPay - summaryMap[monthYear].totalTax;
-          }
-        });
-      }
-      
-      // For any employer without allocated tax, estimate it
-      Object.values(summaryMap).forEach(summary => {
-        Object.values(summary.employers).forEach(employer => {
-          if (employer.tax === 0 && employer.pay > 0) {
-            // Use average tax rate from other employers or a default rate
-            const avgTaxRate = summary.totalTax > 0 ? 
-              summary.totalTax / (summary.totalPay - employer.pay) : 0.2; // 20% default
-            
-            employer.tax = employer.pay * avgTaxRate;
-            employer.netPay = employer.pay - employer.tax;
-            
-            // Update month totals
-            summary.totalTax += employer.tax;
-            summary.totalNetPay = summary.totalPay - summary.totalTax;
-          }
-        });
-      });
-      
-      // Convert map to array and sort by date (oldest first - ascending)
-      const summaries = Object.values(summaryMap).sort((a, b) => {
-        if (a.year !== b.year) return a.year - b.year;
-        return new Date(`${a.month} 1, ${a.year}`).getTime() - 
-               new Date(`${b.month} 1, ${b.year}`).getTime();
-      });
-      
-      setMonthlySummaries(summaries);
-    };
+    // Calculate monthly summaries
+    const summaries = calculateMonthlySummaries(filtered, payDates, employers);
+    setMonthlySummaries(summaries);
     
-    calculateMonthlySummaries();
-    
-    // Use the pay dates that are passed in (already filtered by employer and item type)
+    // Filter pay dates for the next two months
     if (payDates && payDates.length > 0) {
-      const payDatesForNextTwoMonths = payDates.filter(payDate => {
-        const payDateObj = new Date(payDate.date);
-        return payDateObj >= now && payDateObj <= twoMonthsFromNow;
-      });
-      
-      // Sort by date
-      const sortedPayDates = payDatesForNextTwoMonths.sort((a, b) => {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-      });
-      
-      setFilteredPayDates(sortedPayDates);
+      const filteredPayDates = filterPayDatesForNextTwoMonths(payDates);
+      setFilteredPayDates(filteredPayDates);
     } else {
       setFilteredPayDates([]);
     }
-    
-    // Monthly summaries are now calculated in the calculateMonthlySummaries function
     
     // If a date is selected, check if it's a pay date and highlight the corresponding pay period
     if (selectedDate) {
@@ -300,18 +68,12 @@ export const Timeline: React.FC<TimelineProps> = ({
       const matchingPayDate = payDates?.find(pd => pd.date === selectedDateStr);
       
       if (matchingPayDate) {
-        // Find the employer to get pay period details
-        const employer = employers.find(emp => emp.id === matchingPayDate.employerId);
+        // If the selected date is a pay date, highlight the corresponding pay period
+        const periodStart = new Date(matchingPayDate.periodStart);
+        const payDate = new Date(matchingPayDate.date);
         
-        if (employer) {
-          // Calculate pay period start and end dates
-          const payDate = new Date(matchingPayDate.date);
-          const periodStart = new Date(payDate);
-          periodStart.setDate(periodStart.getDate() - employer.payPeriodDays);
-          
-          // Notify parent component about the selected pay period
-          onPayPeriodSelect(periodStart, payDate, matchingPayDate.employerId);
-        }
+        // Notify parent component about the selected pay period
+        onPayPeriodSelect(periodStart, payDate, matchingPayDate.employerId);
       }
     }
   }, [shifts, payDates, selectedDate, employers, onPayPeriodSelect]);
@@ -321,316 +83,52 @@ export const Timeline: React.FC<TimelineProps> = ({
       <h2 className="text-xl font-semibold mb-4 text-center">Shifts for {getMonthsText()}</h2>
       
       {/* Monthly Summaries Section */}
-      {monthlySummaries.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <h3 className="text-lg font-semibold flex items-center mb-3">
-            <BarChart3Icon className="h-5 w-5 mr-2 text-blue-500" />
-            Monthly Summaries
-          </h3>
-          
-          <div className="space-y-4">
-            {monthlySummaries.map((summary) => (
-              <div key={`${summary.month}-${summary.year}`} className="border-b pb-3 last:border-0">
-                <h4 className="font-medium text-gray-800 mb-2">{summary.month} {summary.year}</h4>
-                
-                <div className="grid grid-cols-4 text-xs text-gray-500 mb-1">
-                  <div>Employer</div>
-                  <div className="text-center">Hours</div>
-                  <div className="text-right">Gross</div>
-                  <div className="text-right">Net</div>
-                </div>
-                
-                {/* Employer rows */}
-                {Object.entries(summary.employers).map(([empId, empSummary]) => (
-                  <div key={empId} className="grid grid-cols-4 text-sm py-1">
-                    <div className="flex items-center">
-                      <div 
-                        className="h-3 w-3 rounded-full mr-2" 
-                        style={{ backgroundColor: empSummary.color }}
-                      ></div>
-                      <span>{empSummary.name}</span>
-                      <span className="text-xs text-gray-500 ml-1">({empSummary.shifts} shifts)</span>
-                    </div>
-                    <div className="text-center">{empSummary.hours.toFixed(1)}</div>
-                    <div className="text-right text-gray-600">${empSummary.pay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    <div className="text-right font-medium text-green-600">${empSummary.netPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                  </div>
-                ))}
-                
-                {/* Total row */}
-                <div className="grid grid-cols-4 text-sm font-semibold mt-2 pt-2 border-t border-gray-100">
-                  <div>Total ({summary.totalShifts} shifts)</div>
-                  <div className="text-center">{summary.totalHours.toFixed(1)}</div>
-                  <div className="text-right text-gray-600">${summary.totalPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                  <div className="text-right text-green-600">${summary.totalNetPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                </div>
-                
-                {/* Tax summary */}
-                <div className="text-xs text-gray-500 mt-2 pt-2 border-t border-gray-100">
-                  <div className="flex justify-between">
-                    <span>Tax withheld:</span>
-                    <span className="text-red-500">-${summary.totalTax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Effective tax rate:</span>
-                    <span>{summary.totalPay > 0 ? ((summary.totalTax / summary.totalPay) * 100).toFixed(1) : 0}%</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <MonthlySummaries summaries={monthlySummaries} />
       
       {filteredShifts.length === 0 && filteredPayDates.length === 0 ? (
         <div className="text-center text-gray-500 my-8">
           No upcoming shifts or pay dates in the next two months.
         </div>
       ) : (
-        <VerticalTimeline lineColor="#e5e7eb" className="custom-timeline">
-          {/* Combine and sort both shifts and pay dates */}
-          {[
-            ...filteredShifts.map(shift => ({
-              type: 'shift',
-              date: new Date(shift.date),
-              data: shift
-            })),
-            ...filteredPayDates.map(payDate => ({
-              type: 'payDate',
-              date: new Date(payDate.date),
-              data: payDate
-            }))
-          ]
-            .sort((a, b) => a.date.getTime() - b.date.getTime())
-            .map((item, index) => {
-              if (item.type === 'shift') {
-                const shift = item.data as Shift;
+        <VerticalTimeline>
+          {/* Combine and sort shifts and pay dates */}
+          {[...filteredShifts, ...filteredPayDates]
+            .sort((a, b) => {
+              // Sort by date
+              const dateA = new Date(a.date).getTime();
+              const dateB = new Date(b.date).getTime();
+              if (dateA !== dateB) return dateA - dateB;
+              
+              // If dates are the same, pay dates come first
+              if ('amount' in a && !('amount' in b)) return -1;
+              if (!('amount' in a) && 'amount' in b) return 1;
+              
+              // If both are the same type, sort by employer ID
+              return a.employerId.localeCompare(b.employerId);
+            })
+            .map((item) => {
+              // Render pay date
+              if ('amount' in item) {
+                const payDate = item as PayDate;
                 return (
-                  <VerticalTimelineElement
-                    key={`shift-${index}`}
-                    className="vertical-timeline-element"
-                    contentStyle={{ 
-                      background: `${getEmployerColor(shift.employerId)}20`, 
-                      color: '#333',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                      borderRadius: '0.5rem',
-                      padding: '12px'
-                    }}
-                    contentArrowStyle={{ borderRight: `7px solid ${getEmployerColor(shift.employerId)}20` }}
-                    date={formatDate(shift.date)}
-                    iconStyle={{ 
-                      background: getEmployerColor(shift.employerId),
-                      color: '#fff',
-                      boxShadow: '0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05)'
-                    }}
-                    icon={<BriefcaseIcon className="text-white" />}
-                    position="right"
-                  >
-                    <div>
-                      {/* Mobile date display - only visible on small screens */}
-                      <div className="mobile-date hidden">{formatDate(shift.date)}</div>
-                      <div className="flex flex-col">
-                        <div className="flex justify-between items-center">
-                          <h3 className="text-sm font-medium">{shift.employer}</h3>
-                          <div className="flex flex-col items-end">
-                            <div className="flex items-center font-semibold">
-                              <DollarSignIcon className="h-3.5 w-3.5 mr-1 text-green-600" />
-                              <span className="text-green-600 text-sm">${shift.pay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Disclosure>
-                        {({ open }) => (
-                          <div>
-                            <Disclosure.Button className="flex w-full justify-between items-center mt-1 text-sm text-gray-500 hover:text-gray-700">
-                              <span>Details</span>
-                              <ChevronDownIcon
-                                className={`${open ? 'rotate-180 transform' : ''} h-3 w-3`}
-                              />
-                            </Disclosure.Button>
-                            <Transition
-                              enter="transition duration-100 ease-out"
-                              enterFrom="transform scale-95 opacity-0"
-                              enterTo="transform scale-100 opacity-100"
-                              leave="transition duration-75 ease-out"
-                              leaveFrom="transform scale-100 opacity-100"
-                              leaveTo="transform scale-95 opacity-0"
-                            >
-                              <Disclosure.Panel className="pt-2 text-sm">
-                                <div className="flex items-center mb-0.5 text-gray-600">
-                                  <ClockIcon className="h-3 w-3 mr-1" />
-                                  <span>{formatTime(shift.start)} - {formatTime(shift.end)}</span>
-                                </div>
-                                
-                                <div className="flex items-center mb-0.5 text-gray-600">
-                                  <CalendarIcon className="h-3 w-3 mr-1" />
-                                  <span>{shift.hoursWorked} hours</span>
-                                  {shift.break > 0 && <span className="ml-1">({shift.break} min break)</span>}
-                                </div>
-                                
-                                {shift.eveningHours && shift.eveningHours > 0 && (
-                                  <div className="text-xs text-gray-500 mb-0.5">
-                                    Including {shift.eveningHours} evening hours
-                                  </div>
-                                )}
-                                
-                                <div className="flex items-center mt-0.5 text-gray-600">
-                                  <span className="text-xs">
-                                    Rate: ${shift.payrate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/hr
-                                  </span>
-                                </div>
-                                
-                                <div className="text-xs text-gray-500 mt-0.5">
-                                  Pay date: {formatDate(shift.payDate)}
-                                </div>
-                                
-                                {shift.isPublicHoliday && (
-                                  <div className="text-xs text-red-600 mt-1 font-medium">
-                                    Public Holiday: {shift.holidayName || 'Public Holiday'}
-                                  </div>
-                                )}
-                                
-                                {shift.isSaturday && (
-                                  <div className="text-xs text-blue-600 mt-1 font-medium">
-                                    Saturday Rate
-                                  </div>
-                                )}
-                              </Disclosure.Panel>
-                            </Transition>
-                          </div>
-                        )}
-                      </Disclosure>
-                    </div>
-                  </VerticalTimelineElement>
+                  <PayDateItem 
+                    key={`paydate-${payDate.employerId}-${payDate.date}`}
+                    payDate={payDate}
+                    getEmployerColor={getEmployerColor}
+                    formatDate={formatDate}
+                  />
                 );
               } else {
-                // It's a pay date
-                const payDate = item.data as PayDate;
+                // Render shift
+                const shift = item as Shift;
                 return (
-                  <VerticalTimelineElement
-                    key={`pay-${index}`}
-                    className="vertical-timeline-element"
-                    contentStyle={{ 
-                      background: '#10b98120', 
-                      color: '#333',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                      borderRadius: '0.5rem',
-                      padding: '12px'
-                    }}
-                    contentArrowStyle={{ borderRight: '7px solid #10b98120' }}
-                    date={formatDate(payDate.date)}
-                    iconStyle={{ 
-                      background: '#10b981', // Green background for pay dates
-                      color: '#fff',
-                      boxShadow: '0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05)'
-                    }}
-                    icon={<WalletIcon className="text-white" />}
-                    position="right"
-                    onTimelineElementClick={() => {
-                      // Find the employer to get pay period details
-                      const employer = employers.find(emp => emp.id === payDate.employerId);
-                      
-                      if (employer) {
-                        // Calculate pay period start and end dates
-                        const payDateObj = new Date(payDate.date);
-                        const periodStart = new Date(payDateObj);
-                        periodStart.setDate(periodStart.getDate() - employer.payPeriodDays);
-                        
-                        // Notify parent component about the selected pay period
-                        onPayPeriodSelect(periodStart, payDateObj, payDate.employerId);
-                      }
-                    }}
-                  >
-                    <div>
-                      {/* Mobile date display - only visible on small screens */}
-                      <div className="mobile-date hidden">{formatDate(payDate.date)}</div>
-                      <div className="flex flex-col">
-                        <div className="flex justify-between items-center">
-                          <div className="text-sm font-medium">{payDate.employer} Pay</div>
-                          <div className="flex flex-col items-end">
-                            <div className="flex items-center font-semibold">
-                              <DollarSignIcon className="h-3.5 w-3.5 mr-1 text-green-600" />
-                              <span className="text-green-600 text-sm">${payDate.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              Net: ${payDate.netPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <Disclosure>
-                        {({ open }) => (
-                          <div>
-                            <Disclosure.Button className="flex w-full justify-between items-center mt-1 text-sm text-gray-500 hover:text-gray-700">
-                              <span>Details</span>
-                              <ChevronDownIcon
-                                className={`${open ? 'rotate-180 transform' : ''} h-3 w-3`}
-                              />
-                            </Disclosure.Button>
-                            <Transition
-                              enter="transition duration-100 ease-out"
-                              enterFrom="transform scale-95 opacity-0"
-                              enterTo="transform scale-100 opacity-100"
-                              leave="transition duration-75 ease-out"
-                              leaveFrom="transform scale-100 opacity-100"
-                              leaveTo="transform scale-95 opacity-0"
-                            >
-                              <Disclosure.Panel className="pt-2 text-sm">
-                                <div className="flex items-center mb-0.5 text-gray-600">
-                                  <CalendarIcon className="h-3 w-3 mr-1" />
-                                  <span>{payDate.totalHours ? payDate.totalHours.toFixed(1) : '0'} total hours</span>
-                                </div>
-                                
-                                <div className="text-xs text-gray-500 mt-0.5">
-                                  {payDate.shiftCount || 0} shifts in this pay period
-                                </div>
-                                
-                                {payDate.hoursByRate && Object.keys(payDate.hoursByRate).length > 0 ? (
-                                  <div className="text-xs text-gray-600 mt-1">
-                                    <div className="font-medium mb-0.5">Hours & Pay by Rate:</div>
-                                    {Object.entries(payDate.hoursByRate).map(([rateType, hours], idx) => {
-                                      const pay = payDate.payByRate?.[rateType] || 0;
-                                      return (
-                                        <div key={idx} className="flex justify-between pl-2">
-                                          <span>{rateType}:</span>
-                                          <span>
-                                            {hours.toFixed(1)} hrs
-                                            <span className="text-green-600 ml-1">
-                                              (${pay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
-                                            </span>
-                                          </span>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                ) : null}
-                                
-                                <div className="text-xs text-gray-600 mt-2 border-t border-gray-100 pt-1">
-                                  <div className="font-medium mb-0.5">Tax Summary:</div>
-                                  <div className="grid grid-cols-2 gap-1">
-                                    <div className="text-gray-500">Gross Pay:</div>
-                                    <div className="text-right">${payDate.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                                    
-                                    <div className="text-gray-500">Tax Withheld:</div>
-                                    <div className="text-right text-red-500">-${payDate.tax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                                    
-                                    <div className="text-gray-500 font-medium">Net Pay:</div>
-                                    <div className="text-right font-medium text-green-600">${payDate.netPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                                    
-                                    <div className="text-gray-500">Tax Rate:</div>
-                                    <div className="text-right">{payDate.amount > 0 ? ((payDate.tax / payDate.amount) * 100).toFixed(1) : 0}%</div>
-                                  </div>
-                                </div>
-                              </Disclosure.Panel>
-                            </Transition>
-                          </div>
-                        )}
-                      </Disclosure>
-                    </div>
-                  </VerticalTimelineElement>
+                  <ShiftItem 
+                    key={`shift-${shift.employerId}-${shift.date}-${shift.start}`}
+                    shift={shift}
+                    getEmployerColor={getEmployerColor}
+                    formatDate={formatDate}
+                    formatTime={formatTime}
+                  />
                 );
               }
             })}

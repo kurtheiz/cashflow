@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BriefcaseIcon, CalendarIcon, SettingsIcon, UsersIcon, HomeIcon } from 'lucide-react';
+import { BriefcaseIcon, UserIcon, UsersIcon, LayoutDashboardIcon } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const BottomToolbar: React.FC = () => {
   const location = useLocation();
+  const { user } = useAuth();
   
   // Helper function to determine if a path is active
   const isActive = (path: string) => {
@@ -13,10 +15,10 @@ const BottomToolbar: React.FC = () => {
   // Define navigation items
   const navItems = [
     {
-      label: 'Home',
-      icon: HomeIcon,
-      path: '/',
-      active: isActive('/')
+      label: 'Dashboard',
+      icon: LayoutDashboardIcon,
+      path: '/overview',
+      active: isActive('/overview')
     },
     {
       label: 'Employers',
@@ -25,22 +27,17 @@ const BottomToolbar: React.FC = () => {
       active: isActive('/employers')
     },
     {
-      label: 'Shifts',
+      label: 'Shifts & Pay',
       icon: BriefcaseIcon,
       path: '/shifts',
       active: isActive('/shifts')
     },
     {
-      label: 'Calendar',
-      icon: CalendarIcon,
-      path: '/calendar',
-      active: isActive('/calendar')
-    },
-    {
-      label: 'Settings',
-      icon: SettingsIcon,
+      label: 'Me',
+      icon: UserIcon,
       path: '/settings',
       active: isActive('/settings')
+      // Note: We're keeping the path as '/settings' for consistency with the route definition
     }
   ];
   
@@ -55,7 +52,20 @@ const BottomToolbar: React.FC = () => {
               item.active ? 'text-indigo-600' : 'text-gray-500'
             }`}
           >
-            <item.icon className={`h-5 w-5 ${item.active ? 'text-indigo-600' : 'text-gray-500'}`} />
+            {item.label === 'Me' && user?.picture ? (
+              <img 
+                src={user.picture} 
+                alt="User avatar" 
+                className={`h-5 w-5 rounded-full bg-transparent ${item.active ? 'ring-2 ring-indigo-600' : ''}`} 
+                style={{ objectFit: 'cover' }}
+              />
+            ) : (
+              <item.icon 
+                className={`h-5 w-5 ${item.active ? 'text-indigo-600' : 'text-gray-500'}`}
+                fill={item.active ? 'currentColor' : 'none'}
+                strokeWidth={item.active ? 1.5 : 2}
+              />
+            )}
             <span className="text-xs mt-1">{item.label}</span>
           </Link>
         ))}

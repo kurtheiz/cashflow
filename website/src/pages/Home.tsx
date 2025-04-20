@@ -1,128 +1,139 @@
-import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import userData from './user.json';
-import { getTimelineData } from '../utils/timelineDataGenerator';
-import { CalendarIcon, DollarSignIcon, BriefcaseIcon, BarChartIcon, ArrowRightIcon } from 'lucide-react';
+import { CalendarIcon, DollarSignIcon, BriefcaseIcon } from 'lucide-react';
+import CasualPayLogo from '../components/CasualPayLogo';
+import GoogleLoginButton from '../components/GoogleLoginButton';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
-  // Get the processed timeline data using our utility function
-  const timelineData = useMemo(() => {
-    return getTimelineData();
-  }, []);
-  
-  // Calculate summary statistics
-  const totalShifts = timelineData.shifts.length;
-  const totalEarnings = timelineData.shifts.reduce((sum, shift) => sum + (shift.pay || 0), 0);
-  const upcomingShifts = timelineData.shifts.filter(shift => new Date(shift.date) > new Date()).length;
-  
-  // Get the employers from userData
-  const employers = userData.employers;
+  const { isLoggedIn } = useAuth();
   
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-4xl mx-auto">
         {/* Hero section */}
-        <div className="text-center mb-10 mt-4">
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">Welcome to Casual Pay</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Track your casual shifts, manage your income, and visualize your earnings all in one place.
+        <div className="relative bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-20 px-4 rounded-2xl overflow-hidden mb-16">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <div className="flex justify-center mb-6">
+              <CasualPayLogo size="large" variant="light" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">Simplify Your Casual Work Payments</h1>
+            <p className="text-xl md:text-2xl text-indigo-100 max-w-3xl mx-auto text-center mb-8">
+              Track shifts, calculate pay rates, and manage your casual income with ease
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              {!isLoggedIn ? (
+                <div className="bg-white rounded-lg shadow-md p-2">
+                  <GoogleLoginButton />
+                </div>
+              ) : (
+                <a href="/overview" className="bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
+                  Go to Dashboard
+                </a>
+              )}
+              <a href="#features" className="bg-indigo-700 hover:bg-indigo-600 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
+                Learn More
+              </a>
+            </div>
+          </div>
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500 rounded-full opacity-20 transform translate-x-10 -translate-y-10"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full opacity-20 transform -translate-x-10 translate-y-10"></div>
+        </div>
+        
+        {/* Features section */}
+        <div id="features" className="py-16">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Casual Pay?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {/* Feature 1 */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <BriefcaseIcon className="h-7 w-7 text-indigo-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Shift Tracking</h3>
+              <p className="text-gray-600">
+                Easily log your shifts, break times, and work hours across multiple employers.
+              </p>
+            </div>
+            
+            {/* Feature 2 */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="bg-green-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <DollarSignIcon className="h-7 w-7 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Accurate Pay Calculation</h3>
+              <p className="text-gray-600">
+                Automatically calculate your pay with correct casual rates, including penalties and loadings.
+              </p>
+            </div>
+            
+            {/* Feature 3 */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="bg-purple-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <CalendarIcon className="h-7 w-7 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Visual Timeline</h3>
+              <p className="text-gray-600">
+                See your work schedule and payments in a clear, visual timeline that makes planning easy.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {/* How it works section */}
+        <div className="bg-gray-50 py-16 px-4 rounded-xl mb-16">
+          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-8">
+              {/* Step 1 */}
+              <div className="flex items-start gap-4">
+                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                  1
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Enter your employer details</h3>
+                  <p className="text-gray-600">Add information about your casual employers, including award rates and pay cycles.</p>
+                </div>
+              </div>
+              
+              {/* Step 2 */}
+              <div className="flex items-start gap-4">
+                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                  2
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Log your shifts</h3>
+                  <p className="text-gray-600">Record your work hours, breaks, and any special conditions like public holidays.</p>
+                </div>
+              </div>
+              
+              {/* Step 3 */}
+              <div className="flex items-start gap-4">
+                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">View your earnings</h3>
+                  <p className="text-gray-600">See detailed breakdowns of your pay, including tax estimates and superannuation.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* CTA section */}
+        <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 text-center mb-16">
+          <h2 className="text-2xl font-bold mb-4">Ready to take control of your casual income?</h2>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Join thousands of casual workers who are simplifying their pay management with Casual Pay.
           </p>
-        </div>
-        
-        {/* Stats cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* Total Earnings Card */}
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-gray-500 text-sm font-medium">Total Earnings</h3>
-              <div className="p-2 bg-green-100 rounded-full">
-                <DollarSignIcon className="h-5 w-5 text-green-600" />
-              </div>
+          {!isLoggedIn ? (
+            <div className="bg-white inline-block rounded-lg shadow-md p-2">
+              <GoogleLoginButton />
             </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-bold text-gray-900">${totalEarnings.toFixed(2)}</span>
-            </div>
-          </div>
-          
-          {/* Total Shifts Card */}
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-gray-500 text-sm font-medium">Total Shifts</h3>
-              <div className="p-2 bg-blue-100 rounded-full">
-                <BriefcaseIcon className="h-5 w-5 text-blue-600" />
-              </div>
-            </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-bold text-gray-900">{totalShifts}</span>
-            </div>
-          </div>
-          
-          {/* Upcoming Shifts Card */}
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-gray-500 text-sm font-medium">Upcoming Shifts</h3>
-              <div className="p-2 bg-purple-100 rounded-full">
-                <CalendarIcon className="h-5 w-5 text-purple-600" />
-              </div>
-            </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-bold text-gray-900">{upcomingShifts}</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Employers section */}
-        <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Your Employers</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {employers.map((employer) => (
-              <div 
-                key={employer.id} 
-                className="p-4 rounded-lg border border-gray-100 flex items-center"
-                style={{ borderLeftWidth: '4px', borderLeftColor: employer.color }}
-              >
-                <div className="flex-1">
-                  <h3 className="font-medium" style={{ color: employer.color }}>{employer.name}</h3>
-                  <p className="text-sm text-gray-500">
-                    {timelineData.shifts.filter(s => s.employerId === employer.id).length} shifts
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold">
-                    ${timelineData.shifts
-                      .filter(s => s.employerId === employer.id)
-                      .reduce((sum, shift) => sum + (shift.pay || 0), 0)
-                      .toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Quick links section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <Link to="/timeline" className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center">
-            <div>
-              <div className="flex items-center mb-2">
-                <CalendarIcon className="h-5 w-5 text-indigo-600 mr-2" />
-                <h3 className="font-medium text-gray-900">Timeline View</h3>
-              </div>
-              <p className="text-sm text-gray-500">View your shifts and paydays on a timeline</p>
-            </div>
-            <ArrowRightIcon className="h-5 w-5 text-gray-400" />
-          </Link>
-          
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center opacity-70">
-            <div>
-              <div className="flex items-center mb-2">
-                <BarChartIcon className="h-5 w-5 text-indigo-600 mr-2" />
-                <h3 className="font-medium text-gray-900">Analytics</h3>
-              </div>
-              <p className="text-sm text-gray-500">Coming soon: Detailed income analytics</p>
-            </div>
-            <ArrowRightIcon className="h-5 w-5 text-gray-400" />
-          </div>
+          ) : (
+            <a href="/overview" className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-lg inline-block transition-all">
+              Go to Dashboard
+            </a>
+          )}
         </div>
       </div>
     </div>

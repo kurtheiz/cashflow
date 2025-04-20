@@ -1,72 +1,114 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
-import TimelinePage from './pages/Timeline';
+import Overview from './pages/Overview';
 import Shifts from './pages/Shifts';
-import { useState } from 'react';
-import { HomeIcon, CalendarIcon, MenuIcon, XIcon } from 'lucide-react';
+import Me from './pages/Me';
+import { useEffect } from 'react';
 import CasualPayLogo from './components/CasualPayLogo';
 import BottomToolbar from './components/BottomToolbar';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import GoogleLoginButton from './components/GoogleLoginButton';
+import { GOOGLE_CLIENT_ID } from './config/auth';
+import { initGoogleAuthDiagnostics } from './utils/googleAuthHelper';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// AppContent component to use hooks inside Router
+function AppContent() {
+  // No longer need menuOpen state since we removed the menu
+  const { isLoggedIn } = useAuth();
+  const location = useLocation();
+  
+  // Determine if we're on the home page
+  const isHomePage = location.pathname === '/';
+  
+  // Only show toolbar for logged-in users or on non-home pages
+  const showToolbar = isLoggedIn || !isHomePage;
+  
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Simple header with just the logo */}
+      <header className="bg-white shadow-sm">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center">
+            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+              <CasualPayLogo size="medium" variant="default" />
+            </a>
+          </div>
+          
+          {/* Only show login button if not logged in and not on home page */}
+          {!isLoggedIn && !isHomePage && (
+            <div className="flex items-center">
+              <GoogleLoginButton />
+            </div>
+          )}
+        </div>
+      </header>
+      
+      {/* Main content */}
+      <main className={`py-4 ${showToolbar ? 'pb-20' : 'pb-4'}`}>  {/* Conditional padding based on toolbar visibility */}
+        <Routes>
+          {/* Public route */}
+          <Route path="/" element={<Home />} />
+          
+          {/* Protected routes - require authentication */}
+          <Route path="/overview" element={
+            <ProtectedRoute>
+              <Overview />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/shifts" element={
+            <ProtectedRoute>
+              <Shifts />
+            </ProtectedRoute>
+          } />
+          <Route path="/employers" element={
+            <ProtectedRoute>
+              <div className="container mx-auto px-4 py-8">
+                <h1 className="text-2xl font-bold">Employers</h1>
+                <p className="mt-4">This page is under construction.</p>
+              </div>
+            </ProtectedRoute>
+          } />
+          <Route path="/calendar" element={
+            <ProtectedRoute>
+              <div className="container mx-auto px-4 py-8">
+                <h1 className="text-2xl font-bold">Calendar</h1>
+                <p className="mt-4">This page is under construction.</p>
+              </div>
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Me />
+            </ProtectedRoute>
+          } />
+          
+          {/* Catch all route - redirect to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      
+      {/* Bottom Toolbar - only shown for logged-in users or on non-home pages */}
+      {showToolbar && <BottomToolbar />}
+    </div>
+  );
+}
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    // Initialize Google authentication diagnostics
+    initGoogleAuthDiagnostics();
+  }, []);
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
-        {/* Navigation */}
-        <nav className="bg-white shadow-sm">
-          <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <CasualPayLogo size="medium" variant="default" />
-            </div>
-            
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 focus:outline-none"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
-            </button>
-            
-            {/* Desktop menu */}
-            <div className="hidden md:flex space-x-4">
-              <a href="/" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-indigo-600 hover:bg-indigo-50">
-                <HomeIcon className="h-4 w-4 mr-1" /> Home
-              </a>
-              <a href="/timeline" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                <CalendarIcon className="h-4 w-4 mr-1" /> Timeline
-              </a>
-            </div>
-          </div>
-          
-          {/* Mobile menu */}
-          {menuOpen && (
-            <div className="md:hidden bg-white border-t border-gray-100 px-4 py-2">
-              <a href="/" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-indigo-600 hover:bg-indigo-50">
-                <HomeIcon className="h-4 w-4 mr-1" /> Home
-              </a>
-              <a href="/timeline" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-600">
-                <CalendarIcon className="h-4 w-4 mr-1" /> Timeline
-              </a>
-            </div>
-          )}
-        </nav>
-        
-        {/* Main content */}
-        <main className="py-4 pb-20">  {/* Added bottom padding to account for the toolbar */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/timeline" element={<TimelinePage />} />
-            <Route path="/shifts" element={<Shifts />} />
-            <Route path="/employers" element={<div className="container mx-auto px-4 py-8"><h1 className="text-2xl font-bold">Employers</h1><p className="mt-4">This page is under construction.</p></div>} />
-            <Route path="/calendar" element={<div className="container mx-auto px-4 py-8"><h1 className="text-2xl font-bold">Calendar</h1><p className="mt-4">This page is under construction.</p></div>} />
-            <Route path="/settings" element={<div className="container mx-auto px-4 py-8"><h1 className="text-2xl font-bold">Settings</h1><p className="mt-4">This page is under construction.</p></div>} />
-          </Routes>
-        </main>
-        
-        {/* Bottom Toolbar */}
-        <BottomToolbar />
-      </div>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </GoogleOAuthProvider>
     </Router>
   );
 }

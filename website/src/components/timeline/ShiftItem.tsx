@@ -15,15 +15,23 @@ export const ShiftItem: React.FC<ShiftItemProps> = ({
 }) => {
   const shiftColor = getEmployerColor(shift.employerId);
   
+  // Set CSS variable for the shift color
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--shift-color', shiftColor);
+  }, [shiftColor]);
+  
   return (
     <VerticalTimelineElement
-      className="vertical-timeline-element--work"
+      className="vertical-timeline-element--work shift-item-arrow"
       contentStyle={{ background: 'white', color: '#333', boxShadow: '0 3px 10px rgba(0,0,0,0.08)', borderTop: `3px solid ${shiftColor}`, position: 'relative' }}
-      contentArrowStyle={{ borderRight: '7px solid white' }}
+      contentArrowStyle={{ borderRight: `10px solid ${shiftColor}` }}
       date=""
       iconStyle={{ background: shiftColor, color: '#fff' }}
       icon={
         <div className="flex flex-col items-center justify-center text-center w-full h-full">
+          <div className="text-xs font-bold uppercase">
+            {new Date(shift.date).toLocaleString('default', { weekday: 'short' })}
+          </div>
           <div className="text-lg font-bold leading-none">
             {new Date(shift.date).getDate()}
           </div>
@@ -33,7 +41,7 @@ export const ShiftItem: React.FC<ShiftItemProps> = ({
         </div>
       }
     >
-      <div className="absolute -bottom-3 -right-3 z-10">
+      <div className="absolute -bottom-3 -right-1 z-10">
         <button className="bg-red-100 hover:bg-red-200 text-red-600 rounded-full p-2.5 shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
           <Trash2Icon className="h-4 w-4" />
         </button>

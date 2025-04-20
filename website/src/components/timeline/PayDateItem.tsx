@@ -13,22 +13,31 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
   getEmployerColor
 }) => {
   const payDateColor = getEmployerColor(payDate.employerId);
-  const backgroundColor = `${payDateColor}15`; // Adding 15 as hex opacity (approx 10%)
+  // Adding 15 as hex opacity (approx 10%)
+  const backgroundColor = `${payDateColor}15`;
+  
+  // Set CSS variable for the paydate color
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--paydate-color', payDateColor);
+  }, [payDateColor]);
   
   return (
     <VerticalTimelineElement
-      className="vertical-timeline-element--work"
+      className="vertical-timeline-element--work paydate-item-arrow"
       contentStyle={{ 
         background: backgroundColor,
         color: '#333', 
         boxShadow: '0 3px 10px rgba(0,0,0,0.08)', 
         borderTop: `3px solid ${payDateColor}` 
       }}
-      contentArrowStyle={{ borderRight: `7px solid ${backgroundColor}` }}
+      contentArrowStyle={{ borderRight: `10px solid ${payDateColor}` }}
       date=""
       iconStyle={{ background: payDateColor, color: '#fff' }}
       icon={
         <div className="flex flex-col items-center justify-center text-center w-full h-full">
+          <div className="text-xs font-bold uppercase">
+            {new Date(payDate.date).toLocaleString('default', { weekday: 'short' })}
+          </div>
           <div className="text-lg font-bold leading-none">
             {new Date(payDate.date).getDate()}
           </div>

@@ -36,25 +36,66 @@
   margin: 0;
 }
 
+/* Make content arrows bigger and position in the middle of avatars */
+.vertical-timeline-element-content-arrow {
+  border-width: 10px !important;
+  margin-top: -10px !important;
+  top: 25px !important; /* Position in the middle of the 50px avatar */
+}
+
+/* Add custom classes for ShiftItem and PayDateItem to target in CSS */
+.shift-item-arrow::before {
+  border-right-color: var(--shift-color) !important;
+}
+
+.paydate-item-arrow::before {
+  border-right-color: var(--paydate-color) !important;
+}
+
 /* Fix for vertical timeline icon centering */
 .vertical-timeline-element-icon {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  width: 50px !important;
+  height: 50px !important;
+  margin-left: -25px !important;
 }
 
 /* Mobile optimizations */
 @media only screen and (max-width: 1169px) {
-  .custom-timeline .vertical-timeline-element-content {
+  /* Force mobile layout */
+  .vertical-timeline--two-columns {
+    width: 100%;
+    padding: 0 !important;
+  }
+  /* Fix vertical line position in mobile view */
+  .vertical-timeline.vertical-timeline--two-columns:before {
+    left: 25px !important;
+  }
+  
+  /* Ensure avatar is properly sized and positioned */
+  .vertical-timeline--two-columns .vertical-timeline-element-icon {
+    left: 25px !important;
+    margin-left: -25px !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  /* Position content with proper spacing */
+  .vertical-timeline--two-columns .vertical-timeline-element-content {
+    margin-left: 75px !important;
     padding: 0.5rem !important;
     min-height: 100px !important;
     font-size: 0.85rem !important;
+    width: calc(100% - 85px) !important;
   }
   
-  .custom-timeline .vertical-timeline-element-icon {
-    width: 36px !important;
-    height: 36px !important;
-    font-size: 0.8rem !important;
+  /* Position arrows properly */
+  .vertical-timeline--two-columns .vertical-timeline-element-content-arrow {
+    top: 25px !important; /* Center on the 50px avatar */
+    left: -20px !important;
+    border-width: 10px !important;
   }
   
   .custom-timeline .vertical-timeline-element-date {

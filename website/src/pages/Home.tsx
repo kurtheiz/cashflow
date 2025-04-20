@@ -35,24 +35,10 @@ const Home = () => {
     return getTimelineData();
   }, []);
   
-  // Use the employers from userData with colors added
+  // Use the employers from userData
   const employers = useMemo(() => {
-    return userData.employers.map((emp, index) => {
-      const colors = [
-        '#f59e0b', // amber-500
-        '#3b82f6', // blue-500
-        '#8b5cf6', // violet-500
-        '#ec4899', // pink-500
-        '#ef4444', // red-500
-        '#14b8a6', // teal-500
-        '#f97316'  // orange-500
-      ];
-      
-      return {
-        ...emp,
-        color: colors[index % colors.length]
-      };
-    });
+    // Use the colors directly from user.json
+    return userData.employers;
   }, []);
   
   // Filter shifts based on selected employers and item types

@@ -32,14 +32,12 @@ export interface MonthlySummary {
 export interface ShiftItemProps {
   shift: Shift;
   getEmployerColor: (employerId: string) => string;
-  formatDate: (dateString: string) => string;
   formatTime: (timeString: string) => string;
 }
 
 export interface PayDateItemProps {
   payDate: PayDate;
   getEmployerColor: (employerId: string) => string;
-  formatDate: (dateString: string) => string;
 }
 
 export interface MonthlySummariesProps {

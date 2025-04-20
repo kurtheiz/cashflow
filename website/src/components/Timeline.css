@@ -1,8 +1,15 @@
 /* Custom styles for the vertical timeline component */
 
+/* Make the timeline background darker */
+.vertical-timeline-container {
+  background-color: #f3f4f6 !important; /* Tailwind gray-100 */
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
 /* Make the vertical line grey */
 .vertical-timeline::before {
-  background: #d1d5db !important; /* Tailwind gray-300 */
+  background: #9ca3af !important; /* Tailwind gray-400 */
 }
 
 /* Adjust spacing for timeline elements */

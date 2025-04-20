@@ -10,8 +10,7 @@ import { PayDateItemProps } from './types';
  */
 export const PayDateItem: React.FC<PayDateItemProps> = ({ 
   payDate, 
-  getEmployerColor, 
-  formatDate 
+  getEmployerColor
 }) => {
   const payDateColor = getEmployerColor(payDate.employerId);
   const backgroundColor = `${payDateColor}15`; // Adding 15 as hex opacity (approx 10%)
@@ -20,7 +19,7 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={{ 
-        background: backgroundColor, 
+        background: backgroundColor,
         color: '#333', 
         boxShadow: '0 3px 10px rgba(0,0,0,0.08)', 
         borderTop: `3px solid ${payDateColor}` 
@@ -28,14 +27,20 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
       contentArrowStyle={{ borderRight: `7px solid ${backgroundColor}` }}
       date=""
       iconStyle={{ background: payDateColor, color: '#fff' }}
-      icon={<div className="flex items-center justify-center">$</div>}
+      icon={
+        <div className="flex flex-col items-center justify-center text-center w-full h-full">
+          <div className="text-lg font-bold leading-none">
+            {new Date(payDate.date).getDate()}
+          </div>
+          <div className="text-xs font-bold uppercase">
+            {new Date(payDate.date).toLocaleString('default', { month: 'short' })}
+          </div>
+        </div>
+      }
     >
-      <div className="text-sm font-medium text-gray-700 mb-2">
-        {formatDate(payDate.date)}
-      </div>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
-          <div className="text-sm font-medium">{payDate.employer} Pay</div>
+        <div className="flex justify-between items-start">
+          <div className="text-base font-semibold">{payDate.employer} Pay</div>
           <div className="flex flex-col items-end">
             <div>
               <span className="text-gray-800 text-sm font-bold">${payDate.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -45,14 +50,26 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
             </div>
           </div>
         </div>
+        <div className="flex items-center mt-1 text-sm font-medium">
+          <CalendarIcon className="h-3.5 w-3.5 mr-1.5" />
+          {payDate.totalHours ? (
+            <span className="text-gray-700">
+              {Math.floor(payDate.totalHours)} {Math.floor(payDate.totalHours) === 1 ? 'hr' : 'hrs'}
+              {Math.round((payDate.totalHours % 1) * 60) > 0 ? ` ${Math.round((payDate.totalHours % 1) * 60)} ${Math.round((payDate.totalHours % 1) * 60) === 1 ? 'min' : 'mins'}` : ''} total
+            </span>
+          ) : (
+            <span className="text-gray-500">No shifts worked</span>
+          )}
+        </div>
       </div>
 
       <Disclosure>
         {({ open }) => (
           <div>
-            <Disclosure.Button className="flex w-full justify-center items-center mt-1 text-sm text-gray-500 hover:text-gray-700 py-1">
+            <Disclosure.Button className="flex w-full justify-center items-center mt-2 text-sm text-gray-500 hover:text-gray-700 gap-1">
+              <span>More</span>
               <ChevronDownIcon
-                className={`${open ? 'rotate-180 transform' : ''} h-5 w-5`}
+                className={`${open ? 'rotate-180 transform' : ''} h-4 w-4`}
               />
             </Disclosure.Button>
             <Transition
@@ -63,18 +80,13 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Disclosure.Panel className="pt-2 text-sm">
-                <div className="flex items-center mb-0.5 text-gray-600">
-                  <CalendarIcon className="h-3 w-3 mr-1" />
-                  <span>{payDate.totalHours ? payDate.totalHours.toFixed(1) : '0'} total hours</span>
-                </div>
-                
-                <div className="text-xs text-gray-500 mt-0.5">
-                  {payDate.shiftCount || 0} shifts in this pay period
+              <Disclosure.Panel className="pt-0 text-sm">
+                <div className="text-xs text-gray-500 mt-0 mb-0">
+                  {payDate.shiftCount || 0} {payDate.shiftCount === 1 ? 'shift' : 'shifts'} in this pay period
                 </div>
                 
                 {payDate.hoursByRate && Object.keys(payDate.hoursByRate).length > 0 ? (
-                  <div className="text-xs text-gray-600 mt-1">
+                  <div className="text-xs text-gray-500 mt-0.5 mb-0">
                     <div className="font-medium mb-0.5">Hours & Pay by Rate:</div>
                     {Object.entries(payDate.hoursByRate).map(([rateType, hours], idx) => {
                       const pay = payDate.payByRate?.[rateType] || 0;
@@ -93,7 +105,7 @@ export const PayDateItem: React.FC<PayDateItemProps> = ({
                   </div>
                 ) : null}
                 
-                <div className="text-xs text-gray-600 mt-2 border-t border-gray-100 pt-1">
+                <div className="text-xs text-gray-600 mt-1 border-t border-gray-100 pt-0.5 mb-0">
                   <div className="font-medium mb-0.5">Tax Summary:</div>
                   <div className="grid grid-cols-2 gap-1">
                     <div className="text-gray-500">Gross Pay:</div>

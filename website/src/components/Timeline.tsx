@@ -5,19 +5,16 @@ import './Timeline.css';
 import { Shift, PayDate } from '../utils/shiftCalculator';
 
 // Import types
-import { TimelineProps, MonthlySummary } from './timeline/types';
+import { TimelineProps } from './timeline/types';
 
 // Import components
-import { MonthlySummaries } from './timeline/MonthlySummaries';
 import { ShiftItem } from './timeline/ShiftItem';
 import { PayDateItem } from './timeline/PayDateItem';
 
 // Import utility functions
 import { 
-  formatDate,
   formatTime,
   getMonthsText,
-  calculateMonthlySummaries,
   filterShiftsForNextTwoMonths,
   filterPayDatesForNextTwoMonths
 } from './timeline/timelineUtils';
@@ -36,7 +33,6 @@ export const Timeline: React.FC<TimelineProps> = ({
 }) => {
   const [filteredShifts, setFilteredShifts] = useState<Shift[]>([]);
   const [filteredPayDates, setFilteredPayDates] = useState<PayDate[]>([]);
-  const [monthlySummaries, setMonthlySummaries] = useState<MonthlySummary[]>([]);
 
   // Get employer color based on employerId
   const getEmployerColor = (employerId: string): string => {
@@ -50,14 +46,9 @@ export const Timeline: React.FC<TimelineProps> = ({
     const filtered = filterShiftsForNextTwoMonths(shifts);
     setFilteredShifts(filtered);
     
-    // Calculate monthly summaries
-    const summaries = calculateMonthlySummaries(filtered, payDates, employers);
-    setMonthlySummaries(summaries);
-    
     // Filter pay dates for the next two months
     if (payDates && payDates.length > 0) {
-      const filteredPayDates = filterPayDatesForNextTwoMonths(payDates);
-      setFilteredPayDates(filteredPayDates);
+      setFilteredPayDates(filterPayDatesForNextTwoMonths(payDates));
     } else {
       setFilteredPayDates([]);
     }
@@ -82,9 +73,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     <div className="timeline-container">
       <h2 className="text-xl font-semibold mb-4 text-center">All Shifts for {getMonthsText()}</h2>
       
-      {/* Monthly Summaries Section */}
-      <MonthlySummaries summaries={monthlySummaries} />
-      
+
       {filteredShifts.length === 0 && filteredPayDates.length === 0 ? (
         <div className="text-center text-gray-500 my-8">
           No shifts or pay dates for the current and next month.
@@ -115,7 +104,6 @@ export const Timeline: React.FC<TimelineProps> = ({
                     key={`paydate-${payDate.employerId}-${payDate.date}`}
                     payDate={payDate}
                     getEmployerColor={getEmployerColor}
-                    formatDate={formatDate}
                   />
                 );
               } else {
@@ -126,7 +114,6 @@ export const Timeline: React.FC<TimelineProps> = ({
                     key={`shift-${shift.employerId}-${shift.date}-${shift.start}`}
                     shift={shift}
                     getEmployerColor={getEmployerColor}
-                    formatDate={formatDate}
                     formatTime={formatTime}
                   />
                 );

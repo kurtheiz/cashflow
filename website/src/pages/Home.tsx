@@ -1,164 +1,129 @@
-import { useState, useMemo } from 'react';
-import { Timeline } from '../components/Timeline';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import userData from './user.json';
 import { getTimelineData } from '../utils/timelineDataGenerator';
-import { BriefcaseIcon, WalletIcon } from 'lucide-react';
-
-// Item type filter options
-type ItemType = 'shifts' | 'paydays';
-
-const itemTypeOptions: { id: ItemType; name: string }[] = [
-  { id: 'shifts', name: 'Shifts' },
-  { id: 'paydays', name: 'Paydays' }
-];
+import { CalendarIcon, DollarSignIcon, BriefcaseIcon, BarChartIcon, ArrowRightIcon } from 'lucide-react';
 
 const Home = () => {
-  // State for the selected date
-  const [selectedDate] = useState<Date>(new Date());
-  
-  // State for highlighted pay period (when a payday is selected)
-  const [, setHighlightedPayPeriod] = useState<{
-    start: Date | null;
-    end: Date | null;
-    employerId: string | null;
-  }>({ start: null, end: null, employerId: null });
-  
-  // Filter states - using arrays for multi-selection
-  // Initialize with all employer IDs selected
-  const [selectedEmployerIds, setSelectedEmployerIds] = useState<string[]>(
-    userData.employers.map(emp => emp.id)
-  );
-  const [selectedItemTypes, setSelectedItemTypes] = useState<ItemType[]>(['shifts', 'paydays']);
-  
   // Get the processed timeline data using our utility function
   const timelineData = useMemo(() => {
     return getTimelineData();
   }, []);
   
-  // Use the employers from userData
-  const employers = useMemo(() => {
-    // Use the colors directly from user.json
-    return userData.employers;
-  }, []);
+  // Calculate summary statistics
+  const totalShifts = timelineData.shifts.length;
+  const totalEarnings = timelineData.shifts.reduce((sum, shift) => sum + (shift.pay || 0), 0);
+  const upcomingShifts = timelineData.shifts.filter(shift => new Date(shift.date) > new Date()).length;
   
-  // Filter shifts based on selected employers and item types
-  const filteredShifts = useMemo(() => {
-    let shifts = timelineData.shifts;
-    
-    // Filter by selected employers
-    shifts = shifts.filter(shift => selectedEmployerIds.includes(shift.employerId));
-    
-    // Return empty array if shifts are not selected in item types
-    if (!selectedItemTypes.includes('shifts')) {
-      return [];
-    }
-    
-    return shifts;
-  }, [timelineData.shifts, selectedEmployerIds, selectedItemTypes]);
-  
-  // Filter pay dates based on selected employers and item types
-  const filteredPayDates = useMemo(() => {
-    let payDates = timelineData.payDates || [];
-    
-    // Filter by selected employers
-    payDates = payDates.filter(payDate => selectedEmployerIds.includes(payDate.employerId));
-    
-    // Return empty array if paydays are not selected in item types
-    if (!selectedItemTypes.includes('paydays')) {
-      return [];
-    }
-    
-    return payDates;
-  }, [timelineData.payDates, selectedEmployerIds, selectedItemTypes]);
+  // Get the employers from userData
+  const employers = userData.employers;
   
   return (
-    <div className="container mx-auto md:px-4 px-0">
-      <h1 className="text-2xl font-bold mb-4 px-4 text-center">Shifts & Pay Timeline</h1>
-      
-      {/* Filters */}
-      <div className="px-4 mb-4 flex flex-col gap-4">
+    <div className="container mx-auto px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Hero section */}
+        <div className="text-center mb-10 mt-4">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Welcome to Casual Pay</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Track your casual shifts, manage your income, and visualize your earnings all in one place.
+          </p>
+        </div>
         
-        {/* Touch-friendly Filter Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Employer Filter - Toggle Buttons */}
-          <div className="w-full sm:w-1/2 flex flex-wrap gap-2">
-            {employers.map((employer) => {
-              const isSelected = selectedEmployerIds.includes(employer.id);
-              return (
-                <button
-                  key={employer.id}
-                  onClick={() => {
-                    if (isSelected && selectedEmployerIds.length > 1) {
-                      // Remove employer if already selected and not the last one selected
-                      setSelectedEmployerIds(selectedEmployerIds.filter(id => id !== employer.id));
-                    } else if (!isSelected) {
-                      // Add employer if not selected
-                      setSelectedEmployerIds([...selectedEmployerIds, employer.id]);
-                    }
-                    // If this is the only selected employer, do nothing (prevent deselection)
-                  }}
-                  className={`px-3 py-2 rounded-full text-sm font-medium ${
-                    isSelected
-                      ? 'border-2'
-                      : 'bg-gray-100 text-gray-800 border-2 border-transparent'
-                  }`}
-                  style={{
-                    backgroundColor: isSelected ? `${employer.color}20` : '',
-                    color: isSelected ? employer.color : '',
-                    borderColor: isSelected ? employer.color : 'transparent'
-                  }}
-                >
-                  {employer.name}
-                </button>
-              );
-            })}
+        {/* Stats cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {/* Total Earnings Card */}
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-gray-500 text-sm font-medium">Total Earnings</h3>
+              <div className="p-2 bg-green-100 rounded-full">
+                <DollarSignIcon className="h-5 w-5 text-green-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-bold text-gray-900">${totalEarnings.toFixed(2)}</span>
+            </div>
           </div>
           
-          {/* Item Type Filter - Toggle Buttons */}
-          <div className="w-full sm:w-1/2 flex gap-2">
-            {itemTypeOptions.map((option) => {
-              const isSelected = selectedItemTypes.includes(option.id);
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => {
-                    if (isSelected) {
-                      // Remove item type if already selected (but don't allow removing both)
-                      if (selectedItemTypes.length > 1) {
-                        setSelectedItemTypes(selectedItemTypes.filter(type => type !== option.id));
-                      }
-                    } else {
-                      // Add item type if not selected
-                      setSelectedItemTypes([...selectedItemTypes, option.id]);
-                    }
-                  }}
-                  className={`flex-1 px-3 py-2 rounded-full text-sm font-medium flex items-center justify-center gap-2 ${
-                    isSelected
-                      ? 'bg-indigo-100 text-indigo-800 border-2 border-indigo-300'
-                      : 'bg-gray-100 text-gray-800 border-2 border-transparent'
-                  }`}
-                >
-                  {option.id === 'shifts' ? 
-                    <BriefcaseIcon className="h-4 w-4" /> : 
-                    <WalletIcon className="h-4 w-4" />}
-                  <span>{option.name}</span>
-                </button>
-              );
-            })}
+          {/* Total Shifts Card */}
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-gray-500 text-sm font-medium">Total Shifts</h3>
+              <div className="p-2 bg-blue-100 rounded-full">
+                <BriefcaseIcon className="h-5 w-5 text-blue-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-bold text-gray-900">{totalShifts}</span>
+            </div>
+          </div>
+          
+          {/* Upcoming Shifts Card */}
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-gray-500 text-sm font-medium">Upcoming Shifts</h3>
+              <div className="p-2 bg-purple-100 rounded-full">
+                <CalendarIcon className="h-5 w-5 text-purple-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-bold text-gray-900">{upcomingShifts}</span>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div className="w-full mb-4 md:rounded-xl md:bg-white md:p-3 md:shadow">
-        <Timeline 
-          shifts={filteredShifts}
-          payDates={filteredPayDates}
-          selectedDate={selectedDate}
-          employers={employers}
-          onPayPeriodSelect={(start, end, employerId) => {
-            setHighlightedPayPeriod({ start, end, employerId });
-          }}
-        />
+        
+        {/* Employers section */}
+        <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 mb-8">
+          <h2 className="text-xl font-semibold mb-4">Your Employers</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {employers.map((employer) => (
+              <div 
+                key={employer.id} 
+                className="p-4 rounded-lg border border-gray-100 flex items-center"
+                style={{ borderLeftWidth: '4px', borderLeftColor: employer.color }}
+              >
+                <div className="flex-1">
+                  <h3 className="font-medium" style={{ color: employer.color }}>{employer.name}</h3>
+                  <p className="text-sm text-gray-500">
+                    {timelineData.shifts.filter(s => s.employerId === employer.id).length} shifts
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold">
+                    ${timelineData.shifts
+                      .filter(s => s.employerId === employer.id)
+                      .reduce((sum, shift) => sum + (shift.pay || 0), 0)
+                      .toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Quick links section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <Link to="/timeline" className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center">
+            <div>
+              <div className="flex items-center mb-2">
+                <CalendarIcon className="h-5 w-5 text-indigo-600 mr-2" />
+                <h3 className="font-medium text-gray-900">Timeline View</h3>
+              </div>
+              <p className="text-sm text-gray-500">View your shifts and paydays on a timeline</p>
+            </div>
+            <ArrowRightIcon className="h-5 w-5 text-gray-400" />
+          </Link>
+          
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center opacity-70">
+            <div>
+              <div className="flex items-center mb-2">
+                <BarChartIcon className="h-5 w-5 text-indigo-600 mr-2" />
+                <h3 className="font-medium text-gray-900">Analytics</h3>
+              </div>
+              <p className="text-sm text-gray-500">Coming soon: Detailed income analytics</p>
+            </div>
+            <ArrowRightIcon className="h-5 w-5 text-gray-400" />
+          </div>
+        </div>
       </div>
     </div>
   );

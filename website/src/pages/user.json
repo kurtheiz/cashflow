@@ -1,0 +1,32 @@
+{
+    "user": "jessicaheiz101@gmail.com",
+    "name": "Jessica Heiz",
+    "employers": [
+        {
+            "id" : "PETBARN",
+            "name": "Petbarn",
+            "state": "VIC",
+            "level": "retail_employee_level_1",
+            "taxFreeThreshold": true,
+            "paycycle": "weekly",
+            "payday": "Wednesday",
+            "superRate": 0.12,
+            "payPeriodStart" : "Monday",
+            "payPeriodDays" : 7,
+            "nextPayDate" : "2025-04-23"
+        },
+        {
+            "id" : "EQ SADDELRY",
+            "name": "EQ Saddelry",
+            "state": "VIC",
+            "level": "retail_employee_level_1",
+            "taxFreeThreshold": true,
+            "paycycle": "fortnightly",
+            "payday": "Thursday",
+            "superRate": 0.12,
+            "payPeriodStart" : "Thursday",
+            "payPeriodDays" : 14,
+            "nextPayDate" : "2025-04-24"
+        }
+    ]
+}

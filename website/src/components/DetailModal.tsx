@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import React from 'react';
+import { Dialog } from 'primereact/dialog';
 import { X } from 'lucide-react';
 
 interface DetailModalProps {
@@ -11,15 +11,6 @@ interface DetailModalProps {
   color?: string;
 }
 
-interface DetailModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  subtitle?: string;
-  children: React.ReactNode;
-
-}
-
 const DetailModal: React.FC<DetailModalProps> = ({
   isOpen,
   onClose,
@@ -28,65 +19,39 @@ const DetailModal: React.FC<DetailModalProps> = ({
   children
 }) => {
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-0 sm:p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-full sm:max-w-md transform overflow-hidden rounded-none sm:rounded-lg bg-white p-0 text-left align-middle shadow-xl transition-all">
-                <div 
-                  className="relative py-3 px-4 flex items-center justify-between bg-blue-50"
-                >
-                  <div>
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-blue-900"
-                    >
-                      {title}
-                    </Dialog.Title>
-                    {subtitle && (
-                      <p className="text-sm text-blue-900 mt-1">
-                        {subtitle}
-                      </p>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className="rounded-full p-1 text-black hover:bg-black hover:bg-opacity-10 focus:outline-none"
-                    onClick={onClose}
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="p-4 sm:p-6">
-                  {children}
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+    <Dialog
+      visible={isOpen}
+      onHide={onClose}
+      className="p-0"
+      header={
+        <div className="relative py-3 px-4 flex items-center justify-between bg-blue-50">
+          <div>
+            <h3 className="text-lg font-medium leading-6 text-blue-900">
+              {title}
+            </h3>
+            {subtitle && (
+              <div className="text-xs text-blue-700 font-normal mt-1">
+                {subtitle}
+              </div>
+            )}
           </div>
+          <button
+            type="button"
+            className="absolute right-2 top-2 p-1 rounded hover:bg-blue-100"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            <X className="w-5 h-5 text-blue-700" />
+          </button>
         </div>
-      </Dialog>
-    </Transition>
+      }
+      closable={false}
+      maskClassName="bg-black bg-opacity-25"
+      contentClassName="w-full max-w-full sm:max-w-md overflow-hidden bg-white p-0 text-left align-middle shadow-xl transition-all"
+      modal
+    >
+      <div className="px-4 py-4">{children}</div>
+    </Dialog>
   );
 };
 

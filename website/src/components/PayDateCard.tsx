@@ -33,7 +33,7 @@ interface PayDateCardProps {
 
 const PayDateCard: React.FC<PayDateCardProps> = ({ 
   payDate,
-  color = '#3b82f6' // Default to blue-500 if no color provided
+
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const paymentDate = parseISO(payDate.date);
@@ -72,24 +72,24 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
   return (
     <div className="relative">
       {/* PAY badge */}
-      <span className="absolute bottom-4 right-4 text-white text-xs px-2 py-1 rounded z-0" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }}>PAY</span>
+      
       <div 
         className="overflow-hidden py-2 w-full cursor-pointer bg-white hover:bg-gray-50 transition-colors" 
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
-        {/* Left date column */}
-        <div className="flex flex-col items-center justify-center w-16 sm:w-20 py-2 rounded-l-lg text-white" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }}>
+        {/* Left date column: white bg, black text, square primary-blue border */}
+        <div className="flex flex-col items-center justify-center w-16 sm:w-20 bg-white text-black border-2 border-primary-blue">
           <span className="text-xs font-medium uppercase tracking-wide">{dayOfWeek}</span>
           <span className="text-2xl font-bold leading-none">{dayOfMonth}</span>
           <span className="text-xs font-medium uppercase tracking-wide">{month}</span>
         </div>
         {/* Vertical dark blue strip extending from date column */}
-        <div className="h-full w-2" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }} />
+        <div className="h-full w-2" style={{ backgroundColor: 'var(--primary-blue)' }} />
         
         {/* Main content */}
         <div className="flex-1 min-w-0 p-2 sm:p-4">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between">
             <div className="flex items-center">
               <Briefcase className="h-4 w-4 mr-2 text-gray-500" />
               <h3 className="font-medium text-gray-900">{payDate.employer} Pay</h3>
@@ -100,7 +100,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
           </div>
           
           {payDate.periodStart && payDate.periodEnd && (
-            <div className="flex items-center text-sm text-gray-600 mb-3">
+            <div className="flex items-center text-sm text-gray-600">
               <span className="ml-6">Pay period: {periodText}</span>
             </div>
           )}
@@ -118,7 +118,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         onClose={() => setIsModalOpen(false)}
         title={`${payDate.employer} Payment Details`}
         subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
-        color={'oklch(70.7% 0.165 254.624)'}
+        color={'var(--primary-blue)'}
       >
         <PayDateDetailContent payDate={payDate} />
       </DetailModal>

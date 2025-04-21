@@ -13,7 +13,7 @@ const Home = () => {
         <div className="relative bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-20 px-4 rounded-2xl overflow-hidden mb-16">
           <div className="max-w-4xl mx-auto relative z-10">
             <div className="flex justify-center mb-6">
-              <CasualPayLogo size="large" variant="light" />
+              <CasualPayLogo size="large" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">Simplify Your Casual Work Payments</h1>
             <p className="text-xl md:text-2xl text-indigo-100 max-w-3xl mx-auto text-center mb-8">

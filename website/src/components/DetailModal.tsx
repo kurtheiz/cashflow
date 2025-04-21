@@ -11,13 +11,21 @@ interface DetailModalProps {
   color?: string;
 }
 
+interface DetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle?: string;
+  children: React.ReactNode;
+
+}
+
 const DetailModal: React.FC<DetailModalProps> = ({
   isOpen,
   onClose,
   title,
   subtitle,
-  children,
-  color = 'oklch(70.7% 0.165 254.624)' // Default to new blue if no color provided
+  children
 }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -48,7 +56,7 @@ const DetailModal: React.FC<DetailModalProps> = ({
               <Dialog.Panel className="w-full max-w-full sm:max-w-md transform overflow-hidden rounded-none sm:rounded-lg bg-white p-0 text-left align-middle shadow-xl transition-all">
                 <div 
                   className="relative py-3 px-4 flex items-center justify-between" 
-                  style={{ backgroundColor: color }}
+                  style={{ backgroundColor: 'var(--primary-blue)' }}
                 >
                   <div>
                     <Dialog.Title

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { format, parseISO, isToday } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { Clock, Briefcase } from 'lucide-react';
 import DetailModal from './DetailModal';
 import ShiftDetailContent from './ShiftDetailContent';
@@ -18,7 +18,7 @@ interface ShiftCardProps {
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ 
   shift,
-  color = '#3b82f6' // Default to blue-500 if no color provided
+
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const shiftDate = parseISO(shift.date);
@@ -43,8 +43,8 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
-        {/* Left date column */}
-        <div className="flex flex-col items-center justify-center w-16 sm:w-20 py-2 rounded-l-lg text-white" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }}>
+        {/* Left date column: white bg, black text, square primary-blue border */}
+        <div className="flex flex-col items-center justify-center w-16 sm:w-20 bg-white text-black border-2 border-gray-200">
           <span className="text-xs font-medium uppercase tracking-wide">{dayOfWeek}</span>
           <span className="text-2xl font-bold leading-none">{dayOfMonth}</span>
           <span className="text-xs font-medium uppercase tracking-wide">{month}</span>
@@ -80,7 +80,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
         onClose={() => setIsModalOpen(false)}
         title={`${shift.employer} Shift Details`}
         subtitle={format(shiftDate, 'EEEE, d MMMM yyyy')}
-        color={'oklch(70.7% 0.165 254.624)'}
+        color={'var(--primary-blue)'}
       >
         <ShiftDetailContent shift={shift} />
       </DetailModal>

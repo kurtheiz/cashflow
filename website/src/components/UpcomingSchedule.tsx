@@ -113,7 +113,7 @@ const UpcomingSchedule: React.FC = () => {
   return (
     <div className="w-full">
       
-      <div className="divide-y divide-gray-100 w-full">
+      <div className="w-full">
         {scheduleItems.map((item, index) => {
           const itemDate = parseISO(item.date);
           const isToday = isSameDay(itemDate, today);

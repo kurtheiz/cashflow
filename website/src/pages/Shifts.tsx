@@ -3,7 +3,7 @@ import React from 'react';
 const Shifts: React.FC = () => {
 
   return (
-    <div className="container mx-auto max-w-screen-md px-4">
+    <div className="container mx-auto max-w-screen-md px-4" style={{ backgroundColor: '#fff' }}>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">Shifts</h1>
         

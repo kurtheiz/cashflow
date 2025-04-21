@@ -73,25 +73,25 @@ const BottomToolbar: React.FC = () => {
               className={`
                 flex flex-col items-center justify-center w-full h-full
                 md:flex-row md:justify-center md:items-center md:w-auto md:h-auto md:px-2 md:py-0
-                ${item.active ? 'text-blue-600' : 'text-gray-500'}
-                md:text-white
+                ${item.active ? '' : 'text-gray-500'}
+                
               `}
             >
               {item.label === 'Me' && user?.picture ? (
                 <img
                   src={user.picture}
                   alt="User avatar"
-                  className={`h-5 w-5 rounded-full bg-transparent ${item.active ? 'ring-2 ring-blue-600' : ''} text-blue-800 md:text-white`}
-                  style={{ objectFit: 'cover' }}
+                  className={`h-5 w-5 rounded-full bg-transparent ${item.active ? 'ring-2' : ''}`}
+                  style={item.active ? { objectFit: 'cover', boxShadow: '0 0 0 2px var(--primary-blue)' } : { objectFit: 'cover' }}
                 />
               ) : (
                 <item.icon
-                  className={`h-5 w-5 md:text-white ${item.active ? 'text-blue-800' : 'text-gray-400'}`}
+                  className={`h-5 w-5 ${item.active ? 'system-blue-text md:text-white md:!text-white' : 'text-gray-400'}`}
                   fill={item.active ? 'currentColor' : 'none'}
                   strokeWidth={item.active ? 1.5 : 2}
                 />
               )}
-              <span className={`text-xs mt-1 md:mt-0 md:ml-2 md:text-white ${item.active ? 'text-blue-800' : 'text-gray-400'}`}>{item.label}</span>
+              <span className={`text-xs mt-1 md:mt-0 md:ml-2 ${item.active ? 'system-blue-text md:text-white md:!text-white' : 'text-gray-400'}`}>{item.label}</span>
             </Link>
           ))}
         </div>

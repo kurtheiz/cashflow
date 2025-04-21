@@ -113,7 +113,7 @@ const Overview = () => {
   }, [payPeriodsData]);
   
   return (
-    <div className="w-full px-0 sm:px-4">
+    <div className="w-full px-0 sm:px-4" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
       <div className="w-full lg:max-w-4xl mx-auto">
         <div className="text-center pt-4 pb-8">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -131,7 +131,7 @@ const Overview = () => {
                   Loading shifts...
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100 w-full">
+                <div className="w-full">
                   {userData.employers.map((employer: any) => {
                     const nextShift = nextShiftsByEmployer[employer.id];
                     
@@ -163,7 +163,7 @@ const Overview = () => {
                   Loading pay dates...
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100 w-full">
+                <div className="w-full">
                   {userData.employers.map((employer: any) => {
                     const payDate = upcomingPayDates[employer.id];
                     

@@ -2,12 +2,10 @@ import React from 'react';
 
 interface CasualPayLogoProps {
   size?: 'small' | 'medium' | 'large';
-  variant?: 'default' | 'monochrome' | 'light';
 }
 
 const CasualPayLogo: React.FC<CasualPayLogoProps> = ({ 
-  size = 'medium', 
-  variant = 'default' 
+  size = 'medium'
 }) => {
   // Size mapping
   const sizeMap = {
@@ -18,9 +16,7 @@ const CasualPayLogo: React.FC<CasualPayLogoProps> = ({
   
   const { height, fontSize } = sizeMap[size];
   // Force all logo and text to white
-  const primary = 'text-white';
-  const secondary = 'text-white';
-  const accent = 'text-white';
+
   
   return (
     <div className="flex items-center" style={{ height: `${height}px` }}>

@@ -29,8 +29,8 @@ const BottomToolbar: React.FC = () => {
     {
       label: 'Shifts & Pay',
       icon: BriefcaseIcon,
-      path: '/shifts',
-      active: isActive('/shifts')
+      path: '/schedule',
+      active: isActive('/schedule')
     },
     {
       label: 'Me',

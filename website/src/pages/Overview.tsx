@@ -1,10 +1,12 @@
 import { useAuth } from '../context/AuthContext';
 import { useMemo } from 'react';
-import userData from './user.json';
-import shiftsData from './shifts.json';
+import { useQuery } from '@tanstack/react-query';
+import { format, addMonths, startOfMonth, endOfMonth, isAfter } from 'date-fns';
+import userData from '../api/data/user.json';
 import ShiftCard from '../components/ShiftCard';
 import PayDateCard from '../components/PayDateCard';
-import { addDays, parseISO } from 'date-fns';
+import { api as mockApi } from '../api/mockApi';
+import { Shift, EmployerPayPeriods, PayPeriod } from '../api/mockApi';
 
 const Overview = () => {
   const { user } = useAuth();
@@ -17,17 +19,44 @@ const Overview = () => {
     return 'Good evening';
   };
   
+  // Get date range for current month and next month
+  const today = new Date();
+  const currentMonthStart = format(startOfMonth(today), 'yyyy-MM-dd');
+  const nextMonthEnd = format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
+  
+  // Fetch shifts for current month and next month
+  const { data: shiftsData, isLoading: shiftsLoading } = useQuery({
+    queryKey: ['shifts', currentMonthStart, nextMonthEnd],
+    queryFn: async () => {
+      const response = await mockApi.getShifts(currentMonthStart, nextMonthEnd);
+      return response.data;
+    },
+    enabled: !!user, // Only run if user is logged in
+  });
+  
+  // Fetch pay periods for current month and next month
+  const { data: payPeriodsData, isLoading: payPeriodsLoading } = useQuery({
+    queryKey: ['payPeriods', currentMonthStart, nextMonthEnd],
+    queryFn: async () => {
+      const response = await mockApi.getPayPeriods(currentMonthStart, nextMonthEnd);
+      return response.data;
+    },
+    enabled: !!user, // Only run if user is logged in
+  });
+  
   // Get the next shift for each employer
   const nextShiftsByEmployer = useMemo(() => {
+    if (!shiftsData) return {};
+    
+    const result: Record<string, Shift> = {};
     const today = new Date();
-    const result: Record<string, any> = {};
     
     // Group shifts by employer
-    const shiftsByEmployer: Record<string, any[]> = {};
+    const shiftsByEmployer: Record<string, Shift[]> = {};
     
-    shiftsData.shifts.forEach(shift => {
+    shiftsData.forEach((shift: any) => {
       const shiftDate = new Date(shift.date);
-      if (shiftDate >= today) {
+      if (isAfter(shiftDate, today) || shiftDate.toDateString() === today.toDateString()) {
         if (!shiftsByEmployer[shift.employerId]) {
           shiftsByEmployer[shift.employerId] = [];
         }
@@ -50,45 +79,41 @@ const Overview = () => {
     });
     
     return result;
-  }, []);
+  }, [shiftsData]);
   
-  // Generate upcoming pay dates for each employer
+  // Get upcoming pay dates for each employer
   const upcomingPayDates = useMemo(() => {
-    const result: Record<string, any> = {};
+    if (!payPeriodsData) return {};
     
-    userData.employers.forEach(employer => {
-      if (employer.nextPayDate) {
-        // Calculate pay period start date based on the pay date
-        let periodStartDate: Date | null = null;
-        let periodEndDate: Date | null = null;
+    const result: Record<string, PayPeriod> = {};
+    const today = new Date();
+    
+    // Process each employer's pay periods
+    payPeriodsData.forEach((employerData: EmployerPayPeriods) => {
+      // Filter pay periods that are upcoming
+      const upcomingPeriods = employerData.periods.filter((period: PayPeriod) => {
+        const payDate = new Date(period.payDate);
+        return isAfter(payDate, today) || payDate.toDateString() === today.toDateString();
+      });
+      
+      // Find the earliest upcoming pay period
+      if (upcomingPeriods.length > 0) {
+        // Sort by pay date
+        upcomingPeriods.sort((a: PayPeriod, b: PayPeriod) => {
+          return new Date(a.payDate).getTime() - new Date(b.payDate).getTime();
+        });
         
-        if (employer.payPeriodDays && employer.payPeriodStart) {
-          const payDate = parseISO(employer.nextPayDate);
-          
-          // Calculate the end date (usually the day before pay date)
-          periodEndDate = addDays(payDate, -1);
-          
-          // Calculate the start date based on pay period length
-          periodStartDate = addDays(periodEndDate, -employer.payPeriodDays + 1);
-        }
-        
-        // Create pay date object
-        result[employer.id] = {
-          date: employer.nextPayDate,
-          employerId: employer.id,
-          employer: employer.name,
-          periodStart: periodStartDate ? periodStartDate.toISOString().split('T')[0] : undefined,
-          periodEnd: periodEndDate ? periodEndDate.toISOString().split('T')[0] : undefined
-        };
+        // Get the earliest pay period
+        result[employerData.employerId] = upcomingPeriods[0];
       }
     });
     
     return result;
-  }, []);
+  }, [payPeriodsData]);
   
   return (
-    <div className="container mx-auto px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="w-full px-0 sm:px-4">
+      <div className="w-full lg:max-w-4xl mx-auto">
         <div className="text-center pt-4 pb-8">
           <h1 className="text-3xl font-bold text-gray-900">
             {user ? `${getGreeting()}, ${user.name.split(' ')[0]}!` : 'Welcome to Casual Pay'}
@@ -99,54 +124,77 @@ const Overview = () => {
           <>
             {/* Upcoming Shifts Section */}
             <div className="mt-4 mb-8">
-              <h2 className="text-xl font-semibold mb-4">Your Upcoming Shifts</h2>
-              <div className="space-y-4">
-                {userData.employers.map(employer => {
-                  const nextShift = nextShiftsByEmployer[employer.id];
-                  
-                  return nextShift ? (
-                    <div key={`shift-${employer.id}`}>
-                      <ShiftCard 
-                        shift={nextShift} 
-                        color={employer.color} 
-                      />
-                    </div>
-                  ) : (
-                    <div 
-                      key={`shift-${employer.id}`} 
-                      className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 text-center text-gray-500"
-                    >
-                      No upcoming shifts for {employer.name}
-                    </div>
-                  );
-                })}
-              </div>
+              <h2 className="text-xl font-semibold mb-4 text-center">Your Upcoming Shifts</h2>
+              {shiftsLoading ? (
+                <div className="bg-white p-4 text-center text-gray-500 w-full">
+                  Loading shifts...
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100 w-full">
+                  {userData.employers.map((employer: any) => {
+                    const nextShift = nextShiftsByEmployer[employer.id];
+                    
+                    return nextShift ? (
+                      <div key={`shift-${employer.id}`} className="w-full">
+                        <ShiftCard 
+                          shift={nextShift} 
+                          color={employer.color} 
+                        />
+                      </div>
+                    ) : (
+                      <div 
+                        key={`shift-${employer.id}`} 
+                        className="bg-white p-4 text-center text-gray-500 w-full"
+                      >
+                        No upcoming shifts for {employer.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             
             {/* Upcoming Pay Dates Section */}
             <div className="mt-4">
-              <h2 className="text-xl font-semibold mb-4">Your Upcoming Payments</h2>
-              <div className="space-y-4">
-                {userData.employers.map(employer => {
-                  const payDate = upcomingPayDates[employer.id];
-                  
-                  return payDate ? (
-                    <div key={`pay-${employer.id}`}>
-                      <PayDateCard 
-                        payDate={payDate} 
-                        color={employer.color} 
-                      />
-                    </div>
-                  ) : (
-                    <div 
-                      key={`pay-${employer.id}`} 
-                      className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 text-center text-gray-500"
-                    >
-                      No upcoming payments for {employer.name}
-                    </div>
-                  );
-                })}
-              </div>
+              <h2 className="text-xl font-semibold mb-4 text-center">Your Upcoming Payments</h2>
+              {payPeriodsLoading ? (
+                <div className="bg-white p-4 text-center text-gray-500 w-full">
+                  Loading pay dates...
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100 w-full">
+                  {userData.employers.map((employer: any) => {
+                    const payDate = upcomingPayDates[employer.id];
+                    
+                    return payDate ? (
+                      <div key={`pay-${employer.id}`} className="w-full">
+                        <PayDateCard 
+                          payDate={{
+                            date: payDate.payDate,
+                            employerId: employer.id,
+                            employer: employer.name,
+                            amount: payDate.grossPay,
+                            periodStart: payDate.startDate,
+                            periodEnd: payDate.endDate,
+                            hours: payDate.totalHours,
+                            payRate: payDate.payCategories[0]?.rate || 0,
+                            tax: payDate.tax,
+                            employeeLevel: employer.level
+                          }} 
+                          color={employer.color} 
+                        />
+                      </div>
+                    ) : (
+                      <div 
+                        key={`pay-${employer.id}`} 
+                        className="bg-white p-4 text-center text-gray-500 w-full"
+                      >
+                        No upcoming payments for {employer.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </>
         )}

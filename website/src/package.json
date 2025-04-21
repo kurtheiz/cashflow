@@ -1,0 +1,10 @@
+{
+  "name": "calculate-pay-periods",
+  "version": "1.0.0",
+  "description": "Script to calculate pay periods from shift data",
+  "main": "calculatePayPeriods.js",
+  "type": "module",
+  "scripts": {
+    "calculate": "node calculatePayPeriods.js"
+  }
+}

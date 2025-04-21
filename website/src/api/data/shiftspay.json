@@ -1,0 +1,404 @@
+{
+    "shifts": [
+        {
+            "date": "2025-04-01",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "08:15",
+            "end": "16:00",
+            "hoursWorked": 7.75,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 7.75, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 248.47,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-02",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-03",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:00",
+            "end": "17:00",
+            "hoursWorked": 8.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+            ],
+            "payRate": 32.06,
+            "grossPay": 256.48,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-09",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "18:15",
+            "hoursWorked": 7.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 7.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.15,
+            "grossPay": 233.09,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-10",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:00",
+            "end": "17:00",
+            "hoursWorked": 8.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+            ],
+            "payRate": 32.06,
+            "grossPay": 256.48,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-11",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "12:00",
+            "end": "19:15",
+            "hoursWorked": 7.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 6.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 33.04,
+            "grossPay": 239.54,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-12",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "16:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+            ],
+            "payRate": 38.48,
+            "grossPay": 192.40,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-04-17",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:30",
+            "end": "17:30",
+            "hoursWorked": 8.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+            ],
+            "payRate": 32.06,
+            "grossPay": 256.48,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-21",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "09:45",
+            "end": "17:15",
+            "hoursWorked": 7.5,
+            "isPublicHoliday": true,
+            "payCategories": [
+                {"category": "public_holiday", "hours": 7.5, "rate": 64.13, "description": "Public holiday (double pay)"}
+            ],
+            "payRate": 64.13,
+            "grossPay": 480.98,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-22",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "15:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 160.30,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-04-24",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-29",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "12:15",
+            "end": "17:15",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 160.30,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-05-01",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-02",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "12:15",
+            "end": "19:15",
+            "hoursWorked": 7.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 5.75, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 33.17,
+            "grossPay": 232.19,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-05",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "16:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 160.30,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-05-08",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "08:15",
+            "end": "16:30",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.25, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 264.50,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-09",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:00",
+            "hoursWorked": 8.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+            ],
+            "payRate": 32.06,
+            "grossPay": 256.48,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-10",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "15:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+            ],
+            "payRate": 38.48,
+            "grossPay": 192.40,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-05-12",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-15",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "08:15",
+            "end": "16:30",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.25, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+            ],
+            "payRate": 32.06,
+            "grossPay": 264.50,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-16",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:00",
+            "hoursWorked": 8.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+            ],
+            "payRate": 32.06,
+            "grossPay": 256.48,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-17",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "16:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+            ],
+            "payRate": 38.48,
+            "grossPay": 192.40,
+            "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-05-20",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-22",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "10:00",
+            "end": "18:15",
+            "hoursWorked": 8.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 32.25,
+            "grossPay": 266.06,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-23",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "12:00",
+            "end": "19:15",
+            "hoursWorked": 7.25,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "ordinary", "hours": 6.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
+                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+            ],
+            "payRate": 33.04,
+            "grossPay": 239.54,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-05-24",
+            "employerId": "PETBARN",
+            "employer": "Petbarn",
+            "start": "11:00",
+            "end": "16:00",
+            "hoursWorked": 5.0,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+            ],
+            "payRate": 38.48,
+            "grossPay": 192.40,
+            "unpaidBreakMinutes": 0
+        }
+    ]
+}

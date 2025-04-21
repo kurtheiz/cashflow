@@ -1,0 +1,638 @@
+{
+  "payPeriods": [
+    {
+      "employerId": "PETBARN",
+      "employer": "Petbarn",
+      "periods": [
+        {
+          "startDate": "2025-03-31",
+          "endDate": "2025-04-06",
+          "payDate": "2025-04-09",
+          "shifts": [
+            "2025-04-01",
+            "2025-04-02",
+            "2025-04-03"
+          ],
+          "totalHours": 24,
+          "grossPay": 771.01,
+          "tax": 154.2,
+          "netPay": 616.81,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 23.75,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0.25,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-07",
+          "endDate": "2025-04-13",
+          "payDate": "2025-04-16",
+          "shifts": [
+            "2025-04-09",
+            "2025-04-10",
+            "2025-04-11",
+            "2025-04-12"
+          ],
+          "totalHours": 27.5,
+          "grossPay": 921.51,
+          "tax": 184.3,
+          "netPay": 737.21,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 21,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 1.5,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 5,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-14",
+          "endDate": "2025-04-20",
+          "payDate": "2025-04-23",
+          "shifts": [
+            "2025-04-17"
+          ],
+          "totalHours": 8,
+          "grossPay": 256.48,
+          "tax": 51.3,
+          "netPay": 205.18,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 8,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-21",
+          "endDate": "2025-04-27",
+          "payDate": "2025-04-30",
+          "shifts": [
+            "2025-04-21",
+            "2025-04-22",
+            "2025-04-24"
+          ],
+          "totalHours": 20.75,
+          "grossPay": 907.34,
+          "tax": 181.47,
+          "netPay": 725.87,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 13,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0.25,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 7.5,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-28",
+          "endDate": "2025-05-04",
+          "payDate": "2025-05-07",
+          "shifts": [
+            "2025-04-29",
+            "2025-05-01",
+            "2025-05-02"
+          ],
+          "totalHours": 20.25,
+          "grossPay": 658.55,
+          "tax": 131.71,
+          "netPay": 526.84,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 18.75,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 1.5,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-05",
+          "endDate": "2025-05-11",
+          "payDate": "2025-05-14",
+          "shifts": [
+            "2025-05-05",
+            "2025-05-08",
+            "2025-05-09",
+            "2025-05-10"
+          ],
+          "totalHours": 26.25,
+          "grossPay": 873.68,
+          "tax": 174.74,
+          "netPay": 698.94,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 21.25,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 5,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-12",
+          "endDate": "2025-05-18",
+          "payDate": "2025-05-21",
+          "shifts": [
+            "2025-05-12",
+            "2025-05-15",
+            "2025-05-16",
+            "2025-05-17"
+          ],
+          "totalHours": 29.5,
+          "grossPay": 979.44,
+          "tax": 195.89,
+          "netPay": 783.55,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 24.25,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0.25,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 5,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-19",
+          "endDate": "2025-05-25",
+          "payDate": "2025-05-28",
+          "shifts": [
+            "2025-05-20",
+            "2025-05-22",
+            "2025-05-23",
+            "2025-05-24"
+          ],
+          "totalHours": 28.75,
+          "grossPay": 964.06,
+          "tax": 192.81,
+          "netPay": 771.25,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 22,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 1.75,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 5,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-26",
+          "endDate": "2025-06-01",
+          "payDate": "2025-06-04",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employerId": "EQSADDLERY",
+      "employer": "EQ Saddlery",
+      "periods": [
+        {
+          "startDate": "2025-03-27",
+          "endDate": "2025-04-09",
+          "payDate": "2025-04-10",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-10",
+          "endDate": "2025-04-23",
+          "payDate": "2025-04-24",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-04-24",
+          "endDate": "2025-05-07",
+          "payDate": "2025-05-08",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-08",
+          "endDate": "2025-05-21",
+          "payDate": "2025-05-22",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        },
+        {
+          "startDate": "2025-05-22",
+          "endDate": "2025-06-04",
+          "payDate": "2025-06-05",
+          "shifts": [],
+          "totalHours": 0,
+          "grossPay": 0,
+          "tax": 0,
+          "netPay": 0,
+          "payCategories": [
+            {
+              "category": "ordinary",
+              "hours": 0,
+              "rate": 32.06,
+              "description": "Regular hours (Monday to Friday during day)"
+            },
+            {
+              "category": "evening_mon_fri",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Monday to Friday after 6pm"
+            },
+            {
+              "category": "saturday",
+              "hours": 0,
+              "rate": 38.48,
+              "description": "Saturday (higher rate)"
+            },
+            {
+              "category": "sunday",
+              "hours": 0,
+              "rate": 44.89,
+              "description": "Sunday (higher rate)"
+            },
+            {
+              "category": "public_holiday",
+              "hours": 0,
+              "rate": 64.13,
+              "description": "Public holiday (double pay)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

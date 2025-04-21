@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 // Using Tailwind instead of Material UI for the timeline to avoid dependency issues
-import configData from '../config.json';
+import configData from '../api/data/config.json';
 import { format, parseISO, addDays, isSameDay } from 'date-fns';
 
 interface Employer {

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import Home from './pages/Home';
 import Overview from './pages/Overview';
 import Shifts from './pages/Shifts';
+import Schedule from './pages/Schedule';
 import Me from './pages/Me';
 import { useEffect } from 'react';
 import CasualPayLogo from './components/CasualPayLogo';
@@ -61,6 +62,12 @@ function AppContent() {
           <Route path="/shifts" element={
             <ProtectedRoute>
               <Shifts />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/schedule" element={
+            <ProtectedRoute>
+              <Schedule />
             </ProtectedRoute>
           } />
           <Route path="/employers" element={

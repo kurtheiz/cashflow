@@ -9,7 +9,7 @@ interface ShiftCardProps {
     employer: string;
     start: string;
     end: string;
-    pay?: number;
+    grossPay?: number;
   };
   color?: string;
 }
@@ -34,12 +34,12 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
   const durationText = `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
   
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-      <div className="flex">
+    <div className="bg-white overflow-hidden py-2 w-full">
+      <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
         {/* Left date column */}
         <div 
-          className="flex flex-col items-center justify-center p-4 text-white"
-          style={{ backgroundColor: color, width: '80px' }}
+          className="flex-none flex flex-col items-center justify-center p-2 sm:p-4 text-white"
+          style={{ backgroundColor: color, width: '60px' }}
         >
           <span className="text-xs uppercase tracking-wide">{month}</span>
           <span className="text-2xl font-bold">{dayOfMonth}</span>
@@ -47,10 +47,17 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
         </div>
         
         {/* Main content */}
-        <div className="flex-1 p-4">
-          <div className="flex items-center mb-3">
-            <Briefcase className="h-4 w-4 mr-2 text-gray-500" />
-            <h3 className="font-medium text-gray-900">{shift.employer}</h3>
+        <div className="flex-1 min-w-0 p-2 sm:p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <Briefcase className="h-4 w-4 mr-2 text-gray-500" />
+              <h3 className="font-medium text-gray-900">{shift.employer}</h3>
+            </div>
+            {shift.grossPay && (
+              <span className="font-semibold text-gray-900">
+                ${shift.grossPay.toFixed(2)}
+              </span>
+            )}
           </div>
           
           <div className="flex items-center text-sm text-gray-600">
@@ -58,11 +65,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
             <span>{shift.start} - {shift.end} ({durationText})</span>
           </div>
           
-          {shift.pay && (
-            <div className="mt-2 text-right">
-              <span className="font-semibold text-gray-900">${shift.pay.toFixed(2)}</span>
-            </div>
-          )}
+
         </div>
       </div>
     </div>

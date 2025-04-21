@@ -48,9 +48,9 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
           className="flex-none flex flex-col items-center justify-center p-2 sm:p-4 text-white"
           style={{ backgroundColor: color, width: '60px' }}
         >
-          <span className="text-xs uppercase tracking-wide">{month}</span>
+          <span className="text-xs font-semibold tracking-wide">{dayOfWeek}</span>
           <span className="text-2xl font-bold">{dayOfMonth}</span>
-          <span className="text-sm font-medium">{dayOfWeek}</span>
+          <span className="text-xs uppercase tracking-wide">{month}</span>
         </div>
         
         {/* Main content */}

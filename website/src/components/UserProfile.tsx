@@ -15,10 +15,10 @@ const UserProfile: React.FC = () => {
           <img 
             src={user.picture} 
             alt={user.name} 
-            className="w-10 h-10 rounded-full object-cover border-2 border-indigo-100"
+            className="w-10 h-10 rounded-full object-cover border-2 border-blue-100"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold">
+          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
             {user.name.charAt(0)}
           </div>
         )}

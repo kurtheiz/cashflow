@@ -66,7 +66,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
                 </p>
               )}
               {shift.isPublicHoliday && (
-                <p className="text-xs text-indigo-600 font-medium mt-1">Public Holiday</p>
+                <p className="text-xs text-blue-600 font-medium mt-1">Public Holiday</p>
               )}
             </div>
           </div>
@@ -119,7 +119,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
       
       {/* Actions Section */}
       <div className="flex space-x-3 pt-2">
-        <button className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
           Edit Shift
         </button>
         <button className="flex-1 bg-white text-red-600 py-2 px-4 border border-red-300 rounded-md text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">

@@ -73,19 +73,19 @@ const BottomToolbar: React.FC = () => {
               className={`
                 flex flex-col items-center justify-center w-full h-full
                 md:flex-row md:justify-center md:items-center md:w-auto md:h-auto md:px-2 md:py-0
-                ${item.active ? 'text-indigo-600' : 'text-gray-500'}
+                ${item.active ? 'text-blue-600' : 'text-gray-500'}
               `}
             >
               {item.label === 'Me' && user?.picture ? (
                 <img
                   src={user.picture}
                   alt="User avatar"
-                  className={`h-5 w-5 rounded-full bg-transparent ${item.active ? 'ring-2 ring-indigo-600' : ''}`}
+                  className={`h-5 w-5 rounded-full bg-transparent ${item.active ? 'ring-2 ring-blue-600' : ''}`}
                   style={{ objectFit: 'cover' }}
                 />
               ) : (
                 <item.icon
-                  className={`h-5 w-5 ${item.active ? 'text-indigo-600' : 'text-gray-500'}`}
+                  className={`h-5 w-5 ${item.active ? 'text-blue-600' : 'text-gray-500'}`}
                   fill={item.active ? 'currentColor' : 'none'}
                   strokeWidth={item.active ? 1.5 : 2}
                 />

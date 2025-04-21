@@ -62,7 +62,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
     return (
       <div className={className}>
         <button 
-          className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
+          className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2"
           disabled
         >
           <span>Loading...</span>
@@ -79,7 +79,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
           Google Sign-In may be blocked by your browser settings or network.
         </div>
         <button 
-          className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2 w-full"
+          className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2 w-full"
           onClick={() => {
             alert('Please check your browser settings to enable Federated Identity (FedCM) or contact the site administrator.');
           }}

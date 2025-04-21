@@ -19,7 +19,7 @@ const CasualPayLogo: React.FC<CasualPayLogoProps> = ({
   // Color mapping
   const colorMap = {
     default: {
-      primary: 'text-indigo-600',
+      primary: 'text-blue-600',
       secondary: 'text-green-500',
       accent: 'text-yellow-500'
     },

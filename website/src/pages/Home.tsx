@@ -25,7 +25,7 @@ const Home = () => {
                   <GoogleLoginButton />
                 </div>
               ) : (
-                <a href="/overview" className="bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
+                <a href="#/overview" className="bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
                   Go to Dashboard
                 </a>
               )}
@@ -130,7 +130,7 @@ const Home = () => {
               <GoogleLoginButton />
             </div>
           ) : (
-            <a href="/overview" className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-lg inline-block transition-all">
+            <a href="#/overview" className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-lg inline-block transition-all">
               Go to Dashboard
             </a>
           )}

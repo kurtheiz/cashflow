@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Briefcase } from 'lucide-react';
+import DetailModal from './DetailModal';
+import PayDateDetailContent from './PayDateDetailContent';
 
 interface PayDateCardProps {
   payDate: {
@@ -14,6 +16,14 @@ interface PayDateCardProps {
     payRate?: number;
     tax?: number;
     employeeLevel?: string;
+    awardDescription?: string;
+    sgcPercentage?: number;
+    payCategories?: {
+      category: string;
+      hours: number;
+      rate: number;
+      description: string;
+    }[];
   };
   color?: string;
 }
@@ -22,6 +32,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
   payDate,
   color = '#3b82f6' // Default to blue-500 if no color provided
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const paymentDate = parseISO(payDate.date);
   const dayOfWeek = format(paymentDate, 'EEE');
   const dayOfMonth = format(paymentDate, 'd');
@@ -52,11 +63,16 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
   
   // Format period dates if available
   const periodText = payDate.periodStart && payDate.periodEnd
-    ? `${format(parseISO(payDate.periodStart), 'MMM d')} - ${format(parseISO(payDate.periodEnd), 'MMM d')}`
+    ? `${format(parseISO(payDate.periodStart), 'd MMM')} - ${format(parseISO(payDate.periodEnd), 'd MMM')}`
     : 'Pay period details not available';
   
   return (
-    <div className="overflow-hidden py-2 w-full" style={{ backgroundColor: `${color}10` }}>
+    <>
+      <div 
+        className="overflow-hidden py-2 w-full cursor-pointer hover:bg-gray-100 transition-colors" 
+        style={{ backgroundColor: `${color}10` }}
+        onClick={() => setIsModalOpen(true)}
+      >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
         {/* Left date column */}
         <div 
@@ -92,6 +108,18 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         </div>
       </div>
     </div>
+      
+      {/* Detail Modal */}
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`${payDate.employer} Payment Details`}
+        subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
+        color={color}
+      >
+        <PayDateDetailContent payDate={payDate} />
+      </DetailModal>
+    </>
   );
 };
 

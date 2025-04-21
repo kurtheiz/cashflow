@@ -9,7 +9,7 @@ const BottomToolbar: React.FC = () => {
   
   // Helper function to determine if a path is active
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return location.pathname === path || location.hash === `#${path}`;
   };
   
   // Define navigation items

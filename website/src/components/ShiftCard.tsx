@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Clock, Briefcase } from 'lucide-react';
+import DetailModal from './DetailModal';
+import ShiftDetailContent from './ShiftDetailContent';
 
 interface ShiftCardProps {
   shift: {
@@ -18,6 +20,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
   shift,
   color = '#3b82f6' // Default to blue-500 if no color provided
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const shiftDate = parseISO(shift.date);
   const dayOfWeek = format(shiftDate, 'EEE');
   const dayOfMonth = format(shiftDate, 'd');
@@ -34,7 +37,11 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
   const durationText = `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
   
   return (
-    <div className="bg-white overflow-hidden py-2 w-full">
+    <>
+      <div 
+        className="bg-white overflow-hidden py-2 w-full cursor-pointer hover:bg-gray-50 transition-colors"
+        onClick={() => setIsModalOpen(true)}
+      >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
         {/* Left date column */}
         <div 
@@ -69,6 +76,18 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
         </div>
       </div>
     </div>
+      
+      {/* Detail Modal */}
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`${shift.employer} Shift Details`}
+        subtitle={format(shiftDate, 'EEEE, d MMMM yyyy')}
+        color={color}
+      >
+        <ShiftDetailContent shift={shift} />
+      </DetailModal>
+    </>
   );
 };
 

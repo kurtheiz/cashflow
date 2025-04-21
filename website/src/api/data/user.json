@@ -1,10 +1,14 @@
 {
+    "user": "demo_user",
+    "name": "Demo User",
     "employers": [
         {
             "id" : "PETBARN",
             "name": "Petbarn",
             "state": "VIC",
             "level": "retail_employee_level_1",
+            "awardDescription": "General Retail Industry Award Level 1",
+            "sgcPercentage": 11.5,
             "taxFreeThreshold": true,
             "paycycle": "weekly",
             "payday": "Wednesday",
@@ -19,6 +23,8 @@
             "name": "EQ Saddlery",
             "state": "VIC",
             "level": "retail_employee_level_1",
+            "awardDescription": "General Retail Industry Award Level 1",
+            "sgcPercentage": 11.5,
             "taxFreeThreshold": true,
             "paycycle": "fortnightly",
             "payday": "Thursday",

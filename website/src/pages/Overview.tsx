@@ -179,7 +179,10 @@ const Overview = () => {
                             hours: payDate.totalHours,
                             payRate: payDate.payCategories[0]?.rate || 0,
                             tax: payDate.tax,
-                            employeeLevel: employer.level
+                            employeeLevel: employer.level,
+                            awardDescription: employer.awardDescription,
+                            sgcPercentage: employer.sgcPercentage,
+                            payCategories: payDate.payCategories
                           }} 
                           color={employer.color} 
                         />

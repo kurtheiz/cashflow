@@ -142,6 +142,9 @@ const UpcomingSchedule: React.FC = () => {
                     payRate: (item.data as PayPeriod).payCategories[0]?.rate || 0,
                     tax: (item.data as PayPeriod).tax,
                     employeeLevel: userData.employers.find((e: any) => e.id === item.employerId)?.level,
+                    awardDescription: userData.employers.find((e: any) => e.id === item.employerId)?.awardDescription,
+                    sgcPercentage: userData.employers.find((e: any) => e.id === item.employerId)?.sgcPercentage,
+                    payCategories: (item.data as PayPeriod).payCategories
                   }} 
                   color={item.color} 
                 />

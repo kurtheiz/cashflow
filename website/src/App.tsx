@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Overview from './pages/Overview';
 import Shifts from './pages/Shifts';
@@ -32,7 +32,7 @@ function AppContent() {
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center">
-            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+            <a href="#/" className="cursor-pointer hover:opacity-80 transition-opacity">
               <CasualPayLogo size="medium" variant="default" />
             </a>
           </div>

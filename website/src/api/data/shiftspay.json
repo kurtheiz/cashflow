@@ -114,7 +114,7 @@
             "employer": "Petbarn",
             "start": "09:30",
             "end": "17:30",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {"category": "ordinary", "hours": 8.0, "rate": 32.06}
@@ -129,7 +129,7 @@
             "employer": "Petbarn",
             "start": "09:45",
             "end": "17:15",
-            "hoursWorked": 7.5,
+            "hoursWorked": 7.0,
             "isPublicHoliday": true,
             "payCategories": [
                 {"category": "public_holiday", "hours": 7.5, "rate": 64.13, "description": "Public holiday (double pay)"}
@@ -159,7 +159,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},

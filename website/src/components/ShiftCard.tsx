@@ -12,6 +12,7 @@ interface ShiftCardProps {
     start: string;
     end: string;
     grossPay?: number;
+    hoursWorked?: number;
   };
   color?: string;
 }
@@ -26,15 +27,17 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
   const dayOfMonth = format(shiftDate, 'd');
   const month = format(shiftDate, 'MMM');
   
-  // Calculate shift duration
-  const startParts = shift.start.split(':').map(Number);
-  const endParts = shift.end.split(':').map(Number);
-  const startMinutes = startParts[0] * 60 + startParts[1];
-  const endMinutes = endParts[0] * 60 + endParts[1];
-  const durationMinutes = endMinutes - startMinutes;
-  const hours = Math.floor(durationMinutes / 60);
-  const minutes = durationMinutes % 60;
-  const durationText = `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
+  // Use hoursWorked from data
+  let durationText = '';
+  if (typeof shift.hoursWorked === 'number') {
+    const hours = Math.floor(shift.hoursWorked);
+    const minutes = Math.round((shift.hoursWorked - hours) * 60);
+    if (minutes === 0) {
+      durationText = `${hours}h`;
+    } else {
+      durationText = `${hours}h ${minutes}m`;
+    }
+  }
   
   return (
     <>
@@ -66,7 +69,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
           
           <div className="flex items-center text-sm text-gray-600">
             <Clock className="h-4 w-4 mr-2 text-gray-400" />
-            <span>{shift.start} - {shift.end} ({durationText})</span>
+            <span>{shift.start} - {shift.end}{durationText ? ` (${durationText})` : ''}</span>
           </div>
           
 

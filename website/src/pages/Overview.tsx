@@ -50,14 +50,15 @@ const Overview = () => {
     if (!shiftsData) return {};
     
     const result: Record<string, Shift> = {};
-    const today = new Date();
-    
+    // Use local time provided by user as 'now'
+    const now = new Date('2025-04-21T18:06:42+10:00');
     // Group shifts by employer
     const shiftsByEmployer: Record<string, Shift[]> = {};
     
     shiftsData.forEach((shift: any) => {
-      const shiftDate = new Date(shift.date);
-      if (isAfter(shiftDate, today) || shiftDate.toDateString() === today.toDateString()) {
+      // Combine date and start time into a Date object
+      const shiftStart = new Date(`${shift.date}T${shift.start}`);
+      if (shiftStart > now) {
         if (!shiftsByEmployer[shift.employerId]) {
           shiftsByEmployer[shift.employerId] = [];
         }
@@ -69,11 +70,12 @@ const Overview = () => {
     userData.employers.forEach(employer => {
       const employerShifts = shiftsByEmployer[employer.id] || [];
       if (employerShifts.length > 0) {
-        // Sort shifts by date
+        // Sort shifts by start datetime
         employerShifts.sort((a, b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
+          const aStart = new Date(`${a.date}T${a.start}`);
+          const bStart = new Date(`${b.date}T${b.start}`);
+          return aStart.getTime() - bStart.getTime();
         });
-        
         // Get the next shift
         result[employer.id] = employerShifts[0];
       }
@@ -113,7 +115,7 @@ const Overview = () => {
   }, [payPeriodsData]);
   
   return (
-    <div className="w-full px-0 sm:px-4" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
+    <div className="w-full px-0 sm:px-4" style={{ backgroundColor: '#fff' }}>
       <div className="w-full lg:max-w-4xl mx-auto">
         <div className="text-center pt-4 pb-8">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -134,20 +136,13 @@ const Overview = () => {
                 <div className="w-full">
                   {userData.employers.map((employer: any) => {
                     const nextShift = nextShiftsByEmployer[employer.id];
-                    
-                    return nextShift ? (
+                    if (!nextShift) return null;
+                    return (
                       <div key={`shift-${employer.id}`} className="w-full">
                         <ShiftCard 
                           shift={nextShift} 
                           color={employer.color} 
                         />
-                      </div>
-                    ) : (
-                      <div 
-                        key={`shift-${employer.id}`} 
-                        className="bg-white p-4 text-center text-gray-500 w-full"
-                      >
-                        No upcoming shifts for {employer.name}
                       </div>
                     );
                   })}

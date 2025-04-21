@@ -16,27 +16,11 @@ const CasualPayLogo: React.FC<CasualPayLogoProps> = ({
     large: { height: 50, fontSize: 'text-lg' }
   };
   
-  // Color mapping
-  const colorMap = {
-    default: {
-      primary: 'text-blue-600',
-      secondary: 'text-green-500',
-      accent: 'text-yellow-500'
-    },
-    monochrome: {
-      primary: 'text-gray-800',
-      secondary: 'text-gray-600',
-      accent: 'text-gray-700'
-    },
-    light: {
-      primary: 'text-white',
-      secondary: 'text-gray-200',
-      accent: 'text-yellow-300'
-    }
-  };
-  
   const { height, fontSize } = sizeMap[size];
-  const { primary, secondary, accent } = colorMap[variant];
+  // Force all logo and text to white
+  const primary = 'text-white';
+  const secondary = 'text-white';
+  const accent = 'text-white';
   
   return (
     <div className="flex items-center" style={{ height: `${height}px` }}>
@@ -54,31 +38,31 @@ const CasualPayLogo: React.FC<CasualPayLogoProps> = ({
             cx="12" 
             cy="12" 
             r="10" 
-            className={`fill-current ${secondary} opacity-20`} 
+            className="fill-current text-white opacity-20" 
           />
           <path 
             d="M12 6V12L16 14" 
             stroke="currentColor" 
             strokeWidth="2" 
             strokeLinecap="round" 
-            className={`stroke-current ${primary}`}
+            className="stroke-current text-white"
           />
           <path 
             d="M12 6L8 9" 
             stroke="currentColor" 
             strokeWidth="2" 
             strokeLinecap="round" 
-            className={`stroke-current ${accent}`}
+            className="stroke-current text-white"
           />
         </svg>
       </div>
       
       {/* Text */}
       <div className="flex items-baseline">
-        <span className={`font-bold ${primary} ${fontSize}`}>
+        <span className={`font-bold text-white ${fontSize}`}>
           Casual
         </span>
-        <span className={`font-bold ${accent} ${fontSize} ml-1`}>
+        <span className={`font-bold text-white ${fontSize} ml-1`}>
           Pay
         </span>
       </div>

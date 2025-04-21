@@ -70,22 +70,22 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
     : 'Pay period details not available';
   
   return (
-    <>
+    <div className="relative">
+      {/* PAY badge */}
+      <span className="absolute bottom-4 right-4 text-white text-xs px-2 py-1 rounded z-0" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }}>PAY</span>
       <div 
-        className="overflow-hidden py-2 w-full cursor-pointer hover:bg-gray-100 transition-colors" 
-        style={{ backgroundColor: `${color}10` }}
+        className="overflow-hidden py-2 w-full cursor-pointer bg-white hover:bg-gray-50 transition-colors" 
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
         {/* Left date column */}
-        <div 
-          className="flex-none flex flex-col items-center justify-center p-2 sm:p-4 text-white"
-          style={{ backgroundColor: color, width: '60px' }}
-        >
-          <span className="text-xs font-semibold tracking-wide">{dayOfWeek}</span>
-          <span className="text-2xl font-bold">{dayOfMonth}</span>
-          <span className="text-xs uppercase tracking-wide">{month}</span>
+        <div className="flex flex-col items-center justify-center w-16 sm:w-20 py-2 rounded-l-lg text-white" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }}>
+          <span className="text-xs font-medium uppercase tracking-wide">{dayOfWeek}</span>
+          <span className="text-2xl font-bold leading-none">{dayOfMonth}</span>
+          <span className="text-xs font-medium uppercase tracking-wide">{month}</span>
         </div>
+        {/* Vertical dark blue strip extending from date column */}
+        <div className="h-full w-2" style={{ backgroundColor: 'oklch(70.7% 0.165 254.624)' }} />
         
         {/* Main content */}
         <div className="flex-1 min-w-0 p-2 sm:p-4">
@@ -118,11 +118,11 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         onClose={() => setIsModalOpen(false)}
         title={`${payDate.employer} Payment Details`}
         subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
-        color={color}
+        color={'oklch(70.7% 0.165 254.624)'}
       >
         <PayDateDetailContent payDate={payDate} />
       </DetailModal>
-    </>
+    </div>
   );
 };
 

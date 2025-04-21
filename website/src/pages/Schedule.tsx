@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import UpcomingSchedule from '../components/UpcomingSchedule';
-import { Filter } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 
 const Schedule: React.FC = () => {
   const { user } = useAuth();
@@ -11,14 +11,14 @@ const Schedule: React.FC = () => {
       <div className="w-full lg:max-w-4xl mx-auto">
       
         {/* Toolbar strip */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-100 py-3 px-4 flex justify-between items-center -mt-4">
-          <div className="text-lg font-medium">Schedule</div>
+        <div className="sticky top-0 z-10 bg-blue-800 border-b border-blue-900 py-3 px-4 flex justify-between items-center -mt-4">
+          <div className="text-lg font-medium text-white">Schedule</div>
           <button 
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Filter"
             onClick={() => {}}
           >
-            <Filter className="h-5 w-5 text-gray-700" />
+            <SlidersHorizontal className="h-5 w-5 text-white" />
           </button>
         </div>
         

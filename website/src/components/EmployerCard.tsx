@@ -25,8 +25,7 @@ const EmployerCard: React.FC<EmployerCardProps> = ({ employer }) => {
     <div className="bg-white rounded-none sm:rounded-lg shadow overflow-hidden">
       {/* Header with employer name and color */}
       <div 
-        className="py-4 px-5 flex items-center justify-between"
-        style={{ backgroundColor: employer.color }}
+        className="py-4 px-5 flex items-center justify-between bg-blue-800"
       >
         <h3 className="text-xl font-semibold text-white">{employer.name}</h3>
         <span className="text-sm text-white bg-white bg-opacity-20 px-2 py-1 rounded">

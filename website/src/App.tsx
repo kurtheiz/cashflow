@@ -30,8 +30,8 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Simple header with just the logo */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto max-w-screen-md px-4 py-3 flex justify-between items-center">
+      <header className="bg-blue-800 shadow-sm">
+        <div className="container mx-auto max-w-screen-md px-4 py-3 flex justify-between items-center text-white">
           <div className="flex items-center">
             <a href="#/" className="cursor-pointer hover:opacity-80 transition-opacity">
               <CasualPayLogo size="medium" variant="default" />
@@ -44,7 +44,7 @@ function AppContent() {
               <GoogleLoginButton />
             )}
             {/* Show BottomToolbar in header on desktop only */}
-            <div className="hidden md:block">
+            <div className="hidden md:block bg-blue-800 text-white rounded-md">
               {showToolbar && <BottomToolbar />}
             </div>
           </div>
@@ -100,7 +100,7 @@ function AppContent() {
       </main>
       
       {/* Bottom Toolbar - only shown for logged-in users or on non-home pages, mobile only */}
-      <div className="md:hidden">
+      <div className="md:hidden bg-blue-800 text-white rounded-md">
         {showToolbar && <BottomToolbar />}
       </div>
     </div>

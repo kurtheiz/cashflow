@@ -17,7 +17,7 @@ const DetailModal: React.FC<DetailModalProps> = ({
   title,
   subtitle,
   children,
-  color = '#3b82f6' // Default to blue-500 if no color provided
+  color = 'oklch(70.7% 0.165 254.624)' // Default to new blue if no color provided
 }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -53,19 +53,19 @@ const DetailModal: React.FC<DetailModalProps> = ({
                   <div>
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-white"
+                      className="text-lg font-medium leading-6 text-black"
                     >
                       {title}
                     </Dialog.Title>
                     {subtitle && (
-                      <p className="text-sm text-white text-opacity-90 mt-1">
+                      <p className="text-sm text-black text-opacity-90 mt-1">
                         {subtitle}
                       </p>
                     )}
                   </div>
                   <button
                     type="button"
-                    className="rounded-full p-1 text-white hover:bg-white hover:bg-opacity-20 focus:outline-none"
+                    className="rounded-full p-1 text-black hover:bg-black hover:bg-opacity-10 focus:outline-none"
                     onClick={onClose}
                   >
                     <X className="h-5 w-5" />

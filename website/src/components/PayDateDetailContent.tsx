@@ -93,7 +93,7 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
             {Array.isArray(payDate.shiftDates) && payDate.shiftDates.length > 0 && (
               <div className="mt-2">
                 <div className="flex items-center justify-between mb-1">
-                  <div className="text-sm text-gray-500">Shifts Worked</div>
+                  <div className="text-sm text-gray-500">Shifts</div>
                   <div className="text-sm font-medium text-gray-900">{payDate.shiftDates.length} shift{payDate.shiftDates.length > 1 ? 's' : ''}</div>
                 </div>
                 <ul className="ml-2 list-disc text-xs text-gray-600">
@@ -107,7 +107,7 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
             {(!payDate.shiftDates || payDate.shiftDates.length === 0) && Array.isArray(payDate.shifts) && payDate.shifts.length > 0 && (
               <div className="mt-2">
                 <div className="flex items-center justify-between mb-1">
-                  <div className="text-sm text-gray-500">Shifts Worked</div>
+                  <div className="text-sm text-gray-500">Shifts</div>
                   <div className="text-sm font-medium text-gray-900">{payDate.shifts.length} shift{payDate.shifts.length > 1 ? 's' : ''}</div>
                 </div>
               </div>

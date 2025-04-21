@@ -83,7 +83,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
         <div className="bg-gray-50 rounded-lg p-4 space-y-4">
           {/* Hours and Rate */}
           <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-500">Hours Worked</div>
+            <div className="text-sm text-gray-500">Hours</div>
             <div className="text-sm font-medium text-gray-900">{hoursWorked.toFixed(2)}</div>
           </div>
           
@@ -119,7 +119,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
       
       {/* Actions Section */}
       <div className="flex space-x-3 pt-2">
-        <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <button className="flex-1 system-blue-bg text-white py-2 px-4 rounded-md text-sm font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2" style={{ backgroundColor: 'var(--system-blue)' }}>
           Edit Shift
         </button>
         <button className="flex-1 bg-white text-red-600 py-2 px-4 border border-red-300 rounded-md text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">

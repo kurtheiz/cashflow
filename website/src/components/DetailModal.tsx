@@ -55,18 +55,17 @@ const DetailModal: React.FC<DetailModalProps> = ({
             >
               <Dialog.Panel className="w-full max-w-full sm:max-w-md transform overflow-hidden rounded-none sm:rounded-lg bg-white p-0 text-left align-middle shadow-xl transition-all">
                 <div 
-                  className="relative py-3 px-4 flex items-center justify-between" 
-                  style={{ backgroundColor: 'var(--primary-blue)' }}
+                  className="relative py-3 px-4 flex items-center justify-between bg-blue-50"
                 >
                   <div>
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-black"
+                      className="text-lg font-medium leading-6 text-blue-900"
                     >
                       {title}
                     </Dialog.Title>
                     {subtitle && (
-                      <p className="text-sm text-black text-opacity-90 mt-1">
+                      <p className="text-sm text-blue-900 mt-1">
                         {subtitle}
                       </p>
                     )}

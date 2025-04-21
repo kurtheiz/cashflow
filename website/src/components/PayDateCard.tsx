@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
-import { Briefcase } from 'lucide-react';
+import { DollarSign, CalendarRange } from 'lucide-react';
 import DetailModal from './DetailModal';
 import PayDateDetailContent from './PayDateDetailContent';
 
@@ -74,24 +74,22 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
       {/* PAY badge */}
       
       <div 
-        className="overflow-hidden py-2 w-full cursor-pointer bg-white hover:bg-gray-50 transition-colors" 
+        className="overflow-hidden py-2 w-full cursor-pointer bg-blue-50 border-l-4 border-blue-500 hover:bg-blue-100 transition-colors" 
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
         {/* Left date column: white bg, black text, square primary-blue border */}
-        <div className="flex flex-col items-center justify-center w-16 sm:w-20 bg-white text-black border-2 border-primary-blue">
+        <div className="flex flex-col items-center justify-center w-16 sm:w-20 bg-white text-black border-2 border-gray-200">
           <span className="text-xs font-medium uppercase tracking-wide">{dayOfWeek}</span>
           <span className="text-2xl font-bold leading-none">{dayOfMonth}</span>
           <span className="text-xs font-medium uppercase tracking-wide">{month}</span>
         </div>
-        {/* Vertical dark blue strip extending from date column */}
-        <div className="h-full w-2" style={{ backgroundColor: 'var(--primary-blue)' }} />
-        
+
         {/* Main content */}
         <div className="flex-1 min-w-0 p-2 sm:p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center">
-              <Briefcase className="h-4 w-4 mr-2 text-gray-500" />
+              <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
               <h3 className="font-medium text-gray-900">{payDate.employer} Pay</h3>
             </div>
             <span className="font-semibold text-gray-900">
@@ -101,7 +99,8 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
           
           {payDate.periodStart && payDate.periodEnd && (
             <div className="flex items-center text-sm text-gray-600">
-              <span className="ml-6">Pay period: {periodText}</span>
+              <CalendarRange className="h-4 w-4 mr-2 text-gray-400" />
+              <span>Pay period: {periodText}</span>
             </div>
           )}
           

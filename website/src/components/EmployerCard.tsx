@@ -22,14 +22,13 @@ interface EmployerCardProps {
 
 const EmployerCard: React.FC<EmployerCardProps> = ({ employer }) => {
   return (
-    <div className="bg-white rounded-none sm:rounded-lg shadow overflow-hidden">
+    <div className="bg-white rounded-none sm:rounded-lg overflow-hidden">
       {/* Header with employer name and color */}
       <div 
-        className="py-4 px-5 flex items-center justify-between"
-        style={{ backgroundColor: 'var(--primary-blue)' }}
+        className="py-4 px-5 flex items-center justify-between bg-blue-50"
       >
-        <h3 className="text-xl font-semibold text-white">{employer.name}</h3>
-        <span className="text-sm text-white bg-white bg-opacity-20 px-2 py-1 rounded">
+        <h3 className="text-xl font-semibold text-blue-900">{employer.name}</h3>
+        <span className="text-sm text-blue-900 bg-blue-100 px-2 py-1 rounded">
           {employer.state}
         </span>
       </div>

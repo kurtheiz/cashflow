@@ -16,7 +16,13 @@ type ScheduleItem = {
   color?: string;
 };
 
-const UpcomingSchedule: React.FC = () => {
+interface UpcomingScheduleProps {
+  selectedEmployer: string | null;
+  cardType: 'all' | 'shift' | 'payment';
+  scrollToTodayTrigger?: number;
+}
+
+const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({ selectedEmployer, cardType, scrollToTodayTrigger }) => {
   const today = new Date();
   const currentMonthStart = format(startOfMonth(today), 'yyyy-MM-dd');
   const nextMonthEnd = format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
@@ -85,22 +91,18 @@ const UpcomingSchedule: React.FC = () => {
   }, [shiftsData, payPeriodsData]);
   
   // Scroll to today's date when component mounts, accounting for toolbar height
+  // Scroll to today's date on mount or when triggered by prop
   useEffect(() => {
     if (todayRef.current) {
-      // Get the toolbar height (approximately 56px)
       const toolbarHeight = 56;
-      
-      // Calculate position to scroll to (element position - toolbar height)
       const elementPosition = todayRef.current.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - toolbarHeight;
-      
-      // Scroll to the adjusted position
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
     }
-  }, [scheduleItems]);
+  }, [scheduleItems, scrollToTodayTrigger]);
   
   if (shiftsLoading || payPeriodsLoading) {
     return (
@@ -110,11 +112,17 @@ const UpcomingSchedule: React.FC = () => {
     );
   }
   
+  // Filter items by employer and cardType
+  const filteredScheduleItems = scheduleItems.filter(item => {
+    const employerMatch = !selectedEmployer || item.employerId === selectedEmployer;
+    const typeMatch = cardType === 'all' || item.type === cardType;
+    return employerMatch && typeMatch;
+  });
+
   return (
     <div className="w-full">
-      
       <div className="w-full">
-        {scheduleItems.map((item, index) => {
+        {filteredScheduleItems.map((item, index) => {
           const itemDate = parseISO(item.date);
           const isToday = isSameDay(itemDate, today);
           
@@ -156,7 +164,7 @@ payDate={{
           );
         })}
         
-        {scheduleItems.length === 0 && (
+        {filteredScheduleItems.length === 0 && (
           <div className="w-full p-4 text-center text-gray-500">
             No upcoming shifts or payments scheduled
           </div>

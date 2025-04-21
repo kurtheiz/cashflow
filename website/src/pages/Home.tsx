@@ -7,7 +7,7 @@ const Home = () => {
   const { isLoggedIn } = useAuth();
   
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto max-w-screen-md px-4">
       <div className="max-w-4xl mx-auto">
         {/* Hero section */}
         <div className="relative bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-20 px-4 rounded-2xl overflow-hidden mb-16">

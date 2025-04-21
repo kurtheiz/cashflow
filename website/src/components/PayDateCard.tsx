@@ -24,6 +24,9 @@ interface PayDateCardProps {
       rate: number;
       description: string;
     }[];
+    // Added for pay period shift display:
+    shiftDates?: string[]; // ISO date strings for each shift worked
+    shifts?: string[]; // shift IDs (fallback)
   };
   color?: string;
 }

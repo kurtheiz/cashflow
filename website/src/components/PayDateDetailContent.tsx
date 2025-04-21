@@ -22,6 +22,9 @@ interface PayDateDetailContentProps {
       rate: number;
       description: string;
     }[];
+    // Added for pay period shift display:
+    shiftDates?: string[]; // ISO date strings for each shift worked
+    shifts?: string[]; // shift IDs (fallback)
   };
 }
 
@@ -82,10 +85,33 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
               <div className="text-sm text-gray-500">Start Date</div>
               <div className="text-sm font-medium text-gray-900">{periodStartFormatted}</div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mb-2">
               <div className="text-sm text-gray-500">End Date</div>
               <div className="text-sm font-medium text-gray-900">{periodEndFormatted}</div>
             </div>
+            {/* Number of shifts and dates worked */}
+            {Array.isArray(payDate.shiftDates) && payDate.shiftDates.length > 0 && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-sm text-gray-500">Shifts Worked</div>
+                  <div className="text-sm font-medium text-gray-900">{payDate.shiftDates.length} shift{payDate.shiftDates.length > 1 ? 's' : ''}</div>
+                </div>
+                <ul className="ml-2 list-disc text-xs text-gray-600">
+                  {payDate.shiftDates.map((d: string, i: number) => (
+                    <li key={i}>{format(parseISO(d), 'EEEE, d MMM yyyy')}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Fallback if only shift IDs are present */}
+            {(!payDate.shiftDates || payDate.shiftDates.length === 0) && Array.isArray(payDate.shifts) && payDate.shifts.length > 0 && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-sm text-gray-500">Shifts Worked</div>
+                  <div className="text-sm font-medium text-gray-900">{payDate.shifts.length} shift{payDate.shifts.length > 1 ? 's' : ''}</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

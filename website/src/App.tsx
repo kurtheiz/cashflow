@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Overview from './pages/Overview';
 import Shifts from './pages/Shifts';
 import Schedule from './pages/Schedule';
+import Employers from './pages/Employers';
 import Me from './pages/Me';
 import { useEffect } from 'react';
 import CasualPayLogo from './components/CasualPayLogo';
@@ -30,7 +31,7 @@ function AppContent() {
     <div className="min-h-screen bg-gray-50">
       {/* Simple header with just the logo */}
       <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div className="container mx-auto max-w-screen-md px-4 py-3 flex justify-between items-center">
           <div className="flex items-center">
             <a href="#/" className="cursor-pointer hover:opacity-80 transition-opacity">
               <CasualPayLogo size="medium" variant="default" />
@@ -38,11 +39,15 @@ function AppContent() {
           </div>
           
           {/* Only show login button if not logged in and not on home page */}
-          {!isLoggedIn && !isHomePage && (
-            <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            {!isLoggedIn && !isHomePage && (
               <GoogleLoginButton />
+            )}
+            {/* Show BottomToolbar in header on desktop only */}
+            <div className="hidden md:block">
+              {showToolbar && <BottomToolbar />}
             </div>
-          )}
+          </div>
         </div>
       </header>
       
@@ -72,10 +77,7 @@ function AppContent() {
           } />
           <Route path="/employers" element={
             <ProtectedRoute>
-              <div className="container mx-auto px-4 py-8">
-                <h1 className="text-2xl font-bold">Employers</h1>
-                <p className="mt-4">This page is under construction.</p>
-              </div>
+              <Employers />
             </ProtectedRoute>
           } />
           <Route path="/calendar" element={
@@ -97,8 +99,10 @@ function AppContent() {
         </Routes>
       </main>
       
-      {/* Bottom Toolbar - only shown for logged-in users or on non-home pages */}
-      {showToolbar && <BottomToolbar />}
+      {/* Bottom Toolbar - only shown for logged-in users or on non-home pages, mobile only */}
+      <div className="md:hidden">
+        {showToolbar && <BottomToolbar />}
+      </div>
     </div>
   );
 }

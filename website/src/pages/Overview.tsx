@@ -9,6 +9,7 @@ import { api as mockApi } from '../api/mockApi';
 import { Shift, EmployerPayPeriods, PayPeriod } from '../api/mockApi';
 
 const Overview = () => {
+
   const { user } = useAuth();
   
   // Function to get a greeting based on time of day
@@ -169,7 +170,7 @@ const Overview = () => {
                     return payDate ? (
                       <div key={`pay-${employer.id}`} className="w-full">
                         <PayDateCard 
-                          payDate={{
+payDate={{
                             date: payDate.payDate,
                             employerId: employer.id,
                             employer: employer.name,
@@ -182,7 +183,10 @@ const Overview = () => {
                             employeeLevel: employer.level,
                             awardDescription: employer.awardDescription,
                             sgcPercentage: employer.sgcPercentage,
-                            payCategories: payDate.payCategories
+                            payCategories: payDate.payCategories,
+                            // Use shifts directly as shiftDates since they are already date strings
+                            shiftDates: Array.isArray(payDate.shifts) ? payDate.shifts : [],
+                            shifts: payDate.shifts
                           }} 
                           color={employer.color} 
                         />

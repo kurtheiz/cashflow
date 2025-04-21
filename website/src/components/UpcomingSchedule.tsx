@@ -131,7 +131,7 @@ const UpcomingSchedule: React.FC = () => {
                 />
               ) : (
                 <PayDateCard 
-                  payDate={{
+payDate={{
                     date: (item.data as PayPeriod).payDate,
                     employerId: item.employerId,
                     employer: item.employer,
@@ -144,7 +144,10 @@ const UpcomingSchedule: React.FC = () => {
                     employeeLevel: userData.employers.find((e: any) => e.id === item.employerId)?.level,
                     awardDescription: userData.employers.find((e: any) => e.id === item.employerId)?.awardDescription,
                     sgcPercentage: userData.employers.find((e: any) => e.id === item.employerId)?.sgcPercentage,
-                    payCategories: (item.data as PayPeriod).payCategories
+                    payCategories: (item.data as PayPeriod).payCategories,
+                    // Add shift dates directly from the period's shifts array
+                    shiftDates: Array.isArray((item.data as PayPeriod).shifts) ? (item.data as PayPeriod).shifts : [],
+                    shifts: (item.data as PayPeriod).shifts
                   }} 
                   color={item.color} 
                 />

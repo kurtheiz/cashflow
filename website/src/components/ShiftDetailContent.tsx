@@ -1,9 +1,14 @@
-import React from 'react';
-// No longer need date-fns imports
-import { Clock } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Clock, Save } from 'lucide-react';
+import { Calendar } from 'primereact/calendar';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { api } from '../api/mockApi';
+import { Toast } from 'primereact/toast';
 
 interface ShiftDetailContentProps {
   shift: {
+    id?: string;
     date: string;
     employerId: string;
     employer: string;
@@ -24,18 +29,129 @@ interface ShiftDetailContentProps {
 }
 
 const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
+  // Create a ref for the toast
+  const toast = React.useRef<Toast>(null);
+
+  // State for time pickers
+  const [currentStartTime, setCurrentStartTime] = useState(shift.start);
+  const [currentEndTime, setCurrentEndTime] = useState(shift.end);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  // Parse the start and end times into Date objects for the time pickers
+  const startTime = useMemo(() => {
+    const [hours, minutes] = shift.start.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }, [shift.start]);
+
+  const endTime = useMemo(() => {
+    const [hours, minutes] = shift.end.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }, [shift.end]);
+
+  // State for the time pickers
+  const [startTimeState, setStartTimeState] = useState(startTime);
+  const [endTimeState, setEndTimeState] = useState(endTime);
+
+  // Create a hash of the original times for comparison
+  const originalTimeHash = useMemo(() => {
+    return `${shift.start}-${shift.end}`;
+  }, [shift.start, shift.end]);
+
+  // Calculate time in minutes for duration calculations
+  const startMinutes = startTimeState.getHours() * 60 + startTimeState.getMinutes();
+  const endMinutes = endTimeState.getHours() * 60 + endTimeState.getMinutes();
+
+  // Calculate the updated hours worked based on the new times
+  const updatedHoursWorked = useMemo(() => {
+    const updatedDurationMinutes = endMinutes - startMinutes - (shift.unpaidBreakMinutes || 0);
+    return updatedDurationMinutes / 60;
+  }, [endMinutes, startMinutes, shift.unpaidBreakMinutes]);
+
+  // Create a hash of the current times for comparison
+  const currentTimeHash = useMemo(() => {
+    return `${currentStartTime}-${currentEndTime}`;
+  }, [currentStartTime, currentEndTime]);
+
+  // Update the current times when the time pickers change
+  useEffect(() => {
+    const formattedStartTime = startTimeState.getHours().toString().padStart(2, '0') + ':' + 
+                              startTimeState.getMinutes().toString().padStart(2, '0');
+    setCurrentStartTime(formattedStartTime);
+  }, [startTimeState]);
+
+  useEffect(() => {
+    const formattedEndTime = endTimeState.getHours().toString().padStart(2, '0') + ':' + 
+                            endTimeState.getMinutes().toString().padStart(2, '0');
+    setCurrentEndTime(formattedEndTime);
+  }, [endTimeState]);
+
+  // Check for changes
+  useEffect(() => {
+    setHasChanges(currentTimeHash !== originalTimeHash);
+  }, [currentTimeHash, originalTimeHash]);
+
+  // Handle save action
+  const handleSave = async () => {
+    if (hasChanges) {
+      try {
+        // Show loading state
+        const updatedShift = {
+          ...shift,
+          start: currentStartTime,
+          end: currentEndTime,
+          hoursWorked: updatedHoursWorked // Update hours worked based on new times
+        };
+        
+        // Call the API to update the shift
+        const response = await api.updateShift(shift.id || '', updatedShift);
+        
+        if (response.status === 200) {
+          // Show success message
+          toast.current?.show({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Shift times updated successfully',
+            life: 3000
+          });
+          
+          // Reset the hasChanges state
+          setHasChanges(false);
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        console.error('Error saving shift:', error);
+        // Show error message
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update shift times',
+          life: 3000
+        });
+      }
+    }
+  };
+
+  // Calculate shift duration based on original times (for display)
+  const originalStartMinutes = startTime.getHours() * 60 + startTime.getMinutes();
+  const originalEndMinutes = endTime.getHours() * 60 + endTime.getMinutes();
+  let durationMinutes = originalEndMinutes - originalStartMinutes;
+  if (durationMinutes < 0) durationMinutes += 24 * 60; // Handle overnight shifts
   
-  // Calculate shift duration
-  const startParts = shift.start.split(':').map(Number);
-  const endParts = shift.end.split(':').map(Number);
-  const startMinutes = startParts[0] * 60 + startParts[1];
-  const endMinutes = endParts[0] * 60 + endParts[1];
-  const durationMinutes = endMinutes - startMinutes - (shift.unpaidBreakMinutes || 0);
+  // Subtract unpaid break if applicable
+  if (shift.unpaidBreakMinutes) {
+    durationMinutes -= shift.unpaidBreakMinutes;
+  }
+
   const hours = Math.floor(durationMinutes / 60);
   const minutes = durationMinutes % 60;
   const durationText = `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
-  
-  // Use provided hours or calculate
+
+  // Use provided hours or calculate from current time picker values
   const hoursWorked = shift.hoursWorked || (durationMinutes / 60);
   
   // Use provided pay rate or default
@@ -54,20 +170,67 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
           Time
         </h4>
         <div className="bg-gray-50 p-3">
-          <div className="flex items-center">
-            <Clock className="h-5 w-5 text-gray-400 mr-3" />
-            <div>
-              <p className="text-sm font-medium text-gray-900">
-                {shift.start} - {shift.end} ({durationText})
-              </p>
+          <div className="space-y-3">
+            <div className="flex items-center">
+              <Clock className="h-5 w-5 text-gray-400 mr-3" />
+              <div className="text-sm font-medium text-gray-900">
+                Duration: {durationText}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="startTime" className="block text-xs font-medium text-gray-700 mb-1">Start Time</label>
+                <Calendar
+                  id="startTime"
+                  value={startTimeState}
+                  onChange={(e) => e.value && setStartTimeState(e.value as Date)}
+                  timeOnly
+                  hourFormat="12"
+                  className="w-full"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="endTime" className="block text-xs font-medium text-gray-700 mb-1">End Time</label>
+                <Calendar
+                  id="endTime"
+                  value={endTimeState}
+                  onChange={(e) => e.value && setEndTimeState(e.value as Date)}
+                  timeOnly
+                  hourFormat="12"
+                  className="w-full"
+                />
+              </div>
+            </div>
+            
+            <div className="pt-2">
               {(shift.unpaidBreakMinutes || 0) > 0 && (
-                <p className="text-xs text-gray-500 mt-1">
-                  {shift.unpaidBreakMinutes} minute unpaid break
-                </p>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="breakTime" className="text-xs font-medium text-gray-700">Unpaid Break</label>
+                  <InputText
+                    id="breakTime"
+                    value={shift.unpaidBreakMinutes?.toString() || '0'}
+                    className="w-20 text-right text-sm"
+                    disabled
+                  />
+                  <span className="text-xs text-gray-500 ml-1">minutes</span>
+                </div>
               )}
+              
               {shift.isPublicHoliday && (
-                <p className="text-xs text-blue-600 font-medium mt-1">Public Holiday</p>
+                <p className="text-xs text-blue-600 font-medium mt-2">Public Holiday</p>
               )}
+              
+              <div className="flex justify-end mt-4">
+                <Button 
+                  label="Save Changes" 
+                  icon={<Save className="w-4 h-4 mr-2" />}
+                  disabled={!hasChanges}
+                  onClick={handleSave}
+                  className={`${!hasChanges ? 'opacity-50 cursor-not-allowed bg-gray-100' : ''}`}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -117,8 +280,15 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
         </div>
       </div>
       
-      {/* Bottom spacing */}
-      <div className="mt-4"></div>
+      {/* Status indicator */}
+      {hasChanges && (
+        <div className="text-sm text-blue-600 italic text-center">
+          You have unsaved changes
+        </div>
+      )}
+      
+      {/* Toast for notifications */}
+      <Toast ref={toast} position="bottom-center" />
     </div>
   );
 };

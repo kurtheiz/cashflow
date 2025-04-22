@@ -10,7 +10,6 @@ interface DetailModalProps {
   children: React.ReactNode;
   color?: string;
   modalType?: 'shift' | 'payDate';
-  onEdit?: () => void;
   onDelete?: () => void;
 }
 
@@ -21,7 +20,6 @@ const DetailModal: React.FC<DetailModalProps> = ({
   subtitle,
   children,
   modalType,
-  onEdit,
   onDelete
 }) => {
   return (
@@ -29,7 +27,9 @@ const DetailModal: React.FC<DetailModalProps> = ({
       visible={isOpen}
       onHide={onClose}
       className="p-0 overflow-hidden"
-      headerClassName="p-0 m-0 overflow-visible"      
+      headerClassName="p-0 m-0 overflow-visible"
+      style={{ width: '100vw', height: '100vh', maxWidth: '100vw', maxHeight: '100vh', margin: 0 }}
+      breakpoints={{ '960px': '100vw', '640px': '100vw' }}
       header={
         <div className="sticky top-0 py-2 px-3 flex items-center justify-between bg-blue-50 z-10 border-b border-blue-100">
           <div>
@@ -55,36 +55,27 @@ const DetailModal: React.FC<DetailModalProps> = ({
       closable={false}
       maskClassName="bg-black bg-opacity-25"
       contentClassName="w-full max-w-full sm:max-w-md bg-white p-0 text-left align-middle shadow-xl transition-all overflow-hidden"
-      style={{ width: '100%', maxWidth: '100%', margin: 0 }}
+      contentStyle={{ borderRadius: 0 }}
       modal
     >
-      <div className="flex flex-col" style={{ height: '100%', maxHeight: '90vh' }}>
+      <div className="flex flex-col" style={{ height: '100%', maxHeight: '100vh' }}>
         <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
-          <div className="px-3 pt-3 pb-16">
+          <div className="px-3 pt-3 pb-2">
             {children}
           </div>
         </div>
         <div className="px-3 py-3 border-t border-gray-200 bg-white mt-auto" style={{ position: 'sticky', bottom: 0, left: 0, right: 0, zIndex: 10 }}>
           {modalType === 'shift' ? (
-            <div className="flex flex-col space-y-2">
-              <div className="flex space-x-2">
-                <button 
-                  onClick={onEdit} 
-                  className="flex-1 py-2.5 px-4 text-white font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                  style={{ backgroundColor: 'var(--system-blue)' }}
-                >
-                  Save
-                </button>
-                <button 
-                  onClick={onDelete} 
-                  className="flex-1 bg-white text-red-600 py-2.5 px-4 border border-red-300 font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-                >
-                  Delete
-                </button>
-              </div>
+            <div className="flex space-x-2">
+              <button 
+                onClick={onDelete} 
+                className="flex-1 bg-white text-red-600 py-2.5 px-4 border border-red-300 font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+              >
+                Delete
+              </button>
               <button 
                 onClick={onClose} 
-                className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+                className="flex-1 py-2.5 px-4 bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
               >
                 Close
               </button>

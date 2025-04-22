@@ -182,9 +182,6 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
           </div>
         </div>
       </div>
-      
-      {/* Bottom spacing */}
-      <div className="mt-4"></div>
     </div>
   );
 };

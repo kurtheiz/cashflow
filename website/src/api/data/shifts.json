@@ -22,6 +22,20 @@
             "end": "17:00"
         },
         {
+            "date": "2025-03-30",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:00"
+        },
+        {
+            "date": "2025-04-06",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:11"
+        },
+        {
             "date": "2025-04-09",
             "employerId": "PETBARN",
             "employer": "Petbarn",
@@ -50,11 +64,25 @@
             "end": "16:00"
         },
         {
+            "date": "2025-04-13",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:00"
+        },
+        {
             "date": "2025-04-17",
             "employerId": "PETBARN",
             "employer": "Petbarn",
             "start": "09:30",
             "end": "17:30"
+        },
+        {
+            "date": "2025-04-19",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:47",
+            "end": "15:00"
         },
         {
             "date": "2025-04-21",

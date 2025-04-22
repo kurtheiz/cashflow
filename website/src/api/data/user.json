@@ -16,7 +16,31 @@
             "payPeriodStart" : "Monday",
             "payPeriodDays" : 7,
             "nextPayDate" : "2025-04-23",
-            "color": "#F7941D"
+            "color": "#F7941D",
+            "applicableAllowances": [
+                {
+                    "name": "First aid allowance",
+                    "enabled": false,
+                    "notes": "First aid certification required"
+                },
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "enabled": true
+                },
+                {
+                    "name": "Cold work allowance - 0°C and above",
+                    "enabled": false,
+                    "notes": "Applies when working in freezer section"
+                },
+                {
+                    "name": "Meal allowance",
+                    "enabled": false
+                },
+                {
+                    "name": "Transport reimbursement - late night or early morning shifts",
+                    "enabled": false
+                }
+            ]
         },
         {
             "id" : "EQSADDLERY",
@@ -32,7 +56,27 @@
             "payPeriodStart" : "Thursday",
             "payPeriodDays" : 14,
             "nextPayDate" : "2025-04-24",
-            "color": "#8B0000"
+            "color": "#8B0000",
+            "applicableAllowances": [
+                {
+                    "name": "Laundry allowance - casual employees",
+                    "enabled": false
+                },
+                {
+                    "name": "Vehicle allowance",
+                    "enabled": false,
+                    "notes": "For deliveries and stock pickups"
+                },
+                {
+                    "name": "Meal allowance",
+                    "enabled": false
+                },
+                {
+                    "name": "Protective or special clothing reimbursement",
+                    "enabled": false,
+                    "notes": "For safety boots and work gloves"
+                }
+            ]
         }
     ]
 }

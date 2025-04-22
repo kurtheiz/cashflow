@@ -37,6 +37,14 @@ interface PayPeriod {
     rate: number;
     description?: string;
   }[];
+  allowances?: {
+    name: string;
+    amount: number;
+    type?: string;
+    notes?: string;
+  }[];
+  allowanceTotal?: number;
+  totalGrossPay?: number;
 }
 
 interface EmployerPayPeriods {

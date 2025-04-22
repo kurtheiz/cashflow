@@ -33,19 +33,25 @@ const UpcomingPayments: React.FC<UpcomingPaymentsProps> = ({
                       date: payDate.payDate,
                       employerId: employer.id,
                       employer: employer.name,
-                      amount: payDate.grossPay,
+                      amount: payDate.grossPay, // Keep for backward compatibility
+                      grossPay: payDate.grossPay,
                       periodStart: payDate.startDate,
                       periodEnd: payDate.endDate,
                       hours: payDate.totalHours,
                       payRate: payDate.payCategories && payDate.payCategories[0]?.rate || 0,
                       tax: payDate.tax,
+                      netPay: payDate.netPay,
                       employeeLevel: employer.level,
                       awardDescription: employer.awardDescription,
                       sgcPercentage: employer.sgcPercentage,
                       payCategories: payDate.payCategories || [],
                       // Use shifts directly as shiftDates since they are already date strings
                       shiftDates: Array.isArray(payDate.shifts) ? payDate.shifts : [],
-                      shifts: payDate.shifts
+                      shifts: payDate.shifts,
+                      // Add allowances data
+                      allowances: payDate.allowances || [],
+                      allowanceTotal: payDate.allowanceTotal || 0,
+                      totalGrossPay: payDate.totalGrossPay || 0
                     }} 
                     color={employer.color} 
                   />

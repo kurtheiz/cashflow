@@ -228,18 +228,24 @@ const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({
                     employerId: item.employerId,
                     employer: item.employer,
                     amount: (item.data as PayPeriod).grossPay,
+                    grossPay: (item.data as PayPeriod).grossPay,
                     periodStart: (item.data as PayPeriod).startDate,
                     periodEnd: (item.data as PayPeriod).endDate,
                     hours: (item.data as PayPeriod).totalHours,
                     payRate: (item.data as PayPeriod).payCategories[0]?.rate || 0,
                     tax: (item.data as PayPeriod).tax,
+                    netPay: (item.data as PayPeriod).netPay,
                     employeeLevel: employers.find((e: any) => e.id === item.employerId)?.level,
                     awardDescription: employers.find((e: any) => e.id === item.employerId)?.awardDescription,
                     sgcPercentage: employers.find((e: any) => e.id === item.employerId)?.sgcPercentage,
                     payCategories: (item.data as PayPeriod).payCategories,
                     // Add shift dates directly from the period's shifts array
                     shiftDates: Array.isArray((item.data as PayPeriod).shifts) ? (item.data as PayPeriod).shifts : [],
-                    shifts: (item.data as PayPeriod).shifts
+                    shifts: (item.data as PayPeriod).shifts,
+                    // Add allowances data
+                    allowances: (item.data as PayPeriod).allowances || [],
+                    allowanceTotal: (item.data as PayPeriod).allowanceTotal || 0,
+                    totalGrossPay: (item.data as PayPeriod).totalGrossPay || 0
                   }} 
                   color={item.color} 
                 />

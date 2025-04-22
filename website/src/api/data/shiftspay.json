@@ -6,7 +6,7 @@
             "employer": "Petbarn",
             "start": "08:15",
             "end": "16:00",
-            "hoursWorked": 7.75,
+            "hoursWorked": 7.25,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -17,7 +17,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 248.47,
+            "grossPay": 232.44,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 233.69,
+            "tax": 0.0,
+            "netPay": 233.69,
             "unpaidBreakMinutes": 30
         },
         {
@@ -26,7 +38,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -43,7 +55,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -52,7 +76,7 @@
             "employer": "Petbarn",
             "start": "09:00",
             "end": "17:00",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -63,7 +87,69 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 256.48,
+            "grossPay": 240.45,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 241.7,
+            "tax": 0.0,
+            "netPay": 241.7,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-03-30",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:00",
+            "hoursWorked": 5.5,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {
+                    "category": "sunday",
+                    "hours": 6.0,
+                    "rate": 44.89,
+                    "description": "Sunday (non-shiftworkers)"
+                }
+            ],
+            "payRate": 44.89,
+            "grossPay": 246.9,
+            "allowances": [],
+            "allowanceTotal": 0,
+            "totalGrossPay": 246.9,
+            "tax": 0.0,
+            "netPay": 246.9,
+            "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-06",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:11",
+            "hoursWorked": 5.68,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {
+                    "category": "sunday",
+                    "hours": 6.18,
+                    "rate": 44.89,
+                    "description": "Sunday (non-shiftworkers)"
+                }
+            ],
+            "payRate": 44.89,
+            "grossPay": 255.12,
+            "allowances": [],
+            "allowanceTotal": 0,
+            "totalGrossPay": 255.12,
+            "tax": 0.0,
+            "netPay": 255.12,
             "unpaidBreakMinutes": 30
         },
         {
@@ -72,7 +158,7 @@
             "employer": "Petbarn",
             "start": "11:00",
             "end": "18:15",
-            "hoursWorked": 7.25,
+            "hoursWorked": 6.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -89,7 +175,19 @@
                 }
             ],
             "payRate": 32.28,
-            "grossPay": 234.04,
+            "grossPay": 217.9,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 219.15,
+            "tax": 0.0,
+            "netPay": 219.15,
             "unpaidBreakMinutes": 30
         },
         {
@@ -98,7 +196,7 @@
             "employer": "Petbarn",
             "start": "09:00",
             "end": "17:00",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -109,7 +207,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 256.48,
+            "grossPay": 240.45,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 241.7,
+            "tax": 0.0,
+            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -118,7 +228,7 @@
             "employer": "Petbarn",
             "start": "12:00",
             "end": "19:15",
-            "hoursWorked": 7.25,
+            "hoursWorked": 6.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -135,7 +245,19 @@
                 }
             ],
             "payRate": 33.17,
-            "grossPay": 240.46,
+            "grossPay": 223.88,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 225.13,
+            "tax": 0.0,
+            "netPay": 225.13,
             "unpaidBreakMinutes": 30
         },
         {
@@ -156,7 +278,44 @@
             ],
             "payRate": 38.48,
             "grossPay": 192.4,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 193.65,
+            "tax": 0.0,
+            "netPay": 193.65,
             "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-04-13",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:00",
+            "end": "16:00",
+            "hoursWorked": 5.5,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {
+                    "category": "sunday",
+                    "hours": 6.0,
+                    "rate": 44.89,
+                    "description": "Sunday (non-shiftworkers)"
+                }
+            ],
+            "payRate": 44.89,
+            "grossPay": 246.9,
+            "allowances": [],
+            "allowanceTotal": 0,
+            "totalGrossPay": 246.9,
+            "tax": 0.0,
+            "netPay": 246.9,
+            "unpaidBreakMinutes": 30
         },
         {
             "date": "2025-04-17",
@@ -164,7 +323,7 @@
             "employer": "Petbarn",
             "start": "09:30",
             "end": "17:30",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -175,8 +334,45 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 256.48,
+            "grossPay": 240.45,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 241.7,
+            "tax": 0.0,
+            "netPay": 241.7,
             "unpaidBreakMinutes": 30
+        },
+        {
+            "date": "2025-04-19",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "10:47",
+            "end": "15:00",
+            "hoursWorked": 4.22,
+            "isPublicHoliday": true,
+            "payCategories": [
+                {
+                    "category": "public_holiday",
+                    "hours": 4.22,
+                    "rate": 64.13,
+                    "description": "Public holiday (non-shiftworkers)"
+                }
+            ],
+            "payRate": 64.13,
+            "grossPay": 270.41,
+            "allowances": [],
+            "allowanceTotal": 0,
+            "totalGrossPay": 270.41,
+            "tax": 0.0,
+            "netPay": 270.41,
+            "unpaidBreakMinutes": 0
         },
         {
             "date": "2025-04-21",
@@ -184,7 +380,7 @@
             "employer": "Petbarn",
             "start": "09:45",
             "end": "17:15",
-            "hoursWorked": 7.5,
+            "hoursWorked": 7.0,
             "isPublicHoliday": true,
             "payCategories": [
                 {
@@ -195,7 +391,19 @@
                 }
             ],
             "payRate": 64.13,
-            "grossPay": 480.97,
+            "grossPay": 448.91,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 450.16,
+            "tax": 14.31,
+            "netPay": 435.85,
             "unpaidBreakMinutes": 30
         },
         {
@@ -216,6 +424,18 @@
             ],
             "payRate": 32.06,
             "grossPay": 160.3,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 161.55,
+            "tax": 0.0,
+            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -224,7 +444,7 @@
             "employer": "EQ Saddlery",
             "start": "9:00",
             "end": "17:30",
-            "hoursWorked": 8.5,
+            "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -235,7 +455,12 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 272.51,
+            "grossPay": 256.48,
+            "allowances": [],
+            "allowanceTotal": 0,
+            "totalGrossPay": 256.48,
+            "tax": 0.0,
+            "netPay": 256.48,
             "unpaidBreakMinutes": 30
         },
         {
@@ -244,7 +469,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -261,7 +486,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -282,6 +519,18 @@
             ],
             "payRate": 32.06,
             "grossPay": 160.3,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 161.55,
+            "tax": 0.0,
+            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -290,7 +539,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -307,7 +556,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -316,7 +577,7 @@
             "employer": "Petbarn",
             "start": "12:15",
             "end": "19:15",
-            "hoursWorked": 7.0,
+            "hoursWorked": 6.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -333,7 +594,19 @@
                 }
             ],
             "payRate": 33.21,
-            "grossPay": 232.45,
+            "grossPay": 215.84,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 217.09,
+            "tax": 0.0,
+            "netPay": 217.09,
             "unpaidBreakMinutes": 30
         },
         {
@@ -354,6 +627,18 @@
             ],
             "payRate": 32.06,
             "grossPay": 160.3,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 161.55,
+            "tax": 0.0,
+            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -362,7 +647,7 @@
             "employer": "Petbarn",
             "start": "08:15",
             "end": "16:30",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -373,7 +658,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 264.5,
+            "grossPay": 248.47,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 249.72,
+            "tax": 0.0,
+            "netPay": 249.72,
             "unpaidBreakMinutes": 30
         },
         {
@@ -382,7 +679,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:00",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -393,7 +690,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 256.48,
+            "grossPay": 240.45,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 241.7,
+            "tax": 0.0,
+            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -414,6 +723,18 @@
             ],
             "payRate": 38.48,
             "grossPay": 192.4,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 193.65,
+            "tax": 0.0,
+            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         },
         {
@@ -422,7 +743,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -439,7 +760,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -448,7 +781,7 @@
             "employer": "Petbarn",
             "start": "08:15",
             "end": "16:30",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -459,7 +792,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 264.5,
+            "grossPay": 248.47,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 249.72,
+            "tax": 0.0,
+            "netPay": 249.72,
             "unpaidBreakMinutes": 30
         },
         {
@@ -468,7 +813,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:00",
-            "hoursWorked": 8.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -479,7 +824,19 @@
                 }
             ],
             "payRate": 32.06,
-            "grossPay": 256.48,
+            "grossPay": 240.45,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 241.7,
+            "tax": 0.0,
+            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -500,6 +857,18 @@
             ],
             "payRate": 38.48,
             "grossPay": 192.4,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 193.65,
+            "tax": 0.0,
+            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         },
         {
@@ -508,7 +877,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -525,7 +894,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -534,7 +915,7 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 8.25,
+            "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -551,7 +932,19 @@
                 }
             ],
             "payRate": 32.25,
-            "grossPay": 266.1,
+            "grossPay": 249.97,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 251.22,
+            "tax": 0.0,
+            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -560,7 +953,7 @@
             "employer": "Petbarn",
             "start": "12:00",
             "end": "19:15",
-            "hoursWorked": 7.25,
+            "hoursWorked": 6.75,
             "isPublicHoliday": false,
             "payCategories": [
                 {
@@ -577,7 +970,19 @@
                 }
             ],
             "payRate": 33.17,
-            "grossPay": 240.46,
+            "grossPay": 223.88,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 225.13,
+            "tax": 0.0,
+            "netPay": 225.13,
             "unpaidBreakMinutes": 30
         },
         {
@@ -598,6 +1003,18 @@
             ],
             "payRate": 38.48,
             "grossPay": 192.4,
+            "allowances": [
+                {
+                    "name": "Laundry allowance - part-time or casual employees",
+                    "amount": 1.25,
+                    "notes": "",
+                    "type": "per-shift"
+                }
+            ],
+            "allowanceTotal": 1.25,
+            "totalGrossPay": 193.65,
+            "tax": 0.0,
+            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         }
     ]

@@ -12,6 +12,7 @@ interface ShiftCardProps {
     start: string;
     end: string;
     grossPay?: number;
+    netPay?: number;
     hoursWorked?: number;
     isPublicHoliday?: boolean;
   };
@@ -62,12 +63,12 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
               <Briefcase className="h-4 w-4 mr-2 text-gray-500" />
               <h3 className="font-medium text-gray-900">{shift.employer}</h3>
             </div>
-            {shift.grossPay && (
+            {shift.netPay && (
               <div className="flex flex-col items-end">
                 <span className="font-semibold text-gray-900">
-                  ${shift.grossPay.toFixed(2)}
+                  ${shift.netPay.toFixed(2)}
                 </span>
-                <span className="text-xs text-gray-500">Gross Pay</span>
+                <span className="text-xs text-gray-500">Net Pay</span>
               </div>
             )}
           </div>

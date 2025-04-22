@@ -78,6 +78,14 @@ export interface PayPeriod {
   tax: number;
   netPay: number;
   payCategories: PayCategory[];
+  allowances?: {
+    name: string;
+    amount: number;
+    type?: string;
+    notes?: string;
+  }[];
+  allowanceTotal?: number;
+  totalGrossPay?: number;
 }
 
 export interface PublicHoliday {

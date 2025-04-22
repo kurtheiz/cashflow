@@ -1,5 +1,5 @@
-import { format, isAfter, parseISO, isSameDay } from 'date-fns';
-import { ShiftWithDateTime, MonthlyData, EmployerEarnings } from './types';
+import { format, parseISO, isSameDay } from 'date-fns';
+import { ShiftWithDateTime, MonthlyData } from './types';
 
 // Get a greeting based on time of day
 export const getGreeting = (): string => {

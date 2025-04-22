@@ -8,6 +8,7 @@ interface PayDateDetailContentProps {
     employerId: string;
     employer: string;
     amount?: number;
+    grossPay?: number; // Added to match the payperiods.json structure
     periodStart?: string;
     periodEnd?: string;
     hours?: number;
@@ -25,6 +26,16 @@ interface PayDateDetailContentProps {
     // Added for pay period shift display:
     shiftDates?: string[]; // ISO date strings for each shift worked
     shifts?: string[]; // shift IDs (fallback)
+    // Added for allowances:
+    allowances?: {
+      name: string;
+      amount: number;
+      type?: string;
+      notes?: string;
+    }[];
+    allowanceTotal?: number;
+    totalGrossPay?: number; // Added to include total gross pay with allowances
+    netPay?: number;
   };
 }
 
@@ -33,11 +44,13 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
   
   // No longer using average pay rate as requested
   
-  // Use pre-calculated data directly
+  // Use pre-calculated data directly - no calculations in the component
   const hours = payDate.hours || 0;
-  const grossPay = payDate.amount || 0;
-  const tax = payDate.tax || (grossPay * 0.2); // 20% tax estimate if not provided
-  const netPay = grossPay - tax;
+  const grossPay = payDate.grossPay || 0; // Use grossPay instead of amount
+  const tax = payDate.tax || 0;
+  const allowanceTotal = payDate.allowanceTotal || 0;
+  const totalGrossPay = payDate.totalGrossPay || 0;
+  const netPay = payDate.netPay || 0;
   
   // Format period dates if available
   const periodStartFormatted = payDate.periodStart 
@@ -159,16 +172,52 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
             )}
           </div>
           
+          {/* Allowances Section */}
+          {payDate.allowances && payDate.allowances.length > 0 && (
+            <div className="pt-2 border-t border-gray-200">
+              <h5 className="text-xs font-medium text-gray-500 mb-2">Allowances</h5>
+              {payDate.allowances.map((allowance, index) => (
+                <div key={index} className="flex justify-between items-center mb-2">
+                  <div className="flex-1 text-sm text-gray-500">
+                    {allowance.name}
+                    {allowance.notes && <span className="text-xs italic ml-1">({allowance.notes})</span>}
+                  </div>
+                  <div className="flex-none text-sm font-medium text-gray-900 text-right w-20">
+                    ${allowance.amount.toFixed(2)}
+                  </div>
+                </div>
+              ))}
+              <div className="flex justify-between items-center mt-1">
+                <div className="text-sm font-medium text-gray-500">Total Allowances</div>
+                <div className="text-sm font-medium text-gray-900">${allowanceTotal.toFixed(2)}</div>
+              </div>
+            </div>
+          )}
+          
           {/* Pay Summary */}
           <div className="pt-3 border-t border-gray-200">
             <div className="flex justify-between items-center mb-1">
-              <div className="text-sm text-gray-500">Gross Pay</div>
+              <div className="text-sm text-gray-500">Base Pay</div>
               <div className="text-sm font-medium text-gray-900">${grossPay.toFixed(2)}</div>
             </div>
+            
+            {allowanceTotal > 0 && (
+              <div className="flex justify-between items-center mb-1">
+                <div className="text-sm text-gray-500">Allowances</div>
+                <div className="text-sm font-medium text-gray-900">+${allowanceTotal.toFixed(2)}</div>
+              </div>
+            )}
+            
+            <div className="flex justify-between items-center mb-1">
+              <div className="text-sm font-medium text-gray-500">Total Gross Pay</div>
+              <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
+            </div>
+            
             <div className="flex justify-between items-center mb-1">
               <div className="text-sm text-gray-500">PAYG Withholding</div>
               <div className="text-sm font-medium text-gray-900">-${tax.toFixed(2)}</div>
             </div>
+            
             <div className="flex justify-between items-center pt-2 border-t border-gray-100 mb-2">
               <div className="text-sm font-medium text-gray-700">Net Pay</div>
               <div className="text-sm font-bold text-gray-900">${netPay.toFixed(2)}</div>

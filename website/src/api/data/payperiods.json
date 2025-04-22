@@ -13,10 +13,10 @@
             "2025-04-02",
             "2025-04-03"
           ],
-          "totalHours": 24.0,
-          "grossPay": 771.05,
-          "tax": 154.21,
-          "netPay": 616.84,
+          "totalHours": 22.5,
+          "grossPay": 722.86,
+          "tax": 0.0,
+          "netPay": 726.61,
           "payCategories": [
             {
               "category": "ordinary",
@@ -48,7 +48,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 3.75,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 3.75,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 726.61
         },
         {
           "startDate": "2025-04-07",
@@ -60,10 +70,10 @@
             "2025-04-11",
             "2025-04-12"
           ],
-          "totalHours": 27.5,
-          "grossPay": 923.38,
-          "tax": 184.68,
-          "netPay": 738.7,
+          "totalHours": 26.0,
+          "grossPay": 874.63,
+          "tax": 0.0,
+          "netPay": 879.63,
           "payCategories": [
             {
               "category": "ordinary",
@@ -95,7 +105,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 5.0,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 5.0,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 879.63
         },
         {
           "startDate": "2025-04-14",
@@ -104,10 +124,10 @@
           "shifts": [
             "2025-04-17"
           ],
-          "totalHours": 8.0,
-          "grossPay": 256.48,
-          "tax": 51.3,
-          "netPay": 205.18,
+          "totalHours": 7.5,
+          "grossPay": 240.45,
+          "tax": 0.0,
+          "netPay": 241.7,
           "payCategories": [
             {
               "category": "ordinary",
@@ -139,7 +159,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 1.25,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 1.25,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 241.7
         },
         {
           "startDate": "2025-04-21",
@@ -150,10 +180,10 @@
             "2025-04-22",
             "2025-04-24"
           ],
-          "totalHours": 20.75,
-          "grossPay": 907.37,
-          "tax": 181.47,
-          "netPay": 725.9,
+          "totalHours": 19.75,
+          "grossPay": 859.18,
+          "tax": 14.31,
+          "netPay": 848.62,
           "payCategories": [
             {
               "category": "ordinary",
@@ -185,7 +215,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 3.75,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 3.75,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 862.93
         },
         {
           "startDate": "2025-04-28",
@@ -196,10 +236,10 @@
             "2025-05-01",
             "2025-05-02"
           ],
-          "totalHours": 20.25,
-          "grossPay": 658.85,
-          "tax": 131.77,
-          "netPay": 527.08,
+          "totalHours": 19.25,
+          "grossPay": 626.11,
+          "tax": 0.0,
+          "netPay": 629.86,
           "payCategories": [
             {
               "category": "ordinary",
@@ -231,7 +271,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 3.75,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 3.75,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 629.86
         },
         {
           "startDate": "2025-05-05",
@@ -243,10 +293,10 @@
             "2025-05-09",
             "2025-05-10"
           ],
-          "totalHours": 26.25,
-          "grossPay": 873.68,
-          "tax": 174.74,
-          "netPay": 698.94,
+          "totalHours": 25.25,
+          "grossPay": 841.62,
+          "tax": 0.0,
+          "netPay": 846.62,
           "payCategories": [
             {
               "category": "ordinary",
@@ -278,7 +328,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 5.0,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 5.0,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 846.62
         },
         {
           "startDate": "2025-05-12",
@@ -290,10 +350,10 @@
             "2025-05-16",
             "2025-05-17"
           ],
-          "totalHours": 29.5,
-          "grossPay": 979.48,
-          "tax": 195.9,
-          "netPay": 783.58,
+          "totalHours": 28.0,
+          "grossPay": 931.29,
+          "tax": 0.0,
+          "netPay": 936.29,
           "payCategories": [
             {
               "category": "ordinary",
@@ -325,7 +385,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 5.0,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 5.0,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 936.29
         },
         {
           "startDate": "2025-05-19",
@@ -337,10 +407,10 @@
             "2025-05-23",
             "2025-05-24"
           ],
-          "totalHours": 28.75,
-          "grossPay": 965.06,
-          "tax": 193.01,
-          "netPay": 772.05,
+          "totalHours": 27.25,
+          "grossPay": 916.22,
+          "tax": 0.0,
+          "netPay": 921.22,
           "payCategories": [
             {
               "category": "ordinary",
@@ -372,7 +442,17 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 5.0,
+          "allowances": [
+            {
+              "name": "Laundry allowance - part-time or casual employees",
+              "amount": 5.0,
+              "type": "per-shift",
+              "notes": ""
+            }
+          ],
+          "totalGrossPay": 921.22
         },
         {
           "startDate": "2025-05-26",
@@ -381,8 +461,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0.0,
-          "netPay": 0.0,
+          "tax": 0,
+          "netPay": 0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -414,7 +494,10 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 0
         }
       ]
     },
@@ -426,11 +509,14 @@
           "startDate": "2025-03-27",
           "endDate": "2025-04-09",
           "payDate": "2025-04-10",
-          "shifts": [],
-          "totalHours": 0,
-          "grossPay": 0,
+          "shifts": [
+            "2025-03-30",
+            "2025-04-06"
+          ],
+          "totalHours": 11.18,
+          "grossPay": 502.02,
           "tax": 0.0,
-          "netPay": 0.0,
+          "netPay": 502.02,
           "payCategories": [
             {
               "category": "ordinary",
@@ -452,7 +538,7 @@
             },
             {
               "category": "sunday",
-              "hours": 0,
+              "hours": 12.18,
               "rate": 44.89,
               "description": "Sunday (higher rate)"
             },
@@ -462,19 +548,24 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 502.02
         },
         {
           "startDate": "2025-04-10",
           "endDate": "2025-04-23",
           "payDate": "2025-04-24",
           "shifts": [
+            "2025-04-13",
+            "2025-04-19",
             "2025-04-23"
           ],
-          "totalHours": 8.5,
-          "grossPay": 272.51,
-          "tax": 54.5,
-          "netPay": 218.01,
+          "totalHours": 17.72,
+          "grossPay": 773.79,
+          "tax": 0.0,
+          "netPay": 773.79,
           "payCategories": [
             {
               "category": "ordinary",
@@ -496,17 +587,20 @@
             },
             {
               "category": "sunday",
-              "hours": 0,
+              "hours": 6.0,
               "rate": 44.89,
               "description": "Sunday (higher rate)"
             },
             {
               "category": "public_holiday",
-              "hours": 0,
+              "hours": 4.22,
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 773.79
         },
         {
           "startDate": "2025-04-24",
@@ -515,8 +609,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0.0,
-          "netPay": 0.0,
+          "tax": 0,
+          "netPay": 0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -548,7 +642,10 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 0
         },
         {
           "startDate": "2025-05-08",
@@ -557,8 +654,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0.0,
-          "netPay": 0.0,
+          "tax": 0,
+          "netPay": 0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -590,7 +687,10 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 0
         },
         {
           "startDate": "2025-05-22",
@@ -599,8 +699,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0.0,
-          "netPay": 0.0,
+          "tax": 0,
+          "netPay": 0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -632,7 +732,10 @@
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
-          ]
+          ],
+          "allowanceTotal": 0,
+          "allowances": [],
+          "totalGrossPay": 0
         }
       ]
     }

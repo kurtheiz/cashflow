@@ -152,6 +152,115 @@
       "sunday": "Sunday (non-shiftworkers)",
       "public_holiday": "Public holiday (non-shiftworkers)"
     },
+    "allowances": {
+      "lastUpdated": "2024-07-01",
+      "source": "Fair Work Ombudsman Pay Guide",
+      "description": "Allowances from the General Retail Industry Award [MA000004] effective from the first full pay period on or after 1 July 2024.",
+      "items": [
+        {
+          "name": "Apprentice training fees and textbook costs reimbursement",
+          "rate": "reimbursement of training fees for prescribed courses and the cost of prescribed textbooks",
+          "type": "reimbursement"
+        },
+        {
+          "name": "Apprentice travel to block release training reimbursement",
+          "rate": "reimbursement for the excess reasonable travel costs incurred in the course of travelling to and from the training",
+          "type": "reimbursement"
+        },
+        {
+          "name": "Cold work allowance - 0°C and above",
+          "rate": 0.35,
+          "unit": "per hour",
+          "condition": "while so employed",
+          "type": "hourly"
+        },
+        {
+          "name": "Cold work allowance - below 0°C",
+          "rate": 0.89,
+          "unit": "per hour",
+          "condition": "while so employed",
+          "type": "hourly"
+        },
+        {
+          "name": "District allowance - Broken Hill",
+          "rate": 1.16,
+          "unit": "per hour",
+          "type": "hourly"
+        },
+        {
+          "name": "First aid allowance",
+          "rate": 13.42,
+          "unit": "per week",
+          "type": "weekly"
+        },
+        {
+          "name": "Laundry allowance - full-time employees",
+          "rate": 6.25,
+          "unit": "per week",
+          "type": "weekly"
+        },
+        {
+          "name": "Laundry allowance - part-time or casual employees",
+          "rate": 1.25,
+          "unit": "per shift",
+          "type": "per-shift"
+        },
+        {
+          "name": "Liquor licence allowance",
+          "rate": 32.00,
+          "unit": "per week",
+          "type": "weekly"
+        },
+        {
+          "name": "Meal allowance",
+          "rate": [22.99, 20.85],
+          "description": "$22.99 for the first meal and $20.85 for an extra meal if overtime worked is more than 4 hours",
+          "type": "meal"
+        },
+        {
+          "name": "Protective or special clothing reimbursement",
+          "rate": "reimbursement for the cost of purchasing protective or special clothing such as a uniform, dress or other clothing and the cost of replacement items, when replacement is due to normal wear and tear",
+          "type": "reimbursement"
+        },
+        {
+          "name": "Recall allowance",
+          "rate": "the appropriate rate for all hours worked with a minimum of 3 hours on each occasion",
+          "type": "recall"
+        },
+        {
+          "name": "Excess travelling costs - temporary transfer to another branch or shop",
+          "rate": "reimbursement of all extra transport costs",
+          "type": "reimbursement",
+          "category": "travelling/transport"
+        },
+        {
+          "name": "Transport reimbursement - late night or early morning shifts",
+          "rate": "reimbursement for the cost of taking a commercial passenger vehicle",
+          "condition": "starting or finishing after 10pm or before 7am - normal means of transport unavailable",
+          "type": "reimbursement",
+          "category": "travelling/transport"
+        },
+        {
+          "name": "Vehicle allowance",
+          "rate": 0.98,
+          "unit": "per km",
+          "type": "per-km",
+          "category": "travelling/transport"
+        },
+        {
+          "name": "Working away from usual workplace - travelling time reimbursement - Monday to Saturday",
+          "rate": "payment at the minimum hourly rate for time spent travelling in excess of time normally spent travelling between home and the usual place of employment",
+          "type": "reimbursement",
+          "category": "travelling/transport"
+        },
+        {
+          "name": "Working away from usual workplace - travelling time reimbursement - Sunday and public holiday",
+          "rate": "payment at the minimum hourly rate + 50% for time spent travelling in excess of time normally spent travelling between home and the usual place of employment",
+          "type": "reimbursement",
+          "category": "travelling/transport"
+        }
+      ]
+    },
     "meta": {
       "lastUpdated": "2024-07-01",
       "source": "Fair Work Ombudsman Pay Guide",

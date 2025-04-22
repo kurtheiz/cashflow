@@ -10,11 +10,13 @@ interface PayDateCardProps {
     employerId: string;
     employer: string;
     amount?: number;
+    grossPay?: number; // Added to match the payperiods.json structure
     periodStart?: string;
     periodEnd?: string;
     hours?: number;
     payRate?: number;
     tax?: number;
+    netPay?: number;
     employeeLevel?: string;
     awardDescription?: string;
     sgcPercentage?: number;
@@ -27,6 +29,15 @@ interface PayDateCardProps {
     // Added for pay period shift display:
     shiftDates?: string[]; // ISO date strings for each shift worked
     shifts?: string[]; // shift IDs (fallback)
+    // Added for allowances:
+    allowances?: {
+      name: string;
+      amount: number;
+      type?: string;
+      notes?: string;
+    }[];
+    allowanceTotal?: number;
+    totalGrossPay?: number; // Added to include total gross pay with allowances
   };
   color?: string;
 }
@@ -53,15 +64,13 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
     netPay: number;
   }
   
-  // Use pre-calculated data directly
+  // Use pre-calculated data directly - no calculations in the component
   const payDetails: PayDetails = {  
     hours: payDate.hours || 0,
     payRate: actualPayRate,
-    grossPay: payDate.amount || 0,
+    grossPay: payDate.grossPay || 0, // Use grossPay instead of amount
     tax: payDate.tax || 0,
-    netPay: (payDate.amount !== undefined && payDate.tax !== undefined) ? 
-      payDate.amount - payDate.tax : 
-      (payDate.amount || 0) * 0.8
+    netPay: payDate.netPay || 0 // Only use the provided netPay value
   };
   
   // Format period dates if available

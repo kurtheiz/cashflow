@@ -25,6 +25,16 @@ interface ShiftDetailContentProps {
       rate: number;
       description: string;
     }[];
+    allowances?: {
+      name: string;
+      amount: number;
+      notes?: string;
+      type?: string;
+    }[];
+    allowanceTotal?: number;
+    totalGrossPay?: number;
+    tax?: number;
+    netPay?: number;
   };
 }
 
@@ -156,13 +166,12 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
   // Use provided hours or calculate from current time picker values
   const hoursWorked = shift.hoursWorked || (durationMinutes / 60);
   
-  // Use provided pay rate or default
-  const payRate = shift.payRate || 0;
-  
-  // Calculate gross pay if not provided
-  const grossPay = shift.grossPay || (hoursWorked * payRate);
-  
-  // No tax calculation for individual shifts
+  // Use provided values only - no calculations in the component
+  const grossPay = shift.grossPay || 0;
+  const allowanceTotal = shift.allowanceTotal || 0;
+  const totalGrossPay = shift.totalGrossPay || 0;
+  const tax = shift.tax || 0;
+  const netPay = shift.netPay || 0;
   
   return (
     <div className="space-y-4">
@@ -271,13 +280,75 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
             </div>
           )}
           
+          {/* Allowances Section */}
+          {shift.allowances && shift.allowances.length > 0 && (
+            <div className="pt-1 border-t border-gray-200">
+              <h5 className="text-xs font-medium text-gray-500 mb-2">Allowances</h5>
+              {shift.allowances.map((allowance, index) => (
+                <div key={index} className="flex justify-between items-center mb-2">
+                  <div className="text-sm text-gray-500">
+                    {allowance.name}
+                    {allowance.notes && <span className="text-xs italic ml-1">({allowance.notes})</span>}
+                  </div>
+                  <div className="text-sm font-medium text-gray-900">
+                    ${allowance.amount.toFixed(2)}
+                  </div>
+                </div>
+              ))}
+              <div className="flex justify-between items-center mt-1">
+                <div className="text-sm font-medium text-gray-500">Total Allowances</div>
+                <div className="text-sm font-medium text-gray-900">${allowanceTotal.toFixed(2)}</div>
+              </div>
+            </div>
+          )}
+          
           {/* Pay Summary */}
           <div className="pt-2 border-t border-gray-200">
             <div className="flex justify-between items-center mb-1">
-              <div className="text-sm text-gray-500">Gross Pay</div>
+              <div className="text-sm text-gray-500">Base Pay</div>
               <div className="text-sm font-medium text-gray-900">${grossPay.toFixed(2)}</div>
             </div>
-            {/* Tax calculation removed as requested */}
+            
+            {allowanceTotal > 0 && (
+              <div className="flex justify-between items-center mb-1">
+                <div className="text-sm text-gray-500">Allowances</div>
+                <div className="text-sm font-medium text-gray-900">+${allowanceTotal.toFixed(2)}</div>
+              </div>
+            )}
+            
+            <div className="flex justify-between items-center mb-1">
+              <div className="text-sm font-medium text-gray-500">Total Gross Pay</div>
+              <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
+            </div>
+            
+            {/* Tax Details */}
+            <div className="pt-1 border-t border-gray-200 mt-2 mb-1">
+              <h5 className="text-xs font-medium text-gray-500 mb-2">Tax Calculation</h5>
+              <div className="flex justify-between items-center mb-1">
+                <div className="text-sm text-gray-500">Taxable Income</div>
+                <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
+              </div>
+              
+              {tax > 0 ? (
+                <>
+                  <div className="flex justify-between items-center mb-1">
+                    <div className="text-sm text-gray-500">Tax Withheld</div>
+                    <div className="text-sm font-medium text-gray-900">-${tax.toFixed(2)}</div>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-gray-500 mb-1">
+                    <div>Effective Tax Rate</div>
+                    <div>{((tax / totalGrossPay) * 100).toFixed(1)}%</div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-sm text-gray-500 mb-1">No tax withheld for this shift</div>
+              )}
+            </div>
+            
+            <div className="flex justify-between items-center pt-1 border-t border-gray-200 mt-1">
+              <div className="text-sm font-bold text-gray-700">Net Pay</div>
+              <div className="text-sm font-bold text-gray-900">${netPay.toFixed(2)}</div>
+            </div>
           </div>
         </div>
       </div>

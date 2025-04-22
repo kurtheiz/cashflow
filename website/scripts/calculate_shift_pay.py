@@ -17,6 +17,9 @@ import os
 from datetime import datetime, time, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 
+# Import the tax calculator
+from tax_calculator import calculate_tax
+
 # Paths to data files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "src", "api", "data")
@@ -142,6 +145,95 @@ def calculate_break_minutes(hours_worked: float, config: Dict) -> int:
     
     return 0
 
+def calculate_applicable_allowances(shift: Dict, employer_info: Dict, config_data: Dict) -> List[Dict]:
+    """Calculate applicable allowances for a shift based on employer settings."""
+    # Get the allowances from config
+    if "allowances" not in config_data or "items" not in config_data["allowances"]:
+        return []
+    
+    # Get applicable allowances for this employer
+    if "applicableAllowances" not in employer_info:
+        return []
+    
+    applicable_allowances = []
+    config_allowances = config_data["allowances"]["items"]
+    
+    # For debugging
+    print(f"Processing allowances for {employer_info['name']}")
+    
+    # Get shift details for allowance calculations
+    shift_date = shift["date"]
+    shift_start = shift["start"]
+    shift_end = shift["end"]
+    shift_hours = 0
+    
+    # Calculate shift hours for hourly allowances
+    start_time = parse_time(shift_start)
+    end_time = parse_time(shift_end)
+    date_obj = datetime.strptime(shift_date, "%Y-%m-%d")
+    start_dt = datetime.combine(date_obj, start_time)
+    end_dt = datetime.combine(date_obj, end_time)
+    
+    # If end time is before start time, it means the shift ends on the next day
+    if end_dt < start_dt:
+        end_dt = end_dt + timedelta(days=1)
+    
+    shift_hours = (end_dt - start_dt).total_seconds() / 3600
+    
+    # Process each allowance that's enabled for this employer
+    for employer_allowance in employer_info["applicableAllowances"]:
+        allowance_name = employer_allowance["name"]
+        is_enabled = employer_allowance.get("enabled", False)
+        
+        if not is_enabled:
+            continue
+            
+        # Find the allowance in the config
+        config_allowance = next((a for a in config_allowances if a["name"] == allowance_name), None)
+        if not config_allowance:
+            print(f"Allowance '{allowance_name}' not found in config")
+            continue
+            
+        print(f"Processing allowance: {allowance_name}, type: {config_allowance.get('type', 'unknown')}")
+        
+        # Calculate the allowance amount based on type
+        allowance_type = config_allowance.get("type", "")
+        allowance_amount = 0
+        
+        if allowance_type == "hourly":
+            # Hourly allowances are multiplied by shift hours
+            rate = config_allowance.get("rate", 0)
+            allowance_amount = rate * shift_hours
+            print(f"Hourly allowance: {rate} * {shift_hours} = {allowance_amount}")
+        elif allowance_type == "per-shift":
+            # Per-shift allowances are applied once per shift
+            allowance_amount = config_allowance.get("rate", 0)
+            print(f"Per-shift allowance: {allowance_amount}")
+        elif allowance_type == "weekly":
+            # Weekly allowances are pro-rated based on a 38-hour week
+            rate = config_allowance.get("rate", 0)
+            allowance_amount = (rate / 38) * shift_hours
+            print(f"Weekly allowance: ({rate}/38) * {shift_hours} = {allowance_amount}")
+        elif allowance_type == "meal" and "rate" in config_allowance:
+            # Meal allowances - use the first meal rate
+            if isinstance(config_allowance["rate"], list) and len(config_allowance["rate"]) > 0:
+                allowance_amount = config_allowance["rate"][0]
+            else:
+                allowance_amount = config_allowance.get("rate", 0)
+            print(f"Meal allowance: {allowance_amount}")
+        
+        # Only add allowances with a calculable amount
+        if allowance_amount > 0:
+            print(f"Adding allowance: {allowance_name}, amount: {allowance_amount}")
+            applicable_allowances.append({
+                "name": allowance_name,
+                "amount": round(allowance_amount, 2),
+                "notes": employer_allowance.get("notes", ""),
+                "type": allowance_type
+            })
+    
+    return applicable_allowances
+
 def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict:
     """Calculate pay details for a single shift."""
     # Get employer info
@@ -187,20 +279,57 @@ def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict
                 "description": category_desc
             })
     
-    # Calculate weighted average pay rate
-    avg_pay_rate = round(total_pay / total_hours, 2) if total_hours > 0 else 0
-    
     # Calculate unpaid break minutes
     unpaid_break_minutes = calculate_break_minutes(total_hours, config_data)
+    
+    # Convert unpaid break minutes to hours and deduct from total hours
+    unpaid_break_hours = unpaid_break_minutes / 60.0
+    adjusted_hours = total_hours - unpaid_break_hours
+    
+    # Recalculate gross pay based on adjusted hours (proportionally reduce pay)
+    adjustment_factor = adjusted_hours / total_hours if total_hours > 0 else 0
+    adjusted_pay = total_pay * adjustment_factor
+    
+    # Calculate weighted average pay rate based on adjusted values
+    avg_pay_rate = round(adjusted_pay / adjusted_hours, 2) if adjusted_hours > 0 else 0
+    
+    # Calculate applicable allowances
+    allowances = calculate_applicable_allowances(shift, employer_info, config_data)
+    
+    # Calculate the total gross pay (base pay + allowances)
+    total_gross_pay = adjusted_pay
+    allowance_total = 0
+    for allowance in allowances:
+        allowance_total += allowance["amount"]
+    total_gross_pay += allowance_total
+    
+    # Calculate tax based on employer's pay cycle and tax settings
+    pay_cycle = employer_info.get("paycycle", "weekly")
+    claims_tax_free_threshold = employer_info.get("taxFreeThreshold", True)
+    
+    # Calculate tax for this shift
+    tax = calculate_tax(
+        round(total_gross_pay, 2),  # Use the rounded gross pay including allowances
+        pay_cycle,               # 'weekly', 'fortnightly', or 'monthly'
+        claims_tax_free_threshold,  # Whether employee claims tax-free threshold
+        True,                    # Assuming employee has provided TFN
+        False,                   # Assuming employee is not a foreign resident
+        0                        # Assuming no tax offset amount
+    )
     
     # Create the result
     result = shift.copy()
     result.update({
-        "hoursWorked": round(total_hours, 2),
+        "hoursWorked": round(adjusted_hours, 2),
         "isPublicHoliday": is_holiday,
         "payCategories": pay_categories,
         "payRate": avg_pay_rate,
-        "grossPay": round(total_pay, 2),
+        "grossPay": round(adjusted_pay, 2),
+        "allowances": allowances,
+        "allowanceTotal": round(allowance_total, 2),
+        "totalGrossPay": round(total_gross_pay, 2),
+        "tax": round(tax, 2),
+        "netPay": round(total_gross_pay - tax, 2),
         "unpaidBreakMinutes": unpaid_break_minutes
     })
     

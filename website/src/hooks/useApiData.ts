@@ -1,5 +1,5 @@
-import { api, ApiResponse } from '../api/mockApi';
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { api, ApiResponse, Shift } from '../api/mockApi';
+import { useQuery, useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 // --- TanStack Query hooks for API data ---
 
@@ -107,5 +107,51 @@ export function usePublicHolidays(
     queryFn: () => api.getPublicHolidays(states, year),
     enabled: states.length > 0,
     ...options,
+  });
+}
+
+/**
+ * Hook for creating a new shift
+ */
+export function useCreateShift() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (newShift: Omit<Shift, 'id'>) => api.createShift(newShift),
+    onSuccess: () => {
+      // Invalidate shifts queries to refetch data
+      queryClient.invalidateQueries({ queryKey: ['shifts'] });
+    },
+  });
+}
+
+/**
+ * Hook for updating an existing shift
+ */
+export function useUpdateShift() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ id, shift }: { id: string; shift: Partial<Shift> }) => 
+      api.updateShift(id, shift),
+    onSuccess: () => {
+      // Invalidate shifts queries to refetch data
+      queryClient.invalidateQueries({ queryKey: ['shifts'] });
+    },
+  });
+}
+
+/**
+ * Hook for deleting a shift
+ */
+export function useDeleteShift() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (id: string) => api.deleteShift(id),
+    onSuccess: () => {
+      // Invalidate shifts queries to refetch data
+      queryClient.invalidateQueries({ queryKey: ['shifts'] });
+    },
   });
 }

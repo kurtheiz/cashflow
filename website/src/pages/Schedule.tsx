@@ -144,9 +144,12 @@ const Schedule: React.FC = () => {
         ) : (
           <UpcomingSchedule 
             scrollToTodayTrigger={scrollToTodayTrigger}
-            externalShifts={shifts}
+            shifts={shifts}
+            payPeriods={payPeriods}
             selectedDate={selectedDate}
             publicHolidays={publicHolidays}
+            employers={employers}
+            isLoading={false}
           />
         )}
       </div>

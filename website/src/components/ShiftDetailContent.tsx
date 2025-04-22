@@ -3,8 +3,8 @@ import { Clock, Save } from 'lucide-react';
 import { Calendar } from 'primereact/calendar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { api } from '../api/mockApi';
 import { Toast } from 'primereact/toast';
+import { useUpdateShift } from '../hooks/useApiData';
 
 interface ShiftDetailContentProps {
   shift: {
@@ -94,6 +94,9 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
     setHasChanges(currentTimeHash !== originalTimeHash);
   }, [currentTimeHash, originalTimeHash]);
 
+  // Use the update shift mutation hook
+  const updateShiftMutation = useUpdateShift();
+
   // Handle save action
   const handleSave = async () => {
     if (hasChanges) {
@@ -106,30 +109,29 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
           hoursWorked: updatedHoursWorked // Update hours worked based on new times
         };
         
-        // Call the API to update the shift
-        const response = await api.updateShift(shift.id || '', updatedShift);
+        // Call the mutation to update the shift
+        await updateShiftMutation.mutateAsync({
+          id: shift.id || '',
+          shift: updatedShift
+        });
         
-        if (response.status === 200) {
-          // Show success message
-          toast.current?.show({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Shift times updated successfully',
-            life: 3000
-          });
-          
-          // Reset the hasChanges state
-          setHasChanges(false);
-        } else {
-          throw new Error(response.message);
-        }
+        // Show success message
+        toast.current?.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Shift times updated successfully',
+          life: 3000
+        });
+        
+        // Reset the hasChanges flag
+        setHasChanges(false);
       } catch (error) {
-        console.error('Error saving shift:', error);
+        console.error('Error updating shift:', error);
         // Show error message
         toast.current?.show({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update shift times',
+          detail: 'An unexpected error occurred',
           life: 3000
         });
       }

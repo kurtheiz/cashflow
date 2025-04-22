@@ -4,7 +4,7 @@ import { format, addMonths, startOfMonth, endOfMonth, isAfter, parseISO, isSameD
 import { useEmployers, useShifts, usePayPeriods, usePublicHolidays } from '../hooks/useApiData';
 import ShiftCard from '../components/ShiftCard';
 import PayDateCard from '../components/PayDateCard';
-import { Shift, EmployerPayPeriods, PayPeriod } from '../api/mockApi';
+import { EmployerPayPeriods, PayPeriod } from '../api/mockApi';
 
 const Overview = () => {
 

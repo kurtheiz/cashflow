@@ -47,13 +47,13 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
   // No tax calculation for individual shifts
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Time Section */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
           Time
         </h4>
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-50 p-3">
           <div className="flex items-center">
             <Clock className="h-5 w-5 text-gray-400 mr-3" />
             <div>
@@ -76,11 +76,11 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
       {/* Employer section removed as it's now in the header */}
       
       {/* Pay Details Section */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
           Pay Details
         </h4>
-        <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+        <div className="bg-gray-50 p-3 space-y-3">
           {/* Hours and Rate */}
           <div className="flex justify-between items-center">
             <div className="text-sm text-gray-500">Hours</div>
@@ -91,7 +91,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
           
           {/* Pay Categories */}
           {shift.payCategories && shift.payCategories.length > 0 && (
-            <div className="pt-2 border-t border-gray-200">
+            <div className="pt-1 border-t border-gray-200">
               <h5 className="text-xs font-medium text-gray-500 mb-2">Pay Categories</h5>
               {shift.payCategories.map((category, index) => (
                 <div key={index} className="flex justify-between items-center mb-2">
@@ -107,7 +107,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
           )}
           
           {/* Pay Summary */}
-          <div className="pt-3 border-t border-gray-200">
+          <div className="pt-2 border-t border-gray-200">
             <div className="flex justify-between items-center mb-1">
               <div className="text-sm text-gray-500">Gross Pay</div>
               <div className="text-sm font-medium text-gray-900">${grossPay.toFixed(2)}</div>
@@ -117,15 +117,8 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
         </div>
       </div>
       
-      {/* Actions Section */}
-      <div className="flex space-x-3 pt-2">
-        <button className="flex-1 system-blue-bg text-white py-2 px-4 rounded-md text-sm font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2" style={{ backgroundColor: 'var(--system-blue)' }}>
-          Edit Shift
-        </button>
-        <button className="flex-1 bg-white text-red-600 py-2 px-4 border border-red-300 rounded-md text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-          Delete Shift
-        </button>
-      </div>
+      {/* Bottom spacing */}
+      <div className="mt-4"></div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar as PrimeCalendar } from 'primereact/calendar';
-import { format, parseISO, isSameDay } from 'date-fns';
+import { parseISO, isSameDay } from 'date-fns';
 
 // Types
 interface Shift {
@@ -22,24 +22,61 @@ interface Shift {
   unpaidBreakMinutes: number;
 }
 
+interface PayPeriod {
+  startDate: string;
+  endDate: string;
+  payDate: string;
+  shifts: string[];
+  totalHours: number;
+  grossPay: number;
+  tax: number;
+  netPay: number;
+  payCategories: {
+    category: string;
+    hours: number;
+    rate: number;
+    description?: string;
+  }[];
+}
+
+interface EmployerPayPeriods {
+  employerId: string;
+  employer: string;
+  periods: PayPeriod[];
+}
+
 interface ShiftsCalendarProps {
   shifts: Shift[];
+  payPeriods: EmployerPayPeriods[];
   selectedDate: Date;
   onDateChange: (date: Date) => void;
 }
 
-// Tailwind category color map
-const categoryColors: Record<string, string> = {
-  ordinary: 'bg-blue-500',
-  evening_mon_fri: 'bg-purple-500',
-  saturday: 'bg-amber-500',
-  public_holiday: 'bg-red-500',
-};
+// Removed unused categoryColors map
 
-export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, selectedDate, onDateChange }) => {
+export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, payPeriods, selectedDate, onDateChange }) => {
   // Helper to get all shifts for a given day
   const getShiftsForDay = (day: Date) =>
     shifts.filter((shift) => isSameDay(parseISO(shift.date), day));
+    
+  // Helper to get all pay dates for a given day
+  const getPayDatesForDay = (day: Date) => {
+    const result: { employerId: string; employer: string; netPay: number }[] = [];
+    
+    payPeriods.forEach(employerPeriod => {
+      employerPeriod.periods.forEach(period => {
+        if (isSameDay(parseISO(period.payDate), day)) {
+          result.push({
+            employerId: employerPeriod.employerId,
+            employer: employerPeriod.employer,
+            netPay: period.netPay
+          });
+        }
+      });
+    });
+    
+    return result;
+  };
 
   // Custom day cell for PrimeReact dateTemplate
   const renderDay = (event: any) => {
@@ -48,33 +85,40 @@ export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, selected
     // Note: month is 0-based in JS Date, but PrimeReact's month is 0-based too
     const dayDate = new Date(event.year, event.month, event.day);
     const shiftsForDay = getShiftsForDay(dayDate);
-    if (shiftsForDay.length === 0) {
-      return <span>{event.day}</span>;
+    const payDatesForDay = getPayDatesForDay(dayDate);
+    
+    // Determine background color based on what's happening on this day
+    let bgColorClass = '';
+    if (shiftsForDay.some(s => s.isPublicHoliday)) {
+      bgColorClass = 'bg-red-100';
+    } else if (payDatesForDay.length > 0) {
+      bgColorClass = 'bg-green-100';
     }
-    // Show a dot per employer for each shift, and red background for public holidays
-    const uniqueEmployers = Array.from(new Set(shiftsForDay.map(s => s.employerId)));
-    const isPublicHoliday = shiftsForDay.some(s => s.isPublicHoliday);
+    
     return (
-      <div className={`relative w-full h-full min-w-[32px] min-h-[32px] flex flex-col items-center justify-center ${isPublicHoliday ? 'bg-red-100' : ''}`}>
+      <div className={`relative w-full h-full min-w-[32px] min-h-[32px] flex flex-col items-center justify-start pt-1 ${bgColorClass}`}>
         <span className="z-10">{event.day}</span>
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-1 flex gap-1 z-10">
-          {uniqueEmployers.map((employerId) => (
-            <span
-              key={employerId}
-              className="inline-block w-2 h-2 rounded-full border border-white bg-blue-500"
-              title={shiftsForDay.find(s => s.employerId === employerId)?.employer || employerId}
-            />
-          ))}
-        </div>
+        
+        {/* Pay date indicator (green background only, no text) */}
+        
+        {/* Shift indicators */}
+        {shiftsForDay.length > 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-1 flex gap-1 z-10">
+            {Array.from(new Set(shiftsForDay.map(s => s.employerId))).map((employerId) => (
+              <span
+                key={employerId}
+                className="inline-block w-2 h-2 rounded-full border border-white bg-blue-500"
+                title={shiftsForDay.find(s => s.employerId === employerId)?.employer || employerId}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-2 w-full max-w-md mx-auto border border-dashed border-blue-400">
-      <div className="text-md font-medium mb-2 text-center">
-        {format(selectedDate, 'MMMM yyyy')}
-      </div>
+    <div className="bg-white w-full mx-auto">
       <PrimeCalendar
         value={selectedDate}
         onChange={e => e.value && onDateChange(e.value as Date)}
@@ -83,10 +127,13 @@ export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, selected
         viewDate={selectedDate}
         showOtherMonths
         showIcon={false}
+        className="w-full" // Make calendar full width
+        style={{ width: '100%' }} // Ensure full width with inline style
       />
       <div className="flex flex-wrap gap-3 text-xs mt-2 justify-center">
-        <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> Shift Worked</div>
+        <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> Shift</div>
         <div className="flex items-center gap-1"><span className="w-4 h-2 rounded bg-red-100 border border-red-300 inline-block"></span> Public Holiday</div>
+        <div className="flex items-center gap-1"><span className="w-4 h-2 rounded bg-green-100 border border-green-300 inline-block"></span> Pay Day</div>
       </div>
       {/* Fallback if PrimeCalendar fails to render */}
       <noscript className="text-red-600">Calendar failed to render. Check PrimeReact styles and overlay container.</noscript>

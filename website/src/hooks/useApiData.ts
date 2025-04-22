@@ -1,119 +1,97 @@
-import { useState, useEffect } from 'react';
 import { api, ApiResponse } from '../api/mockApi';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+
+// --- TanStack Query hooks for API data ---
+
+export function useCurrentUser(options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['currentUser'],
+    queryFn: () => api.getCurrentUser(),
+    ...options,
+  });
+}
+
+export function useEmployers(options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['employers'],
+    queryFn: () => api.getUserEmployers(),
+    ...options,
+  });
+}
+
+export function useShifts(startDate?: string, endDate?: string, options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['shifts', startDate, endDate],
+    queryFn: async () => {
+      const response = await api.getShifts(startDate, endDate);
+      console.log('useShifts API response:', response);
+      return response;
+    },
+    ...options,
+  });
+}
+
+export function useEmployerShifts(employerId: string, options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['employerShifts', employerId],
+    queryFn: () => api.getShiftsByEmployer(employerId),
+    enabled: !!employerId,
+    ...options,
+  });
+}
+
+export function usePayRates(employeeLevel: string, options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['payRates', employeeLevel],
+    queryFn: () => api.getPayRates(employeeLevel),
+    enabled: !!employeeLevel,
+    ...options,
+  });
+}
+
+export function useShiftPayCalculation(shiftId: string, options?: UseQueryOptions<ApiResponse<any>, Error>) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['shiftPayCalculation', shiftId],
+    queryFn: () => api.calculateShiftPay(shiftId),
+    enabled: !!shiftId,
+    ...options,
+  });
+}
+
+export function usePayPeriodCalculation(
+  employerId: string,
+  startDate: string,
+  endDate: string,
+  options?: UseQueryOptions<ApiResponse<any>, Error>
+) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['payPeriodCalculation', employerId, startDate, endDate],
+    queryFn: () => api.calculatePayPeriod(employerId, startDate, endDate),
+    enabled: !!employerId && !!startDate && !!endDate,
+    ...options,
+  });
+}
 
 /**
- * A generic hook for fetching data from the API
- * @param fetchFunction - The API function to call
- * @param dependencies - Dependencies that should trigger a refetch
- * @returns Object containing data, loading state, error, and refetch function
+ * Hook for fetching pay periods data
+ * @param startDate - Optional start date filter
+ * @param endDate - Optional end date filter
+ * @param employerId - Optional employer ID filter
  */
-export function useApiData<T>(
-  fetchFunction: () => Promise<ApiResponse<T>>,
-  dependencies: any[] = []
+export function usePayPeriods(
+  startDate?: string,
+  endDate?: string,
+  employerId?: string,
+  options?: UseQueryOptions<ApiResponse<any>, Error>
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetchFunction();
-      
-      if (response.status >= 200 && response.status < 300) {
-        setData(response.data);
-      } else {
-        throw new Error(response.message || 'An error occurred');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('An unknown error occurred'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
-
-  return { data, loading, error, refetch: fetchData };
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['payPeriods', startDate, endDate, employerId],
+    queryFn: () => api.getPayPeriods(startDate, endDate, employerId),
+    ...options,
+  });
 }
+
 
 /**
  * Hook for fetching the current user
  */
-export function useCurrentUser() {
-  return useApiData(() => api.getCurrentUser());
-}
-
-/**
- * Hook for fetching user employers
- */
-export function useEmployers() {
-  return useApiData(() => api.getUserEmployers());
-}
-
-/**
- * Hook for fetching shifts
- * @param startDate - Optional start date filter
- * @param endDate - Optional end date filter
- */
-export function useShifts(startDate?: string, endDate?: string) {
-  return useApiData(
-    () => api.getShifts(startDate, endDate),
-    [startDate, endDate]
-  );
-}
-
-/**
- * Hook for fetching shifts by employer
- * @param employerId - The employer ID
- */
-export function useEmployerShifts(employerId: string) {
-  return useApiData(
-    () => api.getShiftsByEmployer(employerId),
-    [employerId]
-  );
-}
-
-/**
- * Hook for fetching pay rates
- * @param employeeLevel - The employee level
- */
-export function usePayRates(employeeLevel: string) {
-  return useApiData(
-    () => api.getPayRates(employeeLevel),
-    [employeeLevel]
-  );
-}
-
-/**
- * Hook for calculating shift pay
- * @param shiftId - The shift ID
- */
-export function useShiftPayCalculation(shiftId: string) {
-  return useApiData(
-    () => api.calculateShiftPay(shiftId),
-    [shiftId]
-  );
-}
-
-/**
- * Hook for calculating pay period
- * @param employerId - The employer ID
- * @param startDate - The pay period start date
- * @param endDate - The pay period end date
- */
-export function usePayPeriodCalculation(
-  employerId: string,
-  startDate: string,
-  endDate: string
-) {
-  return useApiData(
-    () => api.calculatePayPeriod(employerId, startDate, endDate),
-    [employerId, startDate, endDate]
-  );
-}

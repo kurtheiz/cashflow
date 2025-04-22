@@ -118,6 +118,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         title={`${payDate.employer} Payment Details`}
         subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
         color={'var(--primary-blue)'}
+        modalType="payDate"
       >
         <PayDateDetailContent payDate={payDate} />
       </DetailModal>

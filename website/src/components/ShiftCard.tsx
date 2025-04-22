@@ -84,6 +84,9 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
         title={`${shift.employer} Shift Details`}
         subtitle={format(shiftDate, 'EEEE, d MMMM yyyy')}
         color={'var(--primary-blue)'}
+        modalType="shift"
+        onEdit={() => console.log('Edit shift:', shift.date)}
+        onDelete={() => console.log('Delete shift:', shift.date)}
       >
         <ShiftDetailContent shift={shift} />
       </DetailModal>

@@ -121,20 +121,24 @@ class MockApi {
     await delay(400);
     
     // Load data from shiftspay.json instead of shifts.json
-    let shifts = (shiftspayData as any).shifts as Shift[];
+    // Make sure we're accessing the shifts array properly
+    const shiftsData = shiftspayData as any;
+    let shifts = Array.isArray(shiftsData.shifts) ? shiftsData.shifts : [];
     
     // Add unique IDs to shifts if they don't have them
-    shifts = shifts.map((shift, index) => ({
+    shifts = shifts.map((shift: Shift, index: number) => ({
       ...shift,
       id: shift.id || `shift-${index}`
     }));
     
     // Filter by date range if provided
     if (startDate && endDate) {
-      shifts = shifts.filter(shift => 
+      shifts = shifts.filter((shift: Shift) => 
         shift.date >= startDate && shift.date <= endDate
       );
     }
+    
+    console.log('API getShifts returning:', shifts.length, 'shifts');
     
     return {
       data: shifts,

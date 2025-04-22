@@ -1,21 +1,15 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
-import { api as mockApi } from '../api/mockApi';
+import { useEmployers } from '../hooks/useApiData';
 import EmployerCard from '../components/EmployerCard';
 
 const Employers: React.FC = () => {
-  const { user } = useAuth();
+  // Auth context will be used in future implementations
+  useAuth();
   
   // Fetch employers data
-  const { data: employersData, isLoading } = useQuery({
-    queryKey: ['employers'],
-    queryFn: async () => {
-      const response = await mockApi.getUserEmployers();
-      return response.data;
-    },
-    enabled: !!user, // Only run if user is logged in
-  });
+  const { data: employersResp, isLoading } = useEmployers();
+  const employersData = employersResp?.data || [];
   
   if (isLoading) {
     return (

@@ -29,7 +29,7 @@ const Employers: React.FC = () => {
         <div className="px-0 sm:px-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pt-0">
           {employersData && employersData.length > 0 ? (
             employersData.map((employer: any) => (
-              <EmployerCard key={employer.id} employer={employer} />
+              <EmployerCard key={employer.id} employerId={employer.id} />
             ))
           ) : (
             <div className="col-span-full text-center p-4 text-gray-500">

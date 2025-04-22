@@ -16,7 +16,6 @@
             "payPeriodStart" : "Monday",
             "payPeriodDays" : 7,
             "nextPayDate" : "2025-04-23",
-            "color": "#F7941D",
             "applicableAllowances": [
                 {
                     "name": "First aid allowance",
@@ -56,7 +55,6 @@
             "payPeriodStart" : "Thursday",
             "payPeriodDays" : 14,
             "nextPayDate" : "2025-04-24",
-            "color": "#8B0000",
             "applicableAllowances": [
                 {
                     "name": "Laundry allowance - casual employees",

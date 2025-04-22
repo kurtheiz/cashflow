@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UpcomingSchedule from '../components/UpcomingSchedule';
 import { ShiftsCalendar } from '../components/ShiftsCalendar';
 import { Calendar as CalendarIcon, X as CloseIcon, Plus as PlusIcon } from 'lucide-react';
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns';
-import { useShifts, usePayPeriods } from '../hooks/useApiData';
+import { useShifts, usePayPeriods, useEmployers, usePublicHolidays } from '../hooks/useApiData';
 
 const Schedule: React.FC = () => {
   const [scrollToTodayTrigger, setScrollToTodayTrigger] = React.useState(0);
@@ -41,34 +41,66 @@ const Schedule: React.FC = () => {
   // Fetch pay periods
   const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(currentMonthStart, nextMonthEnd);
   const payPeriods = payPeriodsResp?.data || [];
+  
+  // Fetch employers to get their states
+  const { data: employersResp, isLoading: employersLoading } = useEmployers();
+  const employers = employersResp?.data || [];
+  
+  // Extract unique states from employers
+  const employerStates = useMemo(() => {
+    const states = employers.map((employer: { state: string }) => employer.state);
+    return [...new Set(states)] as string[]; // Remove duplicates
+  }, [employers]);
+  
+  // Fetch public holidays for the states of all employers
+  const currentYear = new Date().getFullYear().toString();
+  const { data: publicHolidaysResp, isLoading: publicHolidaysLoading } = usePublicHolidays(
+    employerStates,
+    currentYear
+  );
+  const publicHolidays = publicHolidaysResp?.data || [];
 
   return (
     <div className="w-full px-0 sm:px-4" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
       <div className="w-full lg:max-w-4xl mx-auto">
         {/* Toolbar strip */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 py-3 px-4 flex items-center justify-between -mt-4">
-          <button
-            className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            onClick={() => setCalendarOpen(true)}
-            type="button"
-            aria-label="Show calendar"
-          >
-            <CalendarIcon className="w-5 h-5" />
-          </button>
-          <div className="flex-1"></div> {/* Spacer */}
-          <button
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            onClick={handleAddShift}
-            type="button"
-            aria-label="Add shift"
-          >
-            <PlusIcon className="w-5 h-5" />
-          </button>
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 py-3 px-4 -mt-4">
+          <div className="flex items-center justify-between">
+            <button
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              onClick={() => setCalendarOpen(true)}
+              type="button"
+              aria-label="Show calendar"
+            >
+              <CalendarIcon className="w-5 h-5" />
+            </button>
+            
+            {/* Legend */}
+            <div className="flex gap-3 text-xs justify-center">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-5 bg-red-500 inline-block"></span>
+                <span>Public Holiday</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-5 bg-green-500 inline-block"></span>
+                <span>Pay Day</span>
+              </div>
+            </div>
+            
+            <button
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              onClick={handleAddShift}
+              type="button"
+              aria-label="Add shift"
+            >
+              <PlusIcon className="w-5 h-5" />
+            </button>
+          </div>
         </div>
         
         {calendarOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="relative w-full sm:max-w-md mx-auto p-0 bg-white rounded-md overflow-hidden shadow-xl">
+            <div className="relative w-full sm:max-w-md mx-auto p-0 bg-white sm:rounded-md overflow-hidden shadow-xl">
               <div className="sticky top-0 py-2 px-3 flex items-center justify-between bg-blue-50 z-10 border-b border-blue-100">
                 <h3 className="text-lg font-medium leading-6 text-blue-900">Calendar</h3>
                 <button 
@@ -92,6 +124,7 @@ const Schedule: React.FC = () => {
                   <ShiftsCalendar
                     shifts={shifts}
                     payPeriods={payPeriods}
+                    publicHolidays={publicHolidays}
                     selectedDate={selectedDate}
                     onDateChange={handleDateSelect}
                   />
@@ -104,7 +137,7 @@ const Schedule: React.FC = () => {
           <div className="text-center p-4">
             Please log in to view your schedule
           </div>
-        ) : shiftsLoading || payPeriodsLoading ? (
+        ) : shiftsLoading || payPeriodsLoading || employersLoading || publicHolidaysLoading ? (
           <div className="text-center p-4 text-gray-500">
             Loading your schedule...
           </div>
@@ -113,6 +146,7 @@ const Schedule: React.FC = () => {
             scrollToTodayTrigger={scrollToTodayTrigger}
             externalShifts={shifts}
             selectedDate={selectedDate}
+            publicHolidays={publicHolidays}
           />
         )}
       </div>

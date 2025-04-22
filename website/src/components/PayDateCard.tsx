@@ -74,7 +74,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
       {/* PAY badge */}
       
       <div 
-        className="overflow-hidden py-2 w-full cursor-pointer bg-blue-50 border-l-4 border-blue-500 hover:bg-blue-100 transition-colors" 
+        className="overflow-hidden py-2 w-full cursor-pointer bg-white border-l-4 border-green-500 hover:bg-gray-50 transition-colors" 
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
@@ -92,9 +92,12 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
               <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
               <h3 className="font-medium text-gray-900">{payDate.employer} Pay</h3>
             </div>
-            <span className="font-semibold text-gray-900">
-              ${payDetails.netPay.toFixed(2)}
-            </span>
+            <div className="flex flex-col items-end">
+              <span className="font-semibold text-gray-900">
+                ${payDetails.netPay.toFixed(2)}
+              </span>
+              <span className="text-xs text-gray-500">Net Pay</span>
+            </div>
           </div>
           
           {payDate.periodStart && payDate.periodEnd && (
@@ -117,7 +120,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         onClose={() => setIsModalOpen(false)}
         title={`${payDate.employer} Payment Details`}
         subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
-        color={'var(--primary-blue)'}
+        color={'var(--primary-green)'}
         modalType="payDate"
       >
         <PayDateDetailContent payDate={payDate} />

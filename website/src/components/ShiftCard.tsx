@@ -13,13 +13,15 @@ interface ShiftCardProps {
     end: string;
     grossPay?: number;
     hoursWorked?: number;
+    isPublicHoliday?: boolean;
   };
   color?: string;
+  isPublicHoliday?: boolean;
 }
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ 
   shift,
-
+  isPublicHoliday = false
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const shiftDate = parseISO(shift.date);
@@ -42,7 +44,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
   return (
     <>
       <div 
-        className="bg-white overflow-hidden py-2 w-full cursor-pointer hover:bg-gray-50 transition-colors"
+        className={`bg-white overflow-hidden py-2 w-full cursor-pointer hover:bg-gray-50 transition-colors ${isPublicHoliday || shift.isPublicHoliday ? 'border-l-4 border-red-500' : ''}`}
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
@@ -61,9 +63,12 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
               <h3 className="font-medium text-gray-900">{shift.employer}</h3>
             </div>
             {shift.grossPay && (
-              <span className="font-semibold text-gray-900">
-                ${shift.grossPay.toFixed(2)}
-              </span>
+              <div className="flex flex-col items-end">
+                <span className="font-semibold text-gray-900">
+                  ${shift.grossPay.toFixed(2)}
+                </span>
+                <span className="text-xs text-gray-500">Gross Pay</span>
+              </div>
             )}
           </div>
           

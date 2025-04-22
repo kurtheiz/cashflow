@@ -26,9 +26,11 @@ interface UpcomingScheduleProps {
   externalShifts?: Shift[];
   // Selected date from calendar
   selectedDate?: Date;
+  // Public holidays data
+  publicHolidays?: any[];
 }
 
-const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({ selectedEmployer = null, cardType = 'all', scrollToTodayTrigger, externalShifts, selectedDate }) => {
+const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({ selectedEmployer = null, cardType = 'all', scrollToTodayTrigger, externalShifts, selectedDate, publicHolidays = [] }) => {
   const today = new Date();
   const currentMonthStart = format(startOfMonth(today), 'yyyy-MM-dd');
   const nextMonthEnd = format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
@@ -208,7 +210,10 @@ const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({ selectedEmployer = 
               {item.type === 'shift' ? (
                 <ShiftCard 
                   shift={item.data as Shift} 
-                  color={item.color} 
+                  color={item.color}
+                  isPublicHoliday={publicHolidays.some(holiday => 
+                    isSameDay(parseISO(holiday.date), parseISO(item.date))
+                  )}
                 />
               ) : (
                 <PayDateCard 

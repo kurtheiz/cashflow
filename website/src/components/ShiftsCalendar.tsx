@@ -45,19 +45,31 @@ interface EmployerPayPeriods {
   periods: PayPeriod[];
 }
 
+interface PublicHoliday {
+  date: string;
+  name: string;
+  regional?: string | boolean;
+  state?: string;
+}
+
 interface ShiftsCalendarProps {
   shifts: Shift[];
   payPeriods: EmployerPayPeriods[];
+  publicHolidays: PublicHoliday[];
   selectedDate: Date;
   onDateChange: (date: Date) => void;
 }
 
 // Removed unused categoryColors map
 
-export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, payPeriods, selectedDate, onDateChange }) => {
+export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, payPeriods, publicHolidays, selectedDate, onDateChange }) => {
   // Helper to get all shifts for a given day
   const getShiftsForDay = (day: Date) =>
     shifts.filter((shift) => isSameDay(parseISO(shift.date), day));
+    
+  // Helper to get public holidays for a given day
+  const getPublicHolidaysForDay = (day: Date) =>
+    publicHolidays.filter((holiday) => isSameDay(parseISO(holiday.date), day));
     
   // Helper to get all pay dates for a given day
   const getPayDatesForDay = (day: Date) => {
@@ -87,9 +99,12 @@ export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, payPerio
     const shiftsForDay = getShiftsForDay(dayDate);
     const payDatesForDay = getPayDatesForDay(dayDate);
     
+    // Get public holidays for this day
+    const holidaysForDay = getPublicHolidaysForDay(dayDate);
+    
     // Determine background color based on what's happening on this day
     let bgColorClass = '';
-    if (shiftsForDay.some(s => s.isPublicHoliday)) {
+    if (holidaysForDay.length > 0) {
       bgColorClass = 'bg-red-100';
     } else if (payDatesForDay.length > 0) {
       bgColorClass = 'bg-green-100';
@@ -112,6 +127,13 @@ export const ShiftsCalendar: React.FC<ShiftsCalendarProps> = ({ shifts, payPerio
               />
             ))}
           </div>
+        )}
+        
+        {/* Public holiday indicator */}
+        {holidaysForDay.length > 0 && (
+          <div className="absolute top-0 right-0 w-0 h-0 border-t-4 border-r-4 border-red-500 border-solid z-10" 
+               title={holidaysForDay.map(h => h.name).join(', ')}
+          />
         )}
       </div>
     );

@@ -80,6 +80,13 @@ export interface PayPeriod {
   payCategories: PayCategory[];
 }
 
+export interface PublicHoliday {
+  date: string;
+  name: string;
+  regional?: string | boolean;
+  state?: string;
+}
+
 export interface EmployerPayPeriods {
   employerId: string;
   employer: string;
@@ -320,6 +327,52 @@ class MockApi {
     
     return {
       data: payPeriods,
+      status: 200,
+      message: 'Success'
+    };
+  }
+  
+  // Public holidays endpoint
+  async getPublicHolidays(states: string[], year?: string): Promise<ApiResponse<PublicHoliday[]>> {
+    await delay(300);
+    
+    // Default to current year if not provided
+    const targetYear = year || new Date().getFullYear().toString();
+    
+    // Get public holidays data from config
+    const publicHolidaysData = (configData as any).publicHolidays;
+    const yearData = publicHolidaysData[targetYear];
+    
+    if (!yearData) {
+      return {
+        data: [],
+        status: 404,
+        message: `No public holiday data available for ${targetYear}`
+      };
+    }
+    
+    // Start with national holidays
+    let holidays: PublicHoliday[] = [...yearData.national].map(holiday => ({
+      ...holiday,
+      state: 'National'
+    }));
+    
+    // Add state-specific holidays for the requested states
+    states.forEach(state => {
+      if (yearData[state]) {
+        const stateHolidays = yearData[state].map((holiday: PublicHoliday) => ({
+          ...holiday,
+          state
+        }));
+        holidays = [...holidays, ...stateHolidays];
+      }
+    });
+    
+    // Sort by date
+    holidays.sort((a, b) => a.date.localeCompare(b.date));
+    
+    return {
+      data: holidays,
       status: 200,
       message: 'Success'
     };

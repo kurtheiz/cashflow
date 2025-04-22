@@ -93,5 +93,19 @@ export function usePayPeriods(
 
 
 /**
- * Hook for fetching the current user
+ * Hook for fetching public holidays data
+ * @param states - Array of state codes to fetch holidays for
+ * @param year - Optional year to fetch holidays for (defaults to current year)
  */
+export function usePublicHolidays(
+  states: string[],
+  year?: string,
+  options?: UseQueryOptions<ApiResponse<any>, Error>
+) {
+  return useQuery<ApiResponse<any>, Error>({
+    queryKey: ['publicHolidays', states, year],
+    queryFn: () => api.getPublicHolidays(states, year),
+    enabled: states.length > 0,
+    ...options,
+  });
+}

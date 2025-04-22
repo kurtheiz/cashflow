@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useMemo } from 'react';
-import { format, addMonths, startOfMonth, endOfMonth, isAfter } from 'date-fns';
-import { useEmployers, useShifts, usePayPeriods } from '../hooks/useApiData';
+import { format, addMonths, startOfMonth, endOfMonth, isAfter, parseISO, isSameDay } from 'date-fns';
+import { useEmployers, useShifts, usePayPeriods, usePublicHolidays } from '../hooks/useApiData';
 import ShiftCard from '../components/ShiftCard';
 import PayDateCard from '../components/PayDateCard';
 import { Shift, EmployerPayPeriods, PayPeriod } from '../api/mockApi';
@@ -26,6 +26,16 @@ const Overview = () => {
   // Fetch employers
   const { data: employersResp } = useEmployers();
   const employersData = employersResp?.data || [];
+  
+  // Get employer states for public holidays
+  const employerStates = useMemo(() => {
+    return [...new Set(employersData.map((employer: any) => employer.state))].filter(Boolean) as string[];
+  }, [employersData]);
+  
+  // Fetch public holidays for the states of all employers
+  const currentYear = new Date().getFullYear().toString();
+  const { data: publicHolidaysResp } = usePublicHolidays(employerStates, currentYear);
+  const publicHolidays = publicHolidaysResp?.data || [];
 
   // Fetch shifts for current month and next month
   const { data: shiftsResp, isLoading: shiftsLoading } = useShifts(currentMonthStart, nextMonthEnd);
@@ -187,7 +197,10 @@ const Overview = () => {
                         <div key={`shift-${employer.id}`} className="w-full">
                           <ShiftCard 
                             shift={nextShift} 
-                            color={employer.color} 
+                            color={employer.color}
+                            isPublicHoliday={publicHolidays.some((holiday: any) => 
+                              isSameDay(parseISO(holiday.date), parseISO(nextShift.date))
+                            )}
                           />
                         </div>
                       );

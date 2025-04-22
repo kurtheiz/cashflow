@@ -20,13 +20,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 23.75,
+              "hours": 22.27,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 0.25,
+              "hours": 0.23,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -77,13 +77,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 21.0,
+              "hours": 19.61,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 1.5,
+              "hours": 1.39,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -131,7 +131,7 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 8.0,
+              "hours": 7.5,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -187,13 +187,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 13.0,
+              "hours": 12.52,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 0.25,
+              "hours": 0.23,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -211,7 +211,7 @@
             },
             {
               "category": "public_holiday",
-              "hours": 7.5,
+              "hours": 7.0,
               "rate": 64.13,
               "description": "Public holiday (double pay)"
             }
@@ -243,13 +243,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 18.75,
+              "hours": 17.86,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 1.5,
+              "hours": 1.39,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -300,7 +300,7 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 21.25,
+              "hours": 20.25,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -357,13 +357,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 24.25,
+              "hours": 22.77,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 0.25,
+              "hours": 0.23,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -414,13 +414,13 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 22.0,
+              "hours": 20.63,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
             {
               "category": "evening_mon_fri",
-              "hours": 1.75,
+              "hours": 1.6199999999999999,
               "rate": 38.48,
               "description": "Monday to Friday after 6pm"
             },
@@ -538,7 +538,7 @@
             },
             {
               "category": "sunday",
-              "hours": 12.18,
+              "hours": 11.18,
               "rate": 44.89,
               "description": "Sunday (higher rate)"
             },
@@ -569,7 +569,7 @@
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 8.5,
+              "hours": 8.0,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -587,7 +587,7 @@
             },
             {
               "category": "sunday",
-              "hours": 6.0,
+              "hours": 5.5,
               "rate": 44.89,
               "description": "Sunday (higher rate)"
             },

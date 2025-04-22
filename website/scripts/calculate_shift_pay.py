@@ -258,46 +258,49 @@ def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict
     # Get pay rates for the level
     pay_rates = config_data["casual"][level]["rates"]
     
-    # Calculate pay for each category
+    # Calculate unpaid break minutes first based on total shift duration
+    total_hours = sum(hours for category, hours in hours_by_category.items() if hours > 0)
+    unpaid_break_minutes = calculate_break_minutes(total_hours, config_data)
+    
+    # Convert unpaid break minutes to hours
+    unpaid_break_hours = unpaid_break_minutes / 60.0
+    
+    # Calculate adjustment factor to distribute break time proportionally across categories
+    adjustment_factor = (total_hours - unpaid_break_hours) / total_hours if total_hours > 0 else 0
+    
+    # Calculate pay for each category with break time deducted proportionally
     pay_categories = []
     total_pay = 0
-    total_hours = 0
+    adjusted_hours = 0
     
     for category, hours in hours_by_category.items():
         if hours > 0:
+            # Adjust hours by deducting proportional break time
+            adjusted_category_hours = hours * adjustment_factor
             rate = pay_rates[category]
-            amount = hours * rate
+            amount = adjusted_category_hours * rate
             total_pay += amount
-            total_hours += hours
+            adjusted_hours += adjusted_category_hours
             
-            # Add category details
+            # Add category details with adjusted hours
             category_desc = config_data["timeCategories"].get(category, category)
             pay_categories.append({
                 "category": category,
-                "hours": round(hours, 2),
+                "hours": round(adjusted_category_hours, 2),
                 "rate": rate,
                 "description": category_desc
             })
     
-    # Calculate unpaid break minutes
-    unpaid_break_minutes = calculate_break_minutes(total_hours, config_data)
-    
-    # Convert unpaid break minutes to hours and deduct from total hours
-    unpaid_break_hours = unpaid_break_minutes / 60.0
-    adjusted_hours = total_hours - unpaid_break_hours
-    
-    # Recalculate gross pay based on adjusted hours (proportionally reduce pay)
-    adjustment_factor = adjusted_hours / total_hours if total_hours > 0 else 0
-    adjusted_pay = total_pay * adjustment_factor
+    # Total pay is already calculated correctly since we used adjusted hours
     
     # Calculate weighted average pay rate based on adjusted values
-    avg_pay_rate = round(adjusted_pay / adjusted_hours, 2) if adjusted_hours > 0 else 0
+    avg_pay_rate = round(total_pay / adjusted_hours, 2) if adjusted_hours > 0 else 0
     
     # Calculate applicable allowances
     allowances = calculate_applicable_allowances(shift, employer_info, config_data)
     
     # Calculate the total gross pay (base pay + allowances)
-    total_gross_pay = adjusted_pay
+    total_gross_pay = total_pay
     allowance_total = 0
     for allowance in allowances:
         allowance_total += allowance["amount"]
@@ -324,7 +327,7 @@ def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict
         "isPublicHoliday": is_holiday,
         "payCategories": pay_categories,
         "payRate": avg_pay_rate,
-        "grossPay": round(adjusted_pay, 2),
+        "grossPay": round(total_pay, 2),
         "allowances": allowances,
         "allowanceTotal": round(allowance_total, 2),
         "totalGrossPay": round(total_gross_pay, 2),

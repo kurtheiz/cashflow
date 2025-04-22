@@ -146,10 +146,11 @@ const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({
         targetRef = dateRefs.current[selectedDateStr].current;
       }
     }
-
-    // If we found a ref to scroll to, scroll to it
+    
+    // Scroll to the target element if we found one
     if (targetRef) {
-      const toolbarHeight = 56;
+      // Use a taller toolbar height to account for the buttons and labels
+      const toolbarHeight = 90; // Increased from 56 to account for the taller toolbar with labels
       const elementPosition = targetRef.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - toolbarHeight;
       window.scrollTo({
@@ -159,7 +160,8 @@ const UpcomingSchedule: React.FC<UpcomingScheduleProps> = ({
     }
     // Otherwise, scroll to today if triggered
     else if (scrollToTodayTrigger && todayRef.current) {
-      const toolbarHeight = 56;
+      // Use a taller toolbar height to account for the buttons and labels
+      const toolbarHeight = 90; // Increased from 56 to account for the taller toolbar with labels
       const elementPosition = todayRef.current.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - toolbarHeight;
       window.scrollTo({

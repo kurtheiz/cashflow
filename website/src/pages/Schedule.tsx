@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UpcomingSchedule from '../components/UpcomingSchedule';
 import { ShiftsCalendar } from '../components/ShiftsCalendar';
-import { Calendar as CalendarIcon, X as CloseIcon, Plus as PlusIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, X as CloseIcon, Plus as PlusIcon, Upload as UploadIcon } from 'lucide-react';
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns';
 import { useShifts, usePayPeriods, useEmployers, usePublicHolidays } from '../hooks/useApiData';
 
@@ -16,6 +16,13 @@ const Schedule: React.FC = () => {
     console.log('Add new shift');
     // Future implementation will open a modal to add a new shift
     setScrollToTodayTrigger(prev => prev + 1); // Refresh the list after adding
+  };
+  
+  // Function to handle uploading a screenshot (placeholder for now)
+  const handleUploadScreenshot = () => {
+    console.log('Upload screenshot');
+    // Future implementation will open a modal to upload a screenshot
+    alert('AI-powered roster upload coming soon!');
   };
   
   // Suppress TypeScript unused variable warning
@@ -64,37 +71,58 @@ const Schedule: React.FC = () => {
     <div className="w-full px-0 sm:px-4" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
       <div className="w-full lg:max-w-4xl mx-auto">
         {/* Toolbar strip */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 py-3 px-4 -mt-4">
-          <div className="flex items-center justify-between">
-            <button
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              onClick={() => setCalendarOpen(true)}
-              type="button"
-              aria-label="Show calendar"
-            >
-              <CalendarIcon className="w-5 h-5" />
-            </button>
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 py-3 px-4 -mt-4 pb-5">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col items-center">
+              <button
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                onClick={() => setCalendarOpen(true)}
+                type="button"
+                aria-label="Show calendar"
+              >
+                <CalendarIcon className="w-5 h-5" />
+              </button>
+              <span className="text-[10px] mt-1 text-gray-600 text-center">View Calendar</span>
+            </div>
             
             {/* Legend */}
-            <div className="flex gap-3 text-xs justify-center">
-              <div className="flex items-center gap-1">
-                <span className="w-2 h-5 bg-red-500 inline-block"></span>
-                <span>Public Holiday</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="w-2 h-5 bg-green-500 inline-block"></span>
-                <span>Pay Day</span>
+            <div className="mt-1.5">
+              <div className="flex gap-3 text-[10px] justify-center">
+                <div className="flex items-center gap-1">
+                  <span className="w-2 h-4 bg-red-500 inline-block"></span>
+                  <span>Holiday</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="w-2 h-4 bg-green-500 inline-block"></span>
+                  <span>Pay</span>
+                </div>
               </div>
             </div>
             
-            <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              onClick={handleAddShift}
-              type="button"
-              aria-label="Add shift"
-            >
-              <PlusIcon className="w-5 h-5" />
-            </button>
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <button
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  onClick={handleUploadScreenshot}
+                  type="button"
+                  aria-label="Upload roster screenshot"
+                >
+                  <UploadIcon className="w-5 h-5" />
+                </button>
+                <span className="text-[10px] mt-1 text-gray-600 text-center">Upload Screenshot</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <button
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  onClick={handleAddShift}
+                  type="button"
+                  aria-label="Add shift"
+                >
+                  <PlusIcon className="w-5 h-5" />
+                </button>
+                <span className="text-[10px] mt-1 text-gray-600 text-center">Add Shift</span>
+              </div>
+            </div>
           </div>
         </div>
         

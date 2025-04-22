@@ -6,7 +6,7 @@ import Schedule from './pages/Schedule';
 import Employers from './pages/Employers';
 import Me from './pages/Me';
 import { useEffect } from 'react';
-import CasualPayLogo from './components/CasualPayLogo';
+// Logo import removed
 import BottomToolbar from './components/BottomToolbar';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -33,8 +33,8 @@ function AppContent() {
       <header className="system-blue-bg shadow-sm">
         <div className="container mx-auto max-w-screen-md px-4 py-3 flex justify-between items-center system-blue-text">
           <div className="flex items-center">
-            <a href="#/" className="cursor-pointer hover:opacity-80 transition-opacity">
-              <CasualPayLogo size="medium" />
+            <a href="#/" className="cursor-pointer hover:opacity-80 transition-opacity text-white font-bold text-xl">
+              CasualPay
             </a>
           </div>
           

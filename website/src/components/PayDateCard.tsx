@@ -74,7 +74,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
       {/* PAY badge */}
       
       <div 
-        className="overflow-hidden py-2 w-full cursor-pointer bg-white border-l-4 border-green-500 hover:bg-gray-50 transition-colors" 
+        className="overflow-hidden py-2 w-full cursor-pointer bg-green-50 border-l-4 border-green-500 hover:bg-green-100 transition-colors" 
         onClick={() => setIsModalOpen(true)}
       >
       <div className="flex w-full overflow-hidden pl-2 sm:pl-4">
@@ -120,7 +120,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
         onClose={() => setIsModalOpen(false)}
         title={`${payDate.employer} Payment Details`}
         subtitle={format(paymentDate, 'EEEE, d MMMM yyyy')}
-        color={'var(--primary-green)'}
+        color={'#10b981'}
         modalType="payDate"
       >
         <PayDateDetailContent payDate={payDate} />

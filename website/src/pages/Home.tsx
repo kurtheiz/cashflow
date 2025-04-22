@@ -59,14 +59,14 @@ const Home = () => {
               </p>
             </div>
             
-            {/* Feature 2 */}
+            {/* Feature 2 - Combined Pay Calculation & Payslip */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div className="bg-blue-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
                 <DollarSignIcon className="h-7 w-7 text-[var(--primary-blue)]" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Accurate Pay Calculation</h3>
+              <h3 className="text-xl font-semibold mb-3">Complete Pay Insights</h3>
               <p className="text-gray-600">
-                Automatically calculate your pay with correct casual rates, including penalties and loadings based on award rates.
+                Automatically calculate your pay with correct casual rates, view detailed payslip previews with after-tax amounts, and track your superannuation contributions from each employer.
               </p>
             </div>
             
@@ -97,21 +97,16 @@ const Home = () => {
               </p>
             </div>
 
-            {/* Feature 5 - Tax Estimates */}
+            {/* Feature 5 - Financial Insights */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div className="bg-blue-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[var(--primary-blue)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
-                  <path d="M12 11h4"/>
-                  <path d="M12 16h4"/>
-                  <path d="M8 11h.01"/>
-                  <path d="M8 16h.01"/>
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Tax Estimates</h3>
+              <h3 className="text-xl font-semibold mb-3">Financial Insights</h3>
               <p className="text-gray-600">
-                Get accurate tax estimates for your casual income, helping you organise your finances and avoid surprises at tax time.
+                Gain valuable insights into your casual income with visual reports, earnings trends, and projections to help you make informed financial decisions.
               </p>
             </div>
 

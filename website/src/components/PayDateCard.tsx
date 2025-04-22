@@ -96,7 +96,7 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
               <span className="font-semibold text-gray-900">
                 ${payDetails.netPay.toFixed(2)}
               </span>
-              <span className="text-xs text-gray-500">After Tax</span>
+              <span className="text-xs text-gray-500">Net Pay</span>
             </div>
           </div>
           

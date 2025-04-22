@@ -166,7 +166,7 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
               <div className="text-sm font-medium text-gray-900">${grossPay.toFixed(2)}</div>
             </div>
             <div className="flex justify-between items-center mb-1">
-              <div className="text-sm text-gray-500">Tax</div>
+              <div className="text-sm text-gray-500">PAYG Withholding</div>
               <div className="text-sm font-medium text-gray-900">-${tax.toFixed(2)}</div>
             </div>
             <div className="flex justify-between items-center pt-2 border-t border-gray-100 mb-2">

@@ -52,7 +52,7 @@ function AppContent() {
       </header>
       
       {/* Main content */}
-      <main className={`py-4 ${showToolbar ? 'pb-20' : 'pb-4'}`}>  {/* Conditional padding based on toolbar visibility */}
+      <main className={`${location.pathname === '/employers' ? 'pt-1' : 'pt-4'} ${showToolbar ? 'pb-20' : 'pb-4'}`}>  {/* Conditional padding based on page and toolbar */}
         <Routes>
           {/* Public route */}
           <Route path="/" element={<Home />} />

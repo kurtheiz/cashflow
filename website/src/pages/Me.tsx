@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LogOutIcon, UserIcon, MailIcon, ShieldIcon, BellIcon, HelpCircleIcon } from 'lucide-react';
+import { LogOutIcon } from 'lucide-react';
 
 const Me: React.FC = () => {
   const { user, logout, isLoading } = useAuth();
@@ -24,40 +24,13 @@ const Me: React.FC = () => {
     );
   }
 
-  const menuItems = [
-    {
-      icon: UserIcon,
-      label: 'Personal Information',
-      description: 'Update your name and profile details'
-    },
-    {
-      icon: MailIcon,
-      label: 'Email Preferences',
-      description: 'Manage your email notifications'
-    },
-    {
-      icon: ShieldIcon,
-      label: 'Privacy & Security',
-      description: 'Control your privacy settings'
-    },
-    {
-      icon: BellIcon,
-      label: 'Notifications',
-      description: 'Configure how you receive alerts'
-    },
-    {
-      icon: HelpCircleIcon,
-      label: 'Help & Support',
-      description: 'Get assistance with using Casual Pay'
-    }
-  ];
+  // No menu items needed
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-2">
       <div className="max-w-2xl mx-auto">
-
         {/* Profile Card */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-white p-4 mb-4">
           <div className="flex items-center space-x-4">
             {user.picture ? (
               <img 
@@ -77,31 +50,17 @@ const Me: React.FC = () => {
           </div>
         </div>
         
-        {/* Menu Items */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-          <div className="divide-y divide-gray-100">
-            {menuItems.map((item, index) => (
-              <div 
-                key={index}
-                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer flex items-center"
-              >
-                <div className="p-2 bg-indigo-50 rounded-full mr-4">
-                  <item.icon className="h-5 w-5 text-indigo-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-gray-900">{item.label}</h3>
-                  <p className="text-sm text-gray-500">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Subscription Management Blurb */}
+        <div className="bg-white p-4 mb-4">
+          <h3 className="text-sm font-medium text-gray-700 mb-2">Subscription Management</h3>
+          <p className="text-sm text-gray-500">Your subscription details and management options will appear here in the future.</p>
         </div>
         
         {/* Sign Out Button */}
-        <div className="bg-white rounded-lg shadow-sm p-4">
+        <div className="bg-white p-3">
           <button 
             onClick={logout}
-            className="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex items-center justify-center py-3 px-4 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none transition-colors"
           >
             <LogOutIcon className="w-4 h-4 mr-2" />
             Sign Out

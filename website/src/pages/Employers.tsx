@@ -24,10 +24,9 @@ const Employers: React.FC = () => {
   }
   
   return (
-    <div className="w-full px-0 sm:px-4">
+    <div className="w-full px-0 sm:px-4 mt-0">
       <div className="w-full lg:max-w-4xl mx-auto">
-
-        <div className="px-0 sm:px-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="px-0 sm:px-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pt-0">
           {employersData && employersData.length > 0 ? (
             employersData.map((employer: any) => (
               <EmployerCard key={employer.id} employer={employer} />

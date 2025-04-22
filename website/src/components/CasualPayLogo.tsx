@@ -15,38 +15,54 @@ const CasualPayLogo: React.FC<CasualPayLogoProps> = ({
   };
   
   const { height, fontSize } = sizeMap[size];
-  // Force all logo and text to white
-
   
   return (
     <div className="flex items-center" style={{ height: `${height}px` }}>
-      {/* Icon */}
-      <div className="relative mr-2 flex items-center justify-center">
+      {/* CP Logo */}
+      <div className="relative mr-3 flex items-center justify-center">
         <svg 
-          width={height * 0.9} 
-          height={height * 0.9} 
+          width={height} 
+          height={height} 
           viewBox="0 0 24 24" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="mr-1"
         >
+          {/* Circle background */}
           <circle 
             cx="12" 
             cy="12" 
-            r="10" 
+            r="11" 
             className="fill-current text-white opacity-20" 
           />
+          
+          {/* C letter */}
           <path 
-            d="M12 6V12L16 14" 
+            d="M7 9C8 7.5 10 6.5 12 6.5C14 6.5 15.5 7.5 16 8" 
             stroke="currentColor" 
-            strokeWidth="2" 
+            strokeWidth="1.5" 
             strokeLinecap="round" 
             className="stroke-current text-white"
           />
           <path 
-            d="M12 6L8 9" 
+            d="M7 15C8 16.5 10 17.5 12 17.5C14 17.5 15.5 16.5 16 16" 
             stroke="currentColor" 
-            strokeWidth="2" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            className="stroke-current text-white"
+          />
+          
+          {/* P letter */}
+          <path 
+            d="M17 7V17" 
+            stroke="currentColor" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            className="stroke-current text-white"
+          />
+          <path 
+            d="M17 7H14C12.5 7 12 8 12 9C12 10 12.5 11 14 11H17" 
+            stroke="currentColor" 
+            strokeWidth="1.5" 
             strokeLinecap="round" 
             className="stroke-current text-white"
           />

@@ -67,7 +67,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({
                 <span className="font-semibold text-gray-900">
                   ${shift.grossPay.toFixed(2)}
                 </span>
-                <span className="text-xs text-gray-500">Gross Pay</span>
+                <span className="text-xs text-gray-500">Earnings</span>
               </div>
             )}
           </div>

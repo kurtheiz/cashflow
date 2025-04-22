@@ -65,8 +65,7 @@ const DetailModal: React.FC<DetailModalProps> = ({
             {children}
           </div>
         </div>
-        {/* Scroll indicator blur effect */}
-        <div className="absolute bottom-[60px] left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none z-[5]"></div>
+        {/* Removed blur effect as requested */}
         
         <div className="px-3 py-3 border-t border-gray-200 bg-white mt-auto" style={{ position: 'sticky', bottom: 0, left: 0, right: 0, zIndex: 10 }}>
           {modalType === 'shift' ? (

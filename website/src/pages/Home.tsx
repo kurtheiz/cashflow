@@ -2,15 +2,17 @@ import { CalendarIcon, DollarSignIcon, BriefcaseIcon } from 'lucide-react';
 import CasualPayLogo from '../components/CasualPayLogo';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { useAuth } from '../context/AuthContext';
+import { useRef } from 'react';
 
 const Home = () => {
   const { isLoggedIn } = useAuth();
+  const featuresRef = useRef<HTMLDivElement>(null);
   
   return (
     <div className="container mx-auto max-w-screen-md px-4">
       <div className="max-w-4xl mx-auto">
         {/* Hero section */}
-        <div className="relative bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-20 px-4 rounded-2xl overflow-hidden mb-16">
+        <div className="relative bg-gradient-to-r from-[var(--primary-blue)] to-[var(--system-blue)] text-white py-20 px-4 rounded-2xl overflow-hidden mb-16">
           <div className="max-w-4xl mx-auto relative z-10">
             <div className="flex justify-center mb-6">
               <CasualPayLogo size="large" />
@@ -25,39 +27,42 @@ const Home = () => {
                   <GoogleLoginButton />
                 </div>
               ) : (
-                <a href="#/overview" className="bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
+                <a href="#/overview" className="bg-[var(--primary-blue)] hover:opacity-90 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
                   Go to Dashboard
                 </a>
               )}
-              <a href="#features" className="bg-indigo-700 hover:bg-indigo-600 text-white font-medium py-3 px-6 rounded-lg text-center transition-all">
+              <button 
+                onClick={() => featuresRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-[var(--system-blue)] hover:opacity-90 text-white font-medium py-3 px-6 rounded-lg text-center transition-all"
+              >
                 Learn More
-              </a>
+              </button>
             </div>
           </div>
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500 rounded-full opacity-20 transform translate-x-10 -translate-y-10"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full opacity-20 transform -translate-x-10 translate-y-10"></div>
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--primary-blue)] rounded-full opacity-20 transform translate-x-10 -translate-y-10"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--primary-blue)] rounded-full opacity-20 transform -translate-x-10 translate-y-10"></div>
         </div>
         
         {/* Features section */}
-        <div id="features" className="py-16">
+        <div ref={featuresRef} className="py-16">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose Casual Pay?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {/* Feature 1 */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
-                <BriefcaseIcon className="h-7 w-7 text-indigo-600" />
+              <div className="bg-blue-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <BriefcaseIcon className="h-7 w-7 text-[var(--primary-blue)]" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Shift Tracking</h3>
               <p className="text-gray-600">
-                Easily log your shifts, break times, and work hours across multiple employers.
+                Easily log your shifts and track your work hours across multiple employers with a simple interface.
               </p>
             </div>
             
             {/* Feature 2 */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div className="bg-green-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
-                <DollarSignIcon className="h-7 w-7 text-green-600" />
+              <div className="bg-blue-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <DollarSignIcon className="h-7 w-7 text-[var(--primary-blue)]" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Accurate Pay Calculation</h3>
               <p className="text-gray-600">
@@ -67,12 +72,12 @@ const Home = () => {
             
             {/* Feature 3 */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div className="bg-purple-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
-                <CalendarIcon className="h-7 w-7 text-purple-600" />
+              <div className="bg-blue-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <CalendarIcon className="h-7 w-7 text-[var(--primary-blue)]" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Visual Timeline</h3>
+              <h3 className="text-xl font-semibold mb-3">Flexible Views</h3>
               <p className="text-gray-600">
-                See your work schedule and payments in a clear, visual timeline that makes planning easy.
+                View your shifts and pay schedule as a list or calendar, making it easy to track your work at a glance.
               </p>
             </div>
           </div>
@@ -85,7 +90,7 @@ const Home = () => {
             <div className="space-y-8">
               {/* Step 1 */}
               <div className="flex items-start gap-4">
-                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                <div className="bg-blue-100 rounded-full p-3 text-[var(--system-blue)] font-bold">
                   1
                 </div>
                 <div>
@@ -96,18 +101,18 @@ const Home = () => {
               
               {/* Step 2 */}
               <div className="flex items-start gap-4">
-                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                <div className="bg-blue-100 rounded-full p-3 text-[var(--system-blue)] font-bold">
                   2
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Log your shifts</h3>
-                  <p className="text-gray-600">Record your work hours, breaks, and any special conditions like public holidays.</p>
+                  <p className="text-gray-600">Just enter your shift start and end times - breaks will automatically be calculated based on your award.</p>
                 </div>
               </div>
               
               {/* Step 3 */}
               <div className="flex items-start gap-4">
-                <div className="bg-indigo-100 rounded-full p-3 text-indigo-600 font-bold">
+                <div className="bg-blue-100 rounded-full p-3 text-[var(--system-blue)] font-bold">
                   3
                 </div>
                 <div>
@@ -130,7 +135,7 @@ const Home = () => {
               <GoogleLoginButton />
             </div>
           ) : (
-            <a href="#/overview" className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-lg inline-block transition-all">
+            <a href="#/overview" className="bg-[var(--primary-blue)] hover:opacity-90 text-white font-medium py-3 px-6 rounded-lg inline-block transition-all">
               Go to Dashboard
             </a>
           )}

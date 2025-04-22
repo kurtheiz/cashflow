@@ -13,10 +13,10 @@
             "2025-04-02",
             "2025-04-03"
           ],
-          "totalHours": 24,
-          "grossPay": 771.01,
-          "tax": 154.2,
-          "netPay": 616.81,
+          "totalHours": 24.0,
+          "grossPay": 771.05,
+          "tax": 154.21,
+          "netPay": 616.84,
           "payCategories": [
             {
               "category": "ordinary",
@@ -61,13 +61,13 @@
             "2025-04-12"
           ],
           "totalHours": 27.5,
-          "grossPay": 921.51,
-          "tax": 184.3,
-          "netPay": 737.21,
+          "grossPay": 923.38,
+          "tax": 184.68,
+          "netPay": 738.7,
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 21,
+              "hours": 21.0,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -79,7 +79,7 @@
             },
             {
               "category": "saturday",
-              "hours": 5,
+              "hours": 5.0,
               "rate": 38.48,
               "description": "Saturday (higher rate)"
             },
@@ -104,14 +104,14 @@
           "shifts": [
             "2025-04-17"
           ],
-          "totalHours": 8,
+          "totalHours": 8.0,
           "grossPay": 256.48,
           "tax": 51.3,
           "netPay": 205.18,
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 8,
+              "hours": 8.0,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -151,13 +151,13 @@
             "2025-04-24"
           ],
           "totalHours": 20.75,
-          "grossPay": 907.34,
+          "grossPay": 907.37,
           "tax": 181.47,
-          "netPay": 725.87,
+          "netPay": 725.9,
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 13,
+              "hours": 13.0,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -197,9 +197,9 @@
             "2025-05-02"
           ],
           "totalHours": 20.25,
-          "grossPay": 658.55,
-          "tax": 131.71,
-          "netPay": 526.84,
+          "grossPay": 658.85,
+          "tax": 131.77,
+          "netPay": 527.08,
           "payCategories": [
             {
               "category": "ordinary",
@@ -262,7 +262,7 @@
             },
             {
               "category": "saturday",
-              "hours": 5,
+              "hours": 5.0,
               "rate": 38.48,
               "description": "Saturday (higher rate)"
             },
@@ -291,9 +291,9 @@
             "2025-05-17"
           ],
           "totalHours": 29.5,
-          "grossPay": 979.44,
-          "tax": 195.89,
-          "netPay": 783.55,
+          "grossPay": 979.48,
+          "tax": 195.9,
+          "netPay": 783.58,
           "payCategories": [
             {
               "category": "ordinary",
@@ -309,7 +309,7 @@
             },
             {
               "category": "saturday",
-              "hours": 5,
+              "hours": 5.0,
               "rate": 38.48,
               "description": "Saturday (higher rate)"
             },
@@ -338,13 +338,13 @@
             "2025-05-24"
           ],
           "totalHours": 28.75,
-          "grossPay": 964.06,
-          "tax": 192.81,
-          "netPay": 771.25,
+          "grossPay": 965.06,
+          "tax": 193.01,
+          "netPay": 772.05,
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 22,
+              "hours": 22.0,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -356,7 +356,7 @@
             },
             {
               "category": "saturday",
-              "hours": 5,
+              "hours": 5.0,
               "rate": 38.48,
               "description": "Saturday (higher rate)"
             },
@@ -381,8 +381,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -429,8 +429,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -468,15 +468,17 @@
           "startDate": "2025-04-10",
           "endDate": "2025-04-23",
           "payDate": "2025-04-24",
-          "shifts": [],
-          "totalHours": 0,
-          "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "shifts": [
+            "2025-04-23"
+          ],
+          "totalHours": 8.5,
+          "grossPay": 272.51,
+          "tax": 54.5,
+          "netPay": 218.01,
           "payCategories": [
             {
               "category": "ordinary",
-              "hours": 0,
+              "hours": 8.5,
               "rate": 32.06,
               "description": "Regular hours (Monday to Friday during day)"
             },
@@ -513,8 +515,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -555,8 +557,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -597,8 +599,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",

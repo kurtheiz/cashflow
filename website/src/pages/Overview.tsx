@@ -46,20 +46,20 @@ const Overview = () => {
   const payPeriodsData = payPeriodsResp?.data || [];
 
   
-  // Get the next shift for each employer
+  // Get the next shift for each employer, sorted by date
   const nextShiftsByEmployer = useMemo(() => {
     if (!shiftsData || !Array.isArray(shiftsData)) {
       console.log('shiftsData is not an array:', shiftsData);
-      return {};
+      return [];
     }
     
     console.log('Processing shifts data in Overview:', shiftsData);
     
-    const result: Record<string, Shift> = {};
     // Use current date and time as 'now' to ensure consistent behavior
     const now = new Date();
+    
     // Group shifts by employer
-    const shiftsByEmployer: Record<string, Shift[]> = {};
+    const shiftsByEmployer: Record<string, any[]> = {};
     
     // Process each shift with thorough validation
     shiftsData.forEach((shift: any) => {
@@ -68,8 +68,18 @@ const Overview = () => {
         if (shift && shift.date && shift.start && shift.end && shift.employerId) {
           // Combine date and start/end time into Date objects
           const shiftDate = shift.date;
-          const shiftStart = new Date(`${shiftDate}T${shift.start}`);
-          const shiftEnd = new Date(`${shiftDate}T${shift.end}`);
+          
+          // Ensure times have proper format with leading zeros
+          const formatTime = (timeStr: string) => {
+            // If time is in format H:MM, add leading zero
+            if (timeStr.length === 4 && timeStr.indexOf(':') === 1) {
+              return `0${timeStr}`;
+            }
+            return timeStr;
+          };
+          
+          const shiftStart = new Date(`${shiftDate}T${formatTime(shift.start)}`);
+          const shiftEnd = new Date(`${shiftDate}T${formatTime(shift.end)}`);
           
           if (isNaN(shiftStart.getTime()) || isNaN(shiftEnd.getTime())) {
             console.error('Invalid shift date/time:', shift);
@@ -82,13 +92,18 @@ const Overview = () => {
           const isInFuture = shiftStart > now;
           
           // Include shifts that are either:
-          // 1. Today and haven't ended yet, or
+          // 1. Today and hasn't ended yet, or
           // 2. In the future
           if ((isToday && !hasEnded) || isInFuture) {
             if (!shiftsByEmployer[shift.employerId]) {
               shiftsByEmployer[shift.employerId] = [];
             }
-            shiftsByEmployer[shift.employerId].push(shift);
+            
+            // Add shift with its start time for sorting
+            shiftsByEmployer[shift.employerId].push({
+              ...shift,
+              startDateTime: shiftStart
+            });
           }
         }
       } catch (error) {
@@ -97,22 +112,29 @@ const Overview = () => {
     });
     
     // Get the next shift for each employer
-    employersData.forEach((employer: any) => {
-      const employerShifts = shiftsByEmployer[employer.id] || [];
+    const nextShifts: any[] = [];
+    
+    // For each employer, get their next shift
+    Object.keys(shiftsByEmployer).forEach(employerId => {
+      const employerShifts = shiftsByEmployer[employerId];
       if (employerShifts.length > 0) {
         // Sort shifts by start datetime
-        employerShifts.sort((a, b) => {
-          const aStart = new Date(`${a.date}T${a.start}`);
-          const bStart = new Date(`${b.date}T${b.start}`);
-          return aStart.getTime() - bStart.getTime();
+        employerShifts.sort((a: any, b: any) => {
+          return a.startDateTime.getTime() - b.startDateTime.getTime();
         });
+        
         // Get the next shift
-        result[employer.id] = employerShifts[0];
+        nextShifts.push(employerShifts[0]);
       }
     });
     
-    console.log('Next shifts by employer:', result);
-    return result;
+    // Sort the next shifts by date
+    nextShifts.sort((a: any, b: any) => {
+      return a.startDateTime.getTime() - b.startDateTime.getTime();
+    });
+    
+    console.log('Next shifts by employer sorted by date:', nextShifts);
+    return nextShifts;
   }, [shiftsData]);
   
   // Get upcoming pay dates for each employer
@@ -194,17 +216,19 @@ const Overview = () => {
                 </div>
               ) : (
                 <div className="w-full">
-                  {Object.keys(nextShiftsByEmployer).length > 0 ? (
-                    employersData.map((employer: any) => {
-                      const nextShift = nextShiftsByEmployer[employer.id];
-                      if (!nextShift) return null;
+                  {nextShiftsByEmployer.length > 0 ? (
+                    nextShiftsByEmployer.map((shift: any, index: number) => {
+                      // Find the employer for this shift
+                      const employer = employersData.find((emp: any) => emp.id === shift.employerId);
+                      if (!employer) return null;
+                      
                       return (
-                        <div key={`shift-${employer.id}`} className="w-full">
+                        <div key={`shift-${shift.employerId}-${shift.date}-${index}`} className="w-full">
                           <ShiftCard 
-                            shift={nextShift} 
+                            shift={shift} 
                             color={employer.color}
                             isPublicHoliday={publicHolidays.some((holiday: any) => 
-                              isSameDay(parseISO(holiday.date), parseISO(nextShift.date))
+                              isSameDay(parseISO(holiday.date), parseISO(shift.date))
                             )}
                           />
                         </div>

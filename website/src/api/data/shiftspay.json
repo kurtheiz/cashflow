@@ -9,7 +9,12 @@
             "hoursWorked": 7.75,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 7.75, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 7.75,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 248.47,
@@ -24,11 +29,21 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -40,7 +55,12 @@
             "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 256.48,
@@ -55,11 +75,21 @@
             "hoursWorked": 7.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 7.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 7.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
-            "payRate": 32.15,
-            "grossPay": 233.09,
+            "payRate": 32.28,
+            "grossPay": 234.04,
             "unpaidBreakMinutes": 30
         },
         {
@@ -71,7 +101,12 @@
             "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 256.48,
@@ -86,11 +121,21 @@
             "hoursWorked": 7.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 6.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 6.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 1.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
-            "payRate": 33.04,
-            "grossPay": 239.54,
+            "payRate": 33.17,
+            "grossPay": 240.46,
             "unpaidBreakMinutes": 30
         },
         {
@@ -102,10 +147,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+                {
+                    "category": "saturday",
+                    "hours": 5.0,
+                    "rate": 38.48,
+                    "description": "Saturday (non-shiftworkers)"
+                }
             ],
             "payRate": 38.48,
-            "grossPay": 192.40,
+            "grossPay": 192.4,
             "unpaidBreakMinutes": 0
         },
         {
@@ -114,10 +164,15 @@
             "employer": "Petbarn",
             "start": "09:30",
             "end": "17:30",
-            "hoursWorked": 7.5,
+            "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 256.48,
@@ -129,13 +184,18 @@
             "employer": "Petbarn",
             "start": "09:45",
             "end": "17:15",
-            "hoursWorked": 7.0,
+            "hoursWorked": 7.5,
             "isPublicHoliday": true,
             "payCategories": [
-                {"category": "public_holiday", "hours": 7.5, "rate": 64.13, "description": "Public holiday (double pay)"}
+                {
+                    "category": "public_holiday",
+                    "hours": 7.5,
+                    "rate": 64.13,
+                    "description": "Public holiday (non-shiftworkers)"
+                }
             ],
             "payRate": 64.13,
-            "grossPay": 480.98,
+            "grossPay": 480.97,
             "unpaidBreakMinutes": 30
         },
         {
@@ -147,11 +207,36 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 5.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
-            "grossPay": 160.30,
+            "grossPay": 160.3,
             "unpaidBreakMinutes": 0
+        },
+        {
+            "date": "2025-04-23",
+            "employerId": "EQSADDLERY",
+            "employer": "EQ Saddlery",
+            "start": "9:00",
+            "end": "17:30",
+            "hoursWorked": 8.5,
+            "isPublicHoliday": false,
+            "payCategories": [
+                {
+                    "category": "ordinary",
+                    "hours": 8.5,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
+            ],
+            "payRate": 32.06,
+            "grossPay": 272.51,
+            "unpaidBreakMinutes": 30
         },
         {
             "date": "2025-04-24",
@@ -159,14 +244,24 @@
             "employer": "Petbarn",
             "start": "10:00",
             "end": "18:15",
-            "hoursWorked": 7.75,
+            "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -178,10 +273,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 5.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
-            "grossPay": 160.30,
+            "grossPay": 160.3,
             "unpaidBreakMinutes": 0
         },
         {
@@ -193,11 +293,21 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -209,11 +319,21 @@
             "hoursWorked": 7.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 5.75, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 5.75,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 1.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
-            "payRate": 33.17,
-            "grossPay": 232.19,
+            "payRate": 33.21,
+            "grossPay": 232.45,
             "unpaidBreakMinutes": 30
         },
         {
@@ -225,10 +345,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 5.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 5.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
-            "grossPay": 160.30,
+            "grossPay": 160.3,
             "unpaidBreakMinutes": 0
         },
         {
@@ -240,10 +365,15 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.25, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.25,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
-            "grossPay": 264.50,
+            "grossPay": 264.5,
             "unpaidBreakMinutes": 30
         },
         {
@@ -255,7 +385,12 @@
             "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 256.48,
@@ -270,10 +405,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+                {
+                    "category": "saturday",
+                    "hours": 5.0,
+                    "rate": 38.48,
+                    "description": "Saturday (non-shiftworkers)"
+                }
             ],
             "payRate": 38.48,
-            "grossPay": 192.40,
+            "grossPay": 192.4,
             "unpaidBreakMinutes": 0
         },
         {
@@ -285,11 +425,21 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -301,10 +451,15 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.25, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.25,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
-            "grossPay": 264.50,
+            "grossPay": 264.5,
             "unpaidBreakMinutes": 30
         },
         {
@@ -316,7 +471,12 @@
             "hoursWorked": 8.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                }
             ],
             "payRate": 32.06,
             "grossPay": 256.48,
@@ -331,10 +491,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+                {
+                    "category": "saturday",
+                    "hours": 5.0,
+                    "rate": 38.48,
+                    "description": "Saturday (non-shiftworkers)"
+                }
             ],
             "payRate": 38.48,
-            "grossPay": 192.40,
+            "grossPay": 192.4,
             "unpaidBreakMinutes": 0
         },
         {
@@ -346,11 +511,21 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -362,11 +537,21 @@
             "hoursWorked": 8.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 8.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 0.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 8.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
             "payRate": 32.25,
-            "grossPay": 266.06,
+            "grossPay": 266.1,
             "unpaidBreakMinutes": 30
         },
         {
@@ -378,11 +563,21 @@
             "hoursWorked": 7.25,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "ordinary", "hours": 6.0, "rate": 32.06, "description": "Regular hours (Monday to Friday during day)"},
-                {"category": "evening_mon_fri", "hours": 1.25, "rate": 38.48, "description": "Monday to Friday after 6pm"}
+                {
+                    "category": "ordinary",
+                    "hours": 6.0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 1.25,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                }
             ],
-            "payRate": 33.04,
-            "grossPay": 239.54,
+            "payRate": 33.17,
+            "grossPay": 240.46,
             "unpaidBreakMinutes": 30
         },
         {
@@ -394,10 +589,15 @@
             "hoursWorked": 5.0,
             "isPublicHoliday": false,
             "payCategories": [
-                {"category": "saturday", "hours": 5.0, "rate": 38.48, "description": "Saturday (higher rate)"}
+                {
+                    "category": "saturday",
+                    "hours": 5.0,
+                    "rate": 38.48,
+                    "description": "Saturday (non-shiftworkers)"
+                }
             ],
             "payRate": 38.48,
-            "grossPay": 192.40,
+            "grossPay": 192.4,
             "unpaidBreakMinutes": 0
         }
     ]

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, Briefcase, Percent, Receipt, DollarSign, Check, X, Info, X as XIcon } from 'lucide-react';
+import { Calendar, Clock, Briefcase, Percent, Receipt, DollarSign, Check, X, Info } from 'lucide-react';
 import { useEmployers } from '../hooks/useApiData';
+import DetailModal from './DetailModal';
 
 interface EmployerCardProps {
   employerId: string;
@@ -107,126 +108,88 @@ const EmployerCard: React.FC<EmployerCardProps> = ({ employerId }) => {
         </div>
         
         {/* Award Rules Modal */}
-        {showAwardRules && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" style={{ paddingBottom: '80px' }}>
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-semibold text-gray-900">General Retail Industry Award Rules</h3>
-                <button 
-                  onClick={() => setShowAwardRules(false)}
-                  className="p-1 rounded-full hover:bg-gray-100 transition-colors"
-                  aria-label="Close modal"
-                >
-                  <XIcon className="h-5 w-5 text-gray-500" />
-                </button>
+        <DetailModal
+          isOpen={showAwardRules}
+          onClose={() => setShowAwardRules(false)}
+          title="General Retail Industry Award Rules"
+          subtitle={`Level ${employer.level} - ${employer.state}`}
+        >
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-2">Pay Rates</h4>
+              <p className="text-gray-700 mb-2">Level {employer.level} Casual Employee Rates:</p>
+              <div className="bg-gray-50 rounded-md p-3">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-2 font-medium">Time Category</th>
+                      <th className="text-right py-2 font-medium">Rate (per hour)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">Ordinary hours</td>
+                      <td className="py-2 text-right">$32.06</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">Evening (after 6pm)</td>
+                      <td className="py-2 text-right">$38.48</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">Saturday</td>
+                      <td className="py-2 text-right">$38.48</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">Sunday</td>
+                      <td className="py-2 text-right">$44.89</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2">Public Holiday</td>
+                      <td className="py-2 text-right">$64.13</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              
-              <div className="px-4 py-3">
-                <div className="mb-5">
-                  <h4 className="text-md font-semibold text-gray-900 mb-2">Pay Rates</h4>
-                  <p className="text-gray-700 mb-2">Level 1 Casual Employee Rates:</p>
-                  <div className="bg-gray-50 rounded-md p-3">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-gray-200">
-                          <th className="text-left py-2 font-medium">Time Category</th>
-                          <th className="text-right py-2 font-medium">Rate (per hour)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">Ordinary hours</td>
-                          <td className="py-2 text-right">$32.06</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">Evening (after 6pm)</td>
-                          <td className="py-2 text-right">$38.48</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">Saturday</td>
-                          <td className="py-2 text-right">$38.48</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">Sunday</td>
-                          <td className="py-2 text-right">$44.89</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">Public Holiday</td>
-                          <td className="py-2 text-right">$64.13</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            </div>
 
-                <div className="mb-5">
-                  <h4 className="text-md font-semibold text-gray-900 mb-2">Break Rules</h4>
-                  <ul className="list-disc pl-5 text-gray-700 space-y-2">
-                    <li>An employee who works for more than 5 hours must get at least 1 meal break.</li>
-                    <li>Employees can't be asked to work more than 5 hours without a meal break.</li>
-                    <li>Employees can't be asked to take a rest or meal break within 1 hour of starting or finishing work.</li>
-                    <li>An employee who gets 2 rest breaks has to take 1 break in the first half of their shift, and the other break in the second half.</li>
-                  </ul>
-                </div>
-                
-                <div className="mb-5">
-                  <h4 className="text-md font-semibold text-gray-900 mb-2">Break Entitlements</h4>
-                  <div className="bg-gray-50 rounded-md p-3">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-gray-200">
-                          <th className="text-left py-2 font-medium">Shift Length</th>
-                          <th className="text-left py-2 font-medium">Rest Breaks</th>
-                          <th className="text-left py-2 font-medium">Meal Breaks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">Less than 4 hours</td>
-                          <td className="py-2">None</td>
-                          <td className="py-2">None</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">4-5 hours</td>
-                          <td className="py-2">One 10-minute</td>
-                          <td className="py-2">None</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">5-7 hours</td>
-                          <td className="py-2">One 10-minute</td>
-                          <td className="py-2">One 30-60 minute</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                          <td className="py-2">7-10 hours</td>
-                          <td className="py-2">Two 10-minute</td>
-                          <td className="py-2">One 30-60 minute</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2">10+ hours</td>
-                          <td className="py-2">Two 10-minute</td>
-                          <td className="py-2">Two 30-60 minute</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
-                <div className="pb-10 mb-3">
-                  {/* Extra space at the bottom for better scrolling */}
-                </div>
-              </div>
-              
-              <div className="border-t border-gray-200 px-4 py-3">
-                <button
-                  onClick={() => setShowAwardRules(false)}
-                  className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
-                >
-                  Close
-                </button>
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-2">Break Entitlements</h4>
+              <div className="bg-gray-50 rounded-md p-3">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-2 font-medium">Shift Length</th>
+                      <th className="text-left py-2 font-medium">Rest Breaks</th>
+                      <th className="text-left py-2 font-medium">Meal Breaks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">Less than 4 hours</td>
+                      <td className="py-2">None</td>
+                      <td className="py-2">None</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">4-5 hours</td>
+                      <td className="py-2">One 10-minute</td>
+                      <td className="py-2">None</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <td className="py-2">5-7 hours</td>
+                      <td className="py-2">One 10-minute</td>
+                      <td className="py-2">One 30-60 minute</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2">7+ hours</td>
+                      <td className="py-2">Two 10-minute</td>
+                      <td className="py-2">One 30-60 minute</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-        )}
+        </DetailModal>
 
         {/* Pay cycle information */}
         <div>

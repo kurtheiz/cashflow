@@ -3,8 +3,8 @@
   "name": "Demo User",
   "employers": [
     {
-      "id": "A",
-      "name": "Company A",
+      "id": "PETBARN",
+      "name": "Petbarn",
       "state": "VIC",
       "level": "retail_employee_level_1",
       "awardDescription": "General Retail Industry Award Level 1",
@@ -15,7 +15,7 @@
       "superRate": 0.12,
       "payPeriodStart": "Monday",
       "payPeriodDays": 7,
-      "nextPayDate": "2025-04-30",
+      "nextPayDate": "2025-04-23",
       "applicableAllowances": [
         {
           "name": "First aid allowance",
@@ -42,8 +42,8 @@
       ]
     },
     {
-      "id": "B",
-      "name": "Company B",
+      "id": "EQSADDLERY",
+      "name": "EQ Saddlery",
       "state": "VIC",
       "level": "retail_employee_level_1",
       "awardDescription": "General Retail Industry Award Level 1",

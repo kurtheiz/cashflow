@@ -40,8 +40,15 @@ USER_FILE = os.path.join(DATA_DIR, "user.json")
 
 def load_json_file(file_path: str) -> Dict:
     """Load and parse a JSON file."""
-    with open(file_path, 'r') as f:
-        return json.load(f)
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        # Return empty structure if file doesn't exist
+        if file_path == PAYPERIODS_FILE:
+            print(f"Creating new payperiods.json file")
+            return {"payPeriods": []}
+        raise
 
 def save_json_file(file_path: str, data: Dict) -> None:
     """Save data to a JSON file with proper formatting."""
@@ -77,12 +84,152 @@ def get_next_pay_date(payday, days_to_add=0):
     
     return next_pay_date.strftime("%Y-%m-%d")
 
+def generate_pay_periods(employer, start_date_str, end_date_str):
+    """Generate pay periods for an employer between start and end dates."""
+    # Convert string dates to datetime objects
+    start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+    
+    # Get employer pay cycle info
+    pay_cycle = employer.get("paycycle", "weekly")
+    pay_period_start_day = employer.get("payPeriodStart", "Monday")
+    pay_period_days = employer.get("payPeriodDays", 7)
+    payday = employer.get("payday", "Wednesday")
+    
+    # Map day names to weekday numbers (0=Monday, 6=Sunday)
+    day_map = {"Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3, 
+              "Friday": 4, "Saturday": 5, "Sunday": 6}
+    
+    # Get the weekday number for the pay period start day
+    start_weekday = day_map.get(pay_period_start_day, 0)  # Default to Monday
+    
+    # Find the first pay period start date on or before the overall start date
+    days_to_subtract = (start_date.weekday() - start_weekday) % 7
+    first_period_start = start_date - timedelta(days=days_to_subtract)
+    
+    # Generate periods
+    periods = []
+    current_start = first_period_start
+    
+    while current_start <= end_date:
+        # Calculate end date based on pay period length
+        current_end = current_start + timedelta(days=pay_period_days - 1)
+        
+        # Calculate pay date (usually a few days after the period ends)
+        # For weekly, typically 3 days after period end
+        # For fortnightly, typically 4 days after period end
+        days_after_end = 3 if pay_cycle == "weekly" else 4
+        pay_date = current_end + timedelta(days=days_after_end)
+        
+        # Adjust pay date to fall on the specified payday if needed
+        target_weekday = day_map.get(payday, 2)  # Default to Wednesday
+        days_to_adjust = (target_weekday - pay_date.weekday()) % 7
+        if days_to_adjust > 0:
+            pay_date += timedelta(days=days_to_adjust)
+        
+        # Create the period
+        period = {
+            "startDate": current_start.strftime("%Y-%m-%d"),
+            "endDate": current_end.strftime("%Y-%m-%d"),
+            "payDate": pay_date.strftime("%Y-%m-%d"),
+            "shifts": [],
+            "totalHours": 0,
+            "grossPay": 0,
+            "tax": 0,
+            "netPay": 0,
+            "payCategories": [
+                {
+                    "category": "ordinary",
+                    "hours": 0,
+                    "rate": 32.06,
+                    "description": "Regular hours (Monday to Friday during day)"
+                },
+                {
+                    "category": "evening_mon_fri",
+                    "hours": 0,
+                    "rate": 38.48,
+                    "description": "Monday to Friday after 6pm"
+                },
+                {
+                    "category": "saturday",
+                    "hours": 0,
+                    "rate": 38.48,
+                    "description": "Saturday (higher rate)"
+                },
+                {
+                    "category": "sunday",
+                    "hours": 0,
+                    "rate": 44.89,
+                    "description": "Sunday (higher rate)"
+                },
+                {
+                    "category": "public_holiday",
+                    "hours": 0,
+                    "rate": 64.13,
+                    "description": "Public holiday (double pay)"
+                }
+            ],
+            "allowanceTotal": 0,
+            "allowances": [],
+            "totalGrossPay": 0
+        }
+        
+        periods.append(period)
+        
+        # Move to the next period
+        current_start = current_end + timedelta(days=1)
+    
+    return periods
+
 def calculate_pay_periods():
-    """Aggregate pay period totals from pre-calculated shift data."""
-    # Read the data files
+    """Main function to calculate pay periods."""
+    # Load data
     shiftspay_data = load_json_file(SHIFTSPAY_FILE)
     payperiods_data = load_json_file(PAYPERIODS_FILE)
     user_data = load_json_file(USER_FILE)
+    
+    # Initialize payperiods data if empty
+    if not payperiods_data["payPeriods"]:
+        print("Initializing pay periods data structure")
+        for employer in user_data["employers"]:
+            payperiods_data["payPeriods"].append({
+                "employerId": employer["id"],
+                "employer": employer["name"],
+                "periods": []
+            })
+    
+    # Generate pay periods if none exist
+    for employer_data in payperiods_data["payPeriods"]:
+        if not employer_data["periods"]:
+            employer_id = employer_data["employerId"]
+            # Find employer in user data
+            employer = next((emp for emp in user_data["employers"] if emp["id"] == employer_id), None)
+            
+            if employer:
+                print(f"Generating pay periods for {employer_data['employer']}")
+                # Get min and max dates from shifts to determine period range
+                employer_shifts = [shift for shift in shiftspay_data["shifts"] 
+                                  if shift["employerId"] == employer_id]
+                
+                if employer_shifts:
+                    # Get date range from shifts
+                    shift_dates = [shift["date"] for shift in employer_shifts]
+                    min_date = min(shift_dates)
+                    max_date = max(shift_dates)
+                    
+                    # Generate periods for this date range
+                    periods = generate_pay_periods(employer, min_date, max_date)
+                    employer_data["periods"] = periods
+                else:
+                    # No shifts, use current month
+                    today = datetime.now()
+                    start_of_month = datetime(today.year, today.month, 1)
+                    end_of_month = datetime(today.year, today.month + 1, 1) - timedelta(days=1)
+                    start_date = start_of_month.strftime("%Y-%m-%d")
+                    end_date = end_of_month.strftime("%Y-%m-%d")
+                    
+                    periods = generate_pay_periods(employer, start_date, end_date)
+                    employer_data["periods"] = periods
     
     # Process each employer's pay periods
     for employer_data in payperiods_data["payPeriods"]:

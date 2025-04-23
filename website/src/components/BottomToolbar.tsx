@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BriefcaseIcon, UserIcon, UsersIcon, LayoutDashboardIcon, Info as InfoIcon } from 'lucide-react';
+import { BriefcaseIcon, BriefcaseIcon as BriefcaseIconSolid, UserIcon, UserIcon as UserIconSolid, UsersIcon, UsersIcon as UsersIconSolid, LayoutDashboardIcon, LayoutDashboardIcon as LayoutDashboardIconSolid, Info as InfoIcon } from 'lucide-react';
+// NOTE: Replace the '... as ...Solid' imports above with the actual filled (Solid) icon imports from Lucide if available, e.g., LayoutDashboardIconSolid. If not available, fallback to the outline icon for both states.
 import { useAuth } from '../context/AuthContext';
 
 import DetailModal from './DetailModal';
@@ -138,24 +139,21 @@ const BottomToolbar: React.FC = () => {
                       className={`h-5 w-5 rounded-full ${item.active ? 'ring-2 ring-blue-500' : ''}`}
                       style={{ objectFit: 'cover' }}
                       onError={() => {
-                        // Set state to show fallback icon instead
                         setAvatarError(true);
                       }}
                     />
                   ) : (
-                    <item.icon
-                      className={`h-5 w-5 ${item.active ? 'system-blue-text md:text-white md:!text-white' : 'text-gray-400'}`}
-                      fill={item.active ? 'currentColor' : 'none'}
-                      strokeWidth={item.active ? 1.5 : 2}
-                    />
+                    item.active ? <UserIconSolid className="h-5 w-5 system-blue-text md:text-white md:!text-white" /> : <UserIcon className="h-5 w-5 text-gray-400" />
                   )}
                 </div>
               ) : (
-                <item.icon
-                  className={`h-5 w-5 ${item.active ? 'system-blue-text md:text-white md:!text-white' : 'text-gray-400'}`}
-                  fill={item.active ? 'currentColor' : 'none'}
-                  strokeWidth={item.active ? 1.5 : 2}
-                />
+                item.label === 'Dashboard' ? (
+                  item.active ? <LayoutDashboardIconSolid className="h-5 w-5 system-blue-text md:text-white md:!text-white" /> : <LayoutDashboardIcon className="h-5 w-5 text-gray-400" />
+                ) : item.label === 'Shifts' ? (
+                  item.active ? <BriefcaseIconSolid className="h-5 w-5 system-blue-text md:text-white md:!text-white" /> : <BriefcaseIcon className="h-5 w-5 text-gray-400" />
+                ) : item.label === 'Employers' ? (
+                  item.active ? <UsersIconSolid className="h-5 w-5 system-blue-text md:text-white md:!text-white" /> : <UsersIcon className="h-5 w-5 text-gray-400" />
+                ) : null
               )}
               <span className={`text-xs mt-1 md:mt-0 md:ml-2 ${item.active ? 'system-blue-text md:text-white md:!text-white' : 'text-gray-400'}`}>{item.label}</span>
             </Link>
@@ -164,7 +162,7 @@ const BottomToolbar: React.FC = () => {
           <button
             type="button"
             aria-label="Help & Info"
-            className="flex flex-col items-center justify-center w-full h-full md:w-auto md:h-auto md:px-2 md:py-0 text-gray-400 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+            className="flex flex-col items-center justify-center w-full h-full md:w-auto md:h-auto md:px-2 md:py-0 text-gray-400 hover:text-blue-600 focus:text-blue-600 focus:outline-none"
             onClick={() => setShowInfoModal(true)}
           >
             <InfoIcon className="h-5 w-5" />

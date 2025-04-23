@@ -28,6 +28,9 @@ import os
 from typing import Dict, List, Any
 from datetime import datetime, timedelta
 
+# Import the tax calculator
+from tax_calculator import calculate_tax
+
 # Paths to data files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "src", "api", "data")
@@ -104,8 +107,6 @@ def calculate_pay_periods():
             # Calculate totals - simply sum up values from shifts
             total_hours = 0
             total_gross_pay = 0
-            total_tax = 0
-            total_net_pay = 0
             total_allowances = 0
             
             # Dictionary to track allowances by name
@@ -123,11 +124,7 @@ def calculate_pay_periods():
                 # Add gross pay
                 total_gross_pay += shift["grossPay"]
                 
-                # Add tax
-                total_tax += shift["tax"]
-                
-                # Add net pay
-                total_net_pay += shift["netPay"]
+                # Tax and net pay now calculated at pay period level
                 
                 # Process allowances if present
                 if "allowances" in shift and shift["allowances"]:
@@ -166,19 +163,74 @@ def calculate_pay_periods():
                     if period_category:
                         period_category["hours"] += shift_category["hours"]
             
+            # Get employer info for tax calculation
+            employer_info = next((emp for emp in user_data["employers"] if emp["id"] == employer_id), None)
+            
+            if not employer_info:
+                print(f"Warning: Employer {employer_id} not found in user data")
+                continue
+                
+            # Get tax settings from employer
+            pay_cycle = employer_info.get("paycycle", "weekly")
+            claims_tax_free_threshold = employer_info.get("taxFreeThreshold", True)
+            
+            # Calculate total gross pay for the period
+            total_gross_amount = total_gross_pay + total_allowances
+            rounded_gross = round(total_gross_amount, 2)
+            
+            # Determine the effective pay period length
+            start_date = datetime.strptime(period["startDate"], "%Y-%m-%d")
+            end_date = datetime.strptime(period["endDate"], "%Y-%m-%d")
+            period_days = (end_date - start_date).days + 1  # Include both start and end dates
+            
+            # Adjust calculation based on period length if needed
+            # For example, if a weekly pay cycle spans more than 7 days, adjust the calculation
+            period_adjustment = 1.0
+            if pay_cycle == "weekly" and period_days > 7:
+                # If period is longer than a week, adjust the calculation
+                period_adjustment = period_days / 7.0
+                print(f"Adjusting weekly pay cycle for period of {period_days} days: factor {period_adjustment}")
+            elif pay_cycle == "fortnightly" and period_days > 14:
+                # If period is longer than a fortnight, adjust the calculation
+                period_adjustment = period_days / 14.0
+                print(f"Adjusting fortnightly pay cycle for period of {period_days} days: factor {period_adjustment}")
+            
+            # Debug output
+            print(f"\nTax calculation for {employer_info['name']} pay period {period['startDate']} to {period['endDate']}:")
+            print(f"  Total gross amount: ${rounded_gross:.2f}")
+            print(f"  Pay cycle: {pay_cycle}")
+            print(f"  Claims tax-free threshold: {claims_tax_free_threshold}")
+            print(f"  Period days: {period_days} (adjustment factor: {period_adjustment:.2f})")
+            
+            # Calculate tax for the entire pay period
+            tax = calculate_tax(
+                rounded_gross,  # Use the rounded gross pay including allowances
+                pay_cycle,     # 'weekly', 'fortnightly', or 'monthly'
+                claims_tax_free_threshold,  # Whether employee claims tax-free threshold
+                True,          # Assuming employee has provided TFN
+                False,         # Assuming employee is not a foreign resident
+                0              # Assuming no tax offset amount
+            )
+            
+            # Apply period adjustment if needed
+            if period_adjustment != 1.0 and pay_cycle != "monthly":
+                # For monthly pay cycles, the calculation already accounts for varying month lengths
+                # For weekly/fortnightly, we need to adjust based on the actual period length
+                tax = tax * period_adjustment
+                print(f"  Adjusted tax: ${tax:.2f} (after period adjustment)")
+            else:
+                print(f"  Calculated tax: ${tax:.2f}")
+            
+            # Calculate net pay
+            net_pay = total_gross_amount - tax
+            
             # Update period totals - use rounded values for display
             period["totalHours"] = round(total_hours, 2)
             period["grossPay"] = round(total_gross_pay, 2)
-            period["tax"] = round(total_tax, 2)
             period["allowanceTotal"] = round(total_allowances, 2)
-            
-            # Add totalGrossPay field (base pay + allowances) for clarity
-            period["totalGrossPay"] = round(total_gross_pay + total_allowances, 2)
-            
-            # Calculate net pay as grossPay + allowances - tax
-            # This is more explicit than summing individual netPay values
-            # and ensures consistency with the displayed values
-            period["netPay"] = round(total_gross_pay + total_allowances - total_tax, 2)
+            period["totalGrossPay"] = round(total_gross_amount, 2)
+            period["tax"] = round(tax, 2)
+            period["netPay"] = round(net_pay, 2)
             
             # Add allowances to the period
             period["allowances"] = list(allowances_by_name.values())

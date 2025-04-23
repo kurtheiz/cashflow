@@ -265,12 +265,13 @@ const Overview = () => {
                               date: payDate.payDate,
                               employerId: employer.id,
                               employer: employer.name,
-                              amount: payDate.grossPay,
+                              amount: payDate.grossPay, // Kept for backward compatibility
                               grossPay: payDate.grossPay,
                               periodStart: payDate.startDate,
                               periodEnd: payDate.endDate,
                               hours: payDate.totalHours,
-                              payRate: payDate.payCategories && payDate.payCategories[0]?.rate || 0,
+                              payRate: payDate.payCategories && payDate.payCategories.length > 0 ? 
+                                payDate.payCategories[0].rate : 0,
                               tax: payDate.tax,
                               netPay: payDate.netPay,
                               employeeLevel: employer.level,
@@ -280,10 +281,10 @@ const Overview = () => {
                               // Use shifts directly as shiftDates since they are already date strings
                               shiftDates: Array.isArray(payDate.shifts) ? payDate.shifts : [],
                               shifts: payDate.shifts,
-                              // Add allowances data
+                              // Add allowances data - ensure these are always defined
                               allowances: payDate.allowances || [],
-                              allowanceTotal: payDate.allowanceTotal || 0,
-                              totalGrossPay: payDate.totalGrossPay || 0
+                              allowanceTotal: payDate.allowanceTotal || 0, // Ensure it's never undefined
+                              totalGrossPay: payDate.totalGrossPay || 0 // Ensure it's never undefined
                             }} 
                             color={employer.color} 
                           />

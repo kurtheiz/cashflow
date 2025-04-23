@@ -21,16 +21,16 @@ const BottomToolbar: React.FC = () => {
       active: isActive('/overview')
     },
     {
-      label: 'Employers',
-      icon: UsersIcon,
-      path: '/employers',
-      active: isActive('/employers')
-    },
-    {
       label: 'Shifts & Pay',
       icon: BriefcaseIcon,
       path: '/schedule',
       active: isActive('/schedule')
+    },
+    {
+      label: 'Employers',
+      icon: UsersIcon,
+      path: '/employers',
+      active: isActive('/employers')
     },
     {
       label: 'Me',

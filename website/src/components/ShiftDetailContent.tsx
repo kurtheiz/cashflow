@@ -33,8 +33,6 @@ interface ShiftDetailContentProps {
     }[];
     allowanceTotal?: number;
     totalGrossPay?: number;
-    tax?: number;
-    netPay?: number;
   };
 }
 
@@ -170,8 +168,6 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
   const grossPay = shift.grossPay || 0;
   const allowanceTotal = shift.allowanceTotal || 0;
   const totalGrossPay = shift.totalGrossPay || 0;
-  const tax = shift.tax || 0;
-  const netPay = shift.netPay || 0;
   
   return (
     <div className="space-y-4">
@@ -321,33 +317,11 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
               <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
             </div>
             
-            {/* Tax Details */}
+            {/* Note about Tax */}
             <div className="pt-1 border-t border-gray-200 mt-2 mb-1">
-              <h5 className="text-xs font-medium text-gray-500 mb-2">Tax Calculation</h5>
-              <div className="flex justify-between items-center mb-1">
-                <div className="text-sm text-gray-500">Taxable Income</div>
-                <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
+              <div className="text-sm text-gray-500 italic">
+                Tax is calculated at the pay period level, not per shift.
               </div>
-              
-              {tax > 0 ? (
-                <>
-                  <div className="flex justify-between items-center mb-1">
-                    <div className="text-sm text-gray-500">Tax Withheld</div>
-                    <div className="text-sm font-medium text-gray-900">-${tax.toFixed(2)}</div>
-                  </div>
-                  <div className="flex justify-between items-center text-xs text-gray-500 mb-1">
-                    <div>Effective Tax Rate</div>
-                    <div>{((tax / totalGrossPay) * 100).toFixed(1)}%</div>
-                  </div>
-                </>
-              ) : (
-                <div className="text-sm text-gray-500 mb-1">No tax withheld for this shift</div>
-              )}
-            </div>
-            
-            <div className="flex justify-between items-center pt-1 border-t border-gray-200 mt-1">
-              <div className="text-sm font-bold text-gray-700">Net Pay</div>
-              <div className="text-sm font-bold text-gray-900">${netPay.toFixed(2)}</div>
             </div>
           </div>
         </div>

@@ -7,13 +7,13 @@ interface PayDateDetailContentProps {
     date: string;
     employerId: string;
     employer: string;
-    amount?: number;
-    grossPay?: number; // Added to match the payperiods.json structure
+    amount?: number; // Kept for backward compatibility
+    grossPay: number; // Base pay without allowances
     periodStart?: string;
     periodEnd?: string;
     hours?: number;
     payRate?: number;
-    tax?: number;
+    tax: number; // Tax is now calculated at the pay period level
     employeeLevel?: string;
     awardDescription?: string;
     sgcPercentage?: number;
@@ -23,19 +23,19 @@ interface PayDateDetailContentProps {
       rate: number;
       description: string;
     }[];
-    // Added for pay period shift display:
+    // For pay period shift display:
     shiftDates?: string[]; // ISO date strings for each shift worked
     shifts?: string[]; // shift IDs (fallback)
-    // Added for allowances:
+    // For allowances:
     allowances?: {
       name: string;
       amount: number;
       type?: string;
       notes?: string;
     }[];
-    allowanceTotal?: number;
-    totalGrossPay?: number; // Added to include total gross pay with allowances
-    netPay?: number;
+    allowanceTotal: number; // Total of all allowances
+    totalGrossPay: number; // Total gross pay including allowances
+    netPay: number; // Net pay calculated at pay period level
   };
 }
 
@@ -46,11 +46,11 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
   
   // Use pre-calculated data directly - no calculations in the component
   const hours = payDate.hours || 0;
-  const grossPay = payDate.grossPay || 0; // Use grossPay instead of amount
-  const tax = payDate.tax || 0;
-  const allowanceTotal = payDate.allowanceTotal || 0;
-  const totalGrossPay = payDate.totalGrossPay || 0;
-  const netPay = payDate.netPay || 0;
+  const grossPay = payDate.grossPay; // Base pay without allowances
+  const tax = payDate.tax; // Tax calculated at pay period level
+  const allowanceTotal = payDate.allowanceTotal; // Total of all allowances
+  const totalGrossPay = payDate.totalGrossPay; // Total gross pay including allowances
+  const netPay = payDate.netPay; // Net pay calculated at pay period level
   
   // Format period dates if available
   const periodStartFormatted = payDate.periodStart 
@@ -214,8 +214,11 @@ const PayDateDetailContent: React.FC<PayDateDetailContentProps> = ({ payDate }) 
             </div>
             
             <div className="flex justify-between items-center mb-1">
-              <div className="text-sm text-gray-500">PAYG Withholding</div>
+              <div className="text-sm text-gray-500">PAYG Withholding (Pay Period)</div>
               <div className="text-sm font-medium text-gray-900">-${tax.toFixed(2)}</div>
+            </div>
+            <div className="text-xs text-gray-500 italic mb-2">
+              Tax is calculated on the total pay period income, not per shift.
             </div>
             
             <div className="flex justify-between items-center pt-2 border-t border-gray-100 mb-2">

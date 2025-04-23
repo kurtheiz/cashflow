@@ -17,9 +17,6 @@ import os
 from datetime import datetime, time, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 
-# Import the tax calculator
-from tax_calculator import calculate_tax
-
 # Paths to data files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "src", "api", "data")
@@ -306,19 +303,7 @@ def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict
         allowance_total += allowance["amount"]
     total_gross_pay += allowance_total
     
-    # Calculate tax based on employer's pay cycle and tax settings
-    pay_cycle = employer_info.get("paycycle", "weekly")
-    claims_tax_free_threshold = employer_info.get("taxFreeThreshold", True)
-    
-    # Calculate tax for this shift
-    tax = calculate_tax(
-        round(total_gross_pay, 2),  # Use the rounded gross pay including allowances
-        pay_cycle,               # 'weekly', 'fortnightly', or 'monthly'
-        claims_tax_free_threshold,  # Whether employee claims tax-free threshold
-        True,                    # Assuming employee has provided TFN
-        False,                   # Assuming employee is not a foreign resident
-        0                        # Assuming no tax offset amount
-    )
+    # Tax calculation moved to pay period calculation
     
     # Create the result
     result = shift.copy()
@@ -331,8 +316,6 @@ def calculate_shift_pay(shift: Dict, user_data: Dict, config_data: Dict) -> Dict
         "allowances": allowances,
         "allowanceTotal": round(allowance_total, 2),
         "totalGrossPay": round(total_gross_pay, 2),
-        "tax": round(tax, 2),
-        "netPay": round(total_gross_pay - tax, 2),
         "unpaidBreakMinutes": unpaid_break_minutes
     })
     

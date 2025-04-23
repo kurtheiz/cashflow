@@ -9,14 +9,14 @@ interface PayDateCardProps {
     date: string;
     employerId: string;
     employer: string;
-    amount?: number;
-    grossPay?: number; // Added to match the payperiods.json structure
+    amount?: number; // Kept for backward compatibility
+    grossPay: number; // Base pay without allowances
     periodStart?: string;
     periodEnd?: string;
     hours?: number;
     payRate?: number;
-    tax?: number;
-    netPay?: number;
+    tax: number; // Tax is now calculated at the pay period level
+    netPay: number; // Net pay is now calculated at the pay period level
     employeeLevel?: string;
     awardDescription?: string;
     sgcPercentage?: number;
@@ -26,18 +26,18 @@ interface PayDateCardProps {
       rate: number;
       description: string;
     }[];
-    // Added for pay period shift display:
+    // For pay period shift display:
     shiftDates?: string[]; // ISO date strings for each shift worked
     shifts?: string[]; // shift IDs (fallback)
-    // Added for allowances:
+    // For allowances:
     allowances?: {
       name: string;
       amount: number;
       type?: string;
       notes?: string;
     }[];
-    allowanceTotal?: number;
-    totalGrossPay?: number; // Added to include total gross pay with allowances
+    allowanceTotal: number; // Total of all allowances
+    totalGrossPay: number; // Total gross pay including allowances
   };
   color?: string;
 }
@@ -68,9 +68,9 @@ const PayDateCard: React.FC<PayDateCardProps> = ({
   const payDetails: PayDetails = {  
     hours: payDate.hours || 0,
     payRate: actualPayRate,
-    grossPay: payDate.grossPay || 0, // Use grossPay instead of amount
-    tax: payDate.tax || 0,
-    netPay: payDate.netPay || 0 // Only use the provided netPay value
+    grossPay: payDate.grossPay, // Base pay without allowances
+    tax: payDate.tax, // Tax calculated at pay period level
+    netPay: payDate.netPay // Net pay calculated at pay period level
   };
   
   // Format period dates if available

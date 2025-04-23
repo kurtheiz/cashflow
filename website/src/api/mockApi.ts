@@ -39,6 +39,14 @@ export interface Shift {
   isPublicHoliday?: boolean;
   payRate?: number;
   grossPay?: number;
+  allowances?: {
+    name: string;
+    amount: number;
+    type?: string;
+    notes?: string;
+  }[];
+  allowanceTotal?: number;
+  totalGrossPay?: number;
   unpaidBreakMinutes?: number;
   payCategories?: PayCategory[];
 }
@@ -85,7 +93,7 @@ export interface PayPeriod {
     notes?: string;
   }[];
   allowanceTotal?: number;
-  totalGrossPay?: number;
+  totalGrossPay: number;
 }
 
 export interface PublicHoliday {
@@ -256,8 +264,8 @@ class MockApi {
     hours: number;
     payRate: number;
     grossPay: number;
-    tax: number;
-    netPay: number;
+    allowanceTotal: number;
+    totalGrossPay: number;
   }>> {
     await delay(600);
     
@@ -269,8 +277,8 @@ class MockApi {
         hours: 7.5,
         payRate: 32.06,
         grossPay: 240.45,
-        tax: 48.09,
-        netPay: 192.36
+        allowanceTotal: 1.25,
+        totalGrossPay: 241.70
       },
       status: 200,
       message: 'Success'
@@ -281,6 +289,8 @@ class MockApi {
     totalHours: number;
     averagePayRate: number;
     grossPay: number;
+    allowanceTotal: number;
+    totalGrossPay: number;
     tax: number;
     netPay: number;
     shifts: string[];
@@ -295,8 +305,10 @@ class MockApi {
         totalHours: 30,
         averagePayRate: 32.06,
         grossPay: 961.80,
+        allowanceTotal: 3.75,
+        totalGrossPay: 965.55,
         tax: 192.36,
-        netPay: 769.44,
+        netPay: 773.19,
         shifts: ['shift-1', 'shift-2', 'shift-3', 'shift-4']
       },
       status: 200,

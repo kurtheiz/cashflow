@@ -28,8 +28,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 233.69,
-            "tax": 0.0,
-            "netPay": 233.69,
             "unpaidBreakMinutes": 30
         },
         {
@@ -66,8 +64,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -98,8 +94,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 241.7,
-            "tax": 0.0,
-            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -123,8 +117,6 @@
             "allowances": [],
             "allowanceTotal": 0,
             "totalGrossPay": 246.9,
-            "tax": 0.0,
-            "netPay": 246.9,
             "unpaidBreakMinutes": 30
         },
         {
@@ -148,8 +140,6 @@
             "allowances": [],
             "allowanceTotal": 0,
             "totalGrossPay": 255.12,
-            "tax": 0.0,
-            "netPay": 255.12,
             "unpaidBreakMinutes": 30
         },
         {
@@ -186,8 +176,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 219.15,
-            "tax": 0.0,
-            "netPay": 219.15,
             "unpaidBreakMinutes": 30
         },
         {
@@ -218,8 +206,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 241.7,
-            "tax": 0.0,
-            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -256,8 +242,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 225.13,
-            "tax": 0.0,
-            "netPay": 225.13,
             "unpaidBreakMinutes": 30
         },
         {
@@ -288,8 +272,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 193.65,
-            "tax": 0.0,
-            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         },
         {
@@ -313,8 +295,6 @@
             "allowances": [],
             "allowanceTotal": 0,
             "totalGrossPay": 246.9,
-            "tax": 0.0,
-            "netPay": 246.9,
             "unpaidBreakMinutes": 30
         },
         {
@@ -345,8 +325,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 241.7,
-            "tax": 0.0,
-            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -370,8 +348,6 @@
             "allowances": [],
             "allowanceTotal": 0,
             "totalGrossPay": 270.41,
-            "tax": 0.0,
-            "netPay": 270.41,
             "unpaidBreakMinutes": 0
         },
         {
@@ -402,8 +378,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 450.16,
-            "tax": 14.31,
-            "netPay": 435.85,
             "unpaidBreakMinutes": 30
         },
         {
@@ -434,8 +408,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 161.55,
-            "tax": 0.0,
-            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -459,8 +431,6 @@
             "allowances": [],
             "allowanceTotal": 0,
             "totalGrossPay": 256.48,
-            "tax": 0.0,
-            "netPay": 256.48,
             "unpaidBreakMinutes": 30
         },
         {
@@ -497,8 +467,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -529,8 +497,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 161.55,
-            "tax": 0.0,
-            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -567,8 +533,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -605,8 +569,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 217.09,
-            "tax": 0.0,
-            "netPay": 217.09,
             "unpaidBreakMinutes": 30
         },
         {
@@ -637,8 +599,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 161.55,
-            "tax": 0.0,
-            "netPay": 161.55,
             "unpaidBreakMinutes": 0
         },
         {
@@ -669,8 +629,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 249.72,
-            "tax": 0.0,
-            "netPay": 249.72,
             "unpaidBreakMinutes": 30
         },
         {
@@ -701,8 +659,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 241.7,
-            "tax": 0.0,
-            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -733,8 +689,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 193.65,
-            "tax": 0.0,
-            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         },
         {
@@ -771,8 +725,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -803,8 +755,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 249.72,
-            "tax": 0.0,
-            "netPay": 249.72,
             "unpaidBreakMinutes": 30
         },
         {
@@ -835,8 +785,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 241.7,
-            "tax": 0.0,
-            "netPay": 241.7,
             "unpaidBreakMinutes": 30
         },
         {
@@ -867,8 +815,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 193.65,
-            "tax": 0.0,
-            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         },
         {
@@ -905,8 +851,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -943,8 +887,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 251.22,
-            "tax": 0.0,
-            "netPay": 251.22,
             "unpaidBreakMinutes": 30
         },
         {
@@ -981,8 +923,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 225.13,
-            "tax": 0.0,
-            "netPay": 225.13,
             "unpaidBreakMinutes": 30
         },
         {
@@ -1013,8 +953,6 @@
             ],
             "allowanceTotal": 1.25,
             "totalGrossPay": 193.65,
-            "tax": 0.0,
-            "netPay": 193.65,
             "unpaidBreakMinutes": 0
         }
     ]

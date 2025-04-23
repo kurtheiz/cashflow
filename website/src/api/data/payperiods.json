@@ -15,8 +15,8 @@
           ],
           "totalHours": 22.5,
           "grossPay": 722.86,
-          "tax": 0.0,
-          "netPay": 726.61,
+          "tax": 73.06,
+          "netPay": 653.55,
           "payCategories": [
             {
               "category": "ordinary",
@@ -72,8 +72,8 @@
           ],
           "totalHours": 26.0,
           "grossPay": 874.63,
-          "tax": 0.0,
-          "netPay": 879.63,
+          "tax": 103.93,
+          "netPay": 775.7,
           "payCategories": [
             {
               "category": "ordinary",
@@ -182,8 +182,8 @@
           ],
           "totalHours": 19.75,
           "grossPay": 859.18,
-          "tax": 14.31,
-          "netPay": 848.62,
+          "tax": 98.76,
+          "netPay": 764.17,
           "payCategories": [
             {
               "category": "ordinary",
@@ -238,8 +238,8 @@
           ],
           "totalHours": 19.25,
           "grossPay": 626.11,
-          "tax": 0.0,
-          "netPay": 629.86,
+          "tax": 55.55,
+          "netPay": 574.31,
           "payCategories": [
             {
               "category": "ordinary",
@@ -295,8 +295,8 @@
           ],
           "totalHours": 25.25,
           "grossPay": 841.62,
-          "tax": 0.0,
-          "netPay": 846.62,
+          "tax": 95.74,
+          "netPay": 750.88,
           "payCategories": [
             {
               "category": "ordinary",
@@ -352,8 +352,8 @@
           ],
           "totalHours": 28.0,
           "grossPay": 931.29,
-          "tax": 0.0,
-          "netPay": 936.29,
+          "tax": 122.32,
+          "netPay": 813.97,
           "payCategories": [
             {
               "category": "ordinary",
@@ -409,8 +409,8 @@
           ],
           "totalHours": 27.25,
           "grossPay": 916.22,
-          "tax": 0.0,
-          "netPay": 921.22,
+          "tax": 117.48,
+          "netPay": 803.74,
           "payCategories": [
             {
               "category": "ordinary",
@@ -461,8 +461,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -564,8 +564,8 @@
           ],
           "totalHours": 17.72,
           "grossPay": 773.79,
-          "tax": 0.0,
-          "netPay": 773.79,
+          "tax": 8.14,
+          "netPay": 765.65,
           "payCategories": [
             {
               "category": "ordinary",
@@ -609,8 +609,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -654,8 +654,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",
@@ -699,8 +699,8 @@
           "shifts": [],
           "totalHours": 0,
           "grossPay": 0,
-          "tax": 0,
-          "netPay": 0,
+          "tax": 0.0,
+          "netPay": 0.0,
           "payCategories": [
             {
               "category": "ordinary",

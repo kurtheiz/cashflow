@@ -156,27 +156,7 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
         };
       });
       
-      // Calculate monthly totals
-      const monthlyTotals = months.map(month => {
-        const total = monthlyData[month].reduce((sum, data) => sum + data.netPay, 0);
-        return total;
-      });
-      
-      // Add a line dataset for the total
-      datasets.push({
-        type: 'line',
-        label: 'Monthly Total',
-        borderColor: '#dc2626', // Red color for the line to stand out from blue scheme
-        borderWidth: 2,
-        fill: false,
-        tension: 0.4,
-        pointBackgroundColor: '#dc2626',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        data: monthlyTotals,
-        yAxisID: 'y'
-      });
+      // Monthly totals calculation removed as requested
 
       // Create chart data
       const data = {
@@ -197,13 +177,8 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
                 return `${context.dataset.label}: $${context.raw.toFixed(2)}`;
               },
               footer: (tooltipItems: any) => {
-                // Only show total for bar items (not for the line which already shows total)
-                const barItems = tooltipItems.filter((item: any) => item.datasetIndex < uniqueEmployers.size);
-                if (barItems.length > 0) {
-                  const total = barItems.reduce((sum: number, item: any) => sum + item.parsed.y, 0);
-                  return `Total: $${total.toFixed(2)}`;
-                }
-                return '';
+                const total = tooltipItems.reduce((sum: number, item: any) => sum + item.parsed.y, 0);
+                return `Total: $${total.toFixed(2)}`;
               }
             }
           },

@@ -317,12 +317,7 @@ const ShiftDetailContent: React.FC<ShiftDetailContentProps> = ({ shift }) => {
               <div className="text-sm font-medium text-gray-900">${totalGrossPay.toFixed(2)}</div>
             </div>
             
-            {/* Note about Tax */}
-            <div className="pt-1 border-t border-gray-200 mt-2 mb-1">
-              <div className="text-sm text-gray-500 italic">
-                Tax is calculated at the pay period level, not per shift.
-              </div>
-            </div>
+
           </div>
         </div>
       </div>

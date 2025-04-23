@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useMemo } from 'react';
 import { format, addMonths, startOfMonth, endOfMonth, isAfter, parseISO, isSameDay } from 'date-fns';
-import { useEmployers, useShifts, usePayPeriods, usePublicHolidays } from '../hooks/useApiData';
+import { useEmployers, useShifts, usePayPeriods, usePublicHolidays, useCurrentUser } from '../hooks/useApiData';
 import ShiftCard from '../components/ShiftCard';
 import PayDateCard from '../components/PayDateCard';
 import CashflowChart from '../components/CashflowChart';
@@ -19,10 +19,16 @@ const Overview = () => {
     return 'Good evening';
   };
   
-  // Get date range for current month and next month
+  // Get date range from user data if available, otherwise use current month and next month
   const today = new Date();
-  const currentMonthStart = format(startOfMonth(today), 'yyyy-MM-dd');
-  const nextMonthEnd = format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
+  
+  // Fetch the user data from the API to get the full date range
+  const { data: userDataResp } = useCurrentUser();
+  const userData = userDataResp?.data || {};
+  
+  // Extract start and end dates, or use defaults if not available
+  const startDate = userData.startDate || format(startOfMonth(today), 'yyyy-MM-dd');
+  const endDate = userData.endDate || format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
   
   // Fetch employers
   const { data: employersResp } = useEmployers();
@@ -38,12 +44,12 @@ const Overview = () => {
   const { data: publicHolidaysResp } = usePublicHolidays(employerStates, currentYear);
   const publicHolidays = publicHolidaysResp?.data || [];
 
-  // Fetch shifts for current month and next month
-  const { data: shiftsResp, isLoading: shiftsLoading } = useShifts(currentMonthStart, nextMonthEnd);
+  // Fetch shifts using the date range from user data
+  const { data: shiftsResp, isLoading: shiftsLoading } = useShifts(startDate, endDate);
   const shiftsData = shiftsResp?.data || [];
   
-  // Fetch pay periods for current month and next month
-  const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(currentMonthStart, nextMonthEnd);
+  // Fetch pay periods using the date range from user data
+  const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(startDate, endDate);
   const payPeriodsData = payPeriodsResp?.data || [];
 
   
@@ -303,8 +309,8 @@ const Overview = () => {
             
             {/* Cashflow Chart Section */}
             <div className="mt-4 mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-center">Your Income This Year</h2>
-              <CashflowChart year={new Date().getFullYear()} />
+              <h2 className="text-xl font-semibold mb-4 text-center">Net Monthly Income</h2>
+              <CashflowChart startDate={startDate} endDate={endDate} />
             </div>
             
 

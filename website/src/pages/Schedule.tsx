@@ -5,7 +5,7 @@ import { ShiftsCalendar } from '../components/ShiftsCalendar';
 import { Calendar as CalendarIcon, Plus as PlusIcon, Upload as UploadIcon, Info as InfoIcon } from 'lucide-react';
 import DetailModal from '../components/DetailModal';
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns';
-import { useShifts, usePayPeriods, useEmployers, usePublicHolidays } from '../hooks/useApiData';
+import { useShifts, usePayPeriods, useEmployers, usePublicHolidays, useCurrentUser } from '../hooks/useApiData';
 
 const Schedule: React.FC = () => {
   const [scrollToTodayTrigger, setScrollToTodayTrigger] = useState(0);
@@ -38,17 +38,21 @@ const Schedule: React.FC = () => {
   };
   const { user } = useAuth();
   
-  // Get date range for current month and next month
-  const today = new Date();
-  const currentMonthStart = format(startOfMonth(today), 'yyyy-MM-dd');
-  const nextMonthEnd = format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
+  // Fetch user data to get the full date range
+  const { data: userResp } = useCurrentUser();
+  const userData = userResp?.data || {};
   
-  // Fetch shifts using the same hook as Overview page
-  const { data: shiftsResp, isLoading: shiftsLoading } = useShifts(currentMonthStart, nextMonthEnd);
+  // Get date range from user data if available, otherwise use current month and next month
+  const today = new Date();
+  const startDate = userData.startDate || format(startOfMonth(today), 'yyyy-MM-dd');
+  const endDate = userData.endDate || format(endOfMonth(addMonths(today, 1)), 'yyyy-MM-dd');
+  
+  // Fetch shifts using the date range from user data
+  const { data: shiftsResp, isLoading: shiftsLoading } = useShifts(startDate, endDate);
   const shifts = shiftsResp?.data || [];
   
-  // Fetch pay periods
-  const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(currentMonthStart, nextMonthEnd);
+  // Fetch pay periods using the date range from user data
+  const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(startDate, endDate);
   const payPeriods = payPeriodsResp?.data || [];
   
   // Fetch employers to get their states

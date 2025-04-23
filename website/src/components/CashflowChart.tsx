@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'primereact/chart';
-import { usePayPeriods, useEmployers } from '../hooks/useApiData';
+import { usePayPeriods, useEmployers, useCurrentUser } from '../hooks/useApiData';
 import { EmployerPayPeriods } from '../api/mockApi';
-import { format, parseISO, getYear } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import StatisticalSummary from './StatisticalSummary';
 import IncomeByEmployerChart from './IncomeByEmployerChart';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register Chart.js components needed for bar chart
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register Chart.js components needed for bar and line charts
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface CashflowChartProps {
   year?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 interface MonthlyEmployerData {
@@ -47,14 +49,18 @@ const getEmployerColor = (employerId: string, employersData: any[]): string => {
   return employer?.color || '#3b82f6'; // Default to blue if no color is found
 };
 
-const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFullYear() }) => {
+const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFullYear(), startDate: propStartDate, endDate: propEndDate }) => {
   const [chartData, setChartData] = useState<any>(null);
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Get start and end dates for the entire year
-  const startDate = `${year}-01-01`;
-  const endDate = `${year}-12-31`;
+  // Use props if provided, otherwise fetch from user data
+  const { data: userResp } = useCurrentUser();
+  const userData = userResp?.data || {};
+  
+  // Get date range from props first, then user data, then fallback to year
+  const startDate = propStartDate || userData.startDate || `${year}-01-01`;
+  const endDate = propEndDate || userData.endDate || `${year}-12-31`;
 
   // Fetch pay periods for the entire year
   const { data: payPeriodsResp, isLoading: payPeriodsLoading } = usePayPeriods(startDate, endDate);
@@ -69,7 +75,7 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
     if (!payPeriodsLoading && !employersLoading) {
       processChartData();
     }
-  }, [payPeriodsLoading, employersLoading, year]);
+  }, [payPeriodsLoading, employersLoading, startDate, endDate]);
 
   // Process the data for the chart
   const processChartData = () => {
@@ -102,11 +108,15 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
           return;
         }
         
-        // Check if the period is in the selected year
+        // Get the pay date
         const payDate = parseISO(period.payDate);
-        const payYear = getYear(payDate);
-
-        if (payYear === year) {
+        
+        // Check if the period is within our date range
+        // We'll include all periods in the date range, not just the current year
+        const periodStartDate = parseISO(startDate);
+        const periodEndDate = parseISO(endDate);
+        
+        if (payDate >= periodStartDate && payDate <= periodEndDate) {
           // Get month abbreviation (e.g., 'Jan', 'Feb')
           const monthAbbr = format(payDate, 'MMM');
 
@@ -179,6 +189,44 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
         backgroundColor: employerColor,
         data
       };
+    });
+
+    // Calculate monthly totals for all employers combined
+    const monthlyTotals = months.map(month => {
+      const allEmployerData = monthlyData[month];
+      return allEmployerData.reduce((sum, item) => sum + item.netPay, 0);
+    });
+    
+    // Calculate the monthly average income
+    // Only consider months with income to avoid skewing the average
+    const monthsWithIncome = monthlyTotals.filter(total => total > 0);
+    const averageMonthlyIncome = monthsWithIncome.length > 0 
+      ? monthsWithIncome.reduce((sum, total) => sum + total, 0) / monthsWithIncome.length 
+      : 0;
+    
+    // Format the average income for display
+    const formattedAverage = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(averageMonthlyIncome);
+    
+    // Add the average income line dataset
+    datasets.push({
+      type: 'line',
+      label: `Monthly Average: ${formattedAverage}`,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgb(255, 99, 132)',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.1,
+      pointBackgroundColor: 'rgb(255, 99, 132)',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 1,
+      pointRadius: 4,
+      data: Array(months.length).fill(averageMonthlyIncome),
+      yAxisID: 'y'
     });
 
     // Create chart data

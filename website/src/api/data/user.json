@@ -1,6 +1,8 @@
 {
   "user": "demo_user",
   "name": "Demo User",
+  "startDate": "2025-01-07",
+  "endDate": "2025-05-29",
   "employers": [
     {
       "id": "A",

@@ -52,8 +52,14 @@ def load_json_file(file_path: str) -> Dict:
 
 def save_json_file(file_path: str, data: Dict) -> None:
     """Save data to a JSON file with proper formatting."""
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    # Save the file
     with open(file_path, 'w') as f:
         json.dump(data, f, indent=2)
+    
+    print(f"Saved data to {file_path}")
 
 def get_next_pay_date(payday, days_to_add=0):
     """Calculate the next pay date based on today's date, payday, and optional days to add."""
@@ -185,8 +191,12 @@ def calculate_pay_periods():
     """Main function to calculate pay periods."""
     # Load data
     shiftspay_data = load_json_file(SHIFTSPAY_FILE)
-    payperiods_data = load_json_file(PAYPERIODS_FILE)
+    
+    # Load user data
     user_data = load_json_file(USER_FILE)
+    
+    # Create a fresh payperiods data structure
+    payperiods_data = {"payPeriods": []}
     
     # Initialize payperiods data if empty
     if not payperiods_data["payPeriods"]:
@@ -386,7 +396,7 @@ def calculate_pay_periods():
             for allowance in period["allowances"]:
                 allowance["amount"] = round(allowance["amount"], 2)
     
-    # Write the updated data back to the file
+    # Write the data to the payperiods.json file
     save_json_file(PAYPERIODS_FILE, payperiods_data)
     
     # Update next pay dates in user.json based on today's date
@@ -421,10 +431,10 @@ def calculate_pay_periods():
             # Update the employer's next pay date
             employer_info["nextPayDate"] = next_pay_date
     
-    # Write the updated user data back to the file
+    # Write the user data back to the file
     save_json_file(USER_FILE, user_data)
     
-    print("Pay periods and next pay dates updated successfully!")
+    print("Pay periods created and next pay dates updated successfully!")
 
 if __name__ == "__main__":
     calculate_pay_periods()

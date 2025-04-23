@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { JWT_STORAGE_KEY, USER_STORAGE_KEY } from '../config/auth';
+import { JWT_STORAGE_KEY, USER_STORAGE_KEY, ALLOWED_USERS, ENABLE_ACCESS_CONTROL } from '../config/auth';
 import { jwtDecode } from 'jwt-decode';
 
 interface UserInfo {
@@ -16,6 +16,8 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   isLoading: boolean;
+  isAuthorized: boolean;
+  authorizationError: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,6 +27,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<UserInfo | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [authorizationError, setAuthorizationError] = useState<string | null>(null);
 
   // Check for existing token on mount
   useEffect(() => {
@@ -39,9 +43,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         
         if (decodedToken.exp && decodedToken.exp > currentTime) {
           // Token is still valid
+          const userInfo = JSON.parse(storedUser);
           setToken(storedToken);
-          setUser(JSON.parse(storedUser));
+          setUser(userInfo);
           setIsLoggedIn(true);
+          
+          // Check if user is authorized
+          checkUserAuthorization(userInfo);
         } else {
           // Token is expired, clear storage
           localStorage.removeItem(JWT_STORAGE_KEY);
@@ -57,6 +65,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     
     setIsLoading(false);
   }, []);
+  
+  // Check if a user is authorized to access the app
+  const checkUserAuthorization = (userInfo: UserInfo) => {
+    if (!ENABLE_ACCESS_CONTROL) {
+      // Access control is disabled, all users are authorized
+      setIsAuthorized(true);
+      setAuthorizationError(null);
+      return;
+    }
+    
+    // Check if the user's email is in the allowed users list
+    if (ALLOWED_USERS.includes(userInfo.email)) {
+      setIsAuthorized(true);
+      setAuthorizationError(null);
+    } else {
+      setIsAuthorized(false);
+      setAuthorizationError('You do not have permission to access this application.');
+      console.warn(`Unauthorized access attempt by: ${userInfo.email}`);
+    }
+  };
 
   const login = (googleToken: string) => {
     try {
@@ -79,6 +107,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setToken(googleToken);
       setUser(userInfo);
       setIsLoggedIn(true);
+      
+      // Check if user is authorized
+      checkUserAuthorization(userInfo);
     } catch (error) {
       console.error('Error during login:', error);
     }
@@ -93,10 +124,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setToken(null);
     setUser(null);
     setIsLoggedIn(false);
+    setIsAuthorized(false);
+    setAuthorizationError(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, token, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ 
+      isLoggedIn, 
+      user, 
+      token, 
+      login, 
+      logout, 
+      isLoading,
+      isAuthorized,
+      authorizationError
+    }}>
       {children}
     </AuthContext.Provider>
   );

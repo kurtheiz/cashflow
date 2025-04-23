@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AccessDenied from './AccessDenied';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -8,12 +9,13 @@ interface ProtectedRouteProps {
 
 /**
  * A wrapper component that redirects to the home page if the user is not authenticated
+ * or shows an access denied page if the user is not authorized
  */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isLoggedIn, isLoading } = useAuth();
+  const { isLoggedIn, isLoading, isAuthorized } = useAuth();
   const location = useLocation();
 
-  // Show nothing while checking authentication status
+  // Show loading spinner while checking authentication status
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -26,8 +28,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (!isLoggedIn) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
+  
+  // Show access denied page if not authorized
+  if (!isAuthorized) {
+    return <AccessDenied />;
+  }
 
-  // Render children if authenticated
+  // Render children if authenticated and authorized
   return <>{children}</>;
 };
 

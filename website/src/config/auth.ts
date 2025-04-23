@@ -13,3 +13,20 @@ export const JWT_STORAGE_KEY = 'casual_pay_jwt_token';
 
 // User info storage key in localStorage
 export const USER_STORAGE_KEY = 'casual_pay_user_info';
+
+// Access control configuration
+// List of allowed user emails that can access the app
+// You can also store this in an environment variable for better security
+export const ALLOWED_USERS: string[] = [
+  // Add the email addresses of users who should have access
+  // Add your Google account email here, for example:
+  // 'youremail@gmail.com'
+  "kurtheiz@gmail.com",
+  "jessicaheiz101@gmail.com",
+  "heizashley@gmail.com"
+];
+
+// Enable access control
+// Set to true to restrict access to only the users in ALLOWED_USERS
+// Set to false to allow any Google user to access the app
+export const ENABLE_ACCESS_CONTROL = true;

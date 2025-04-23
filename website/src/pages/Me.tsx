@@ -1,65 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { LogOutIcon } from 'lucide-react';
 
 const Me: React.FC = () => {
   const { user, logout, isLoading } = useAuth();
   const [avatarError, setAvatarError] = useState(false);
-  const [avatarDataUrl, setAvatarDataUrl] = useState<string | null>(null);
   
-  // Load the avatar image with a direct approach that handles CORS issues
-  useEffect(() => {
-    if (user?.picture && !avatarError) {
-      // Reset state
-      setAvatarError(false);
-      setAvatarDataUrl(null);
-      
-      // Use the direct URL with no-cors mode to handle the avatar
-      const img = new Image();
-      
-      // Set up event handlers before setting src
-      img.onload = () => {
-        // Create a canvas to draw the image
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        // Draw the image on the canvas
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-          // Convert canvas to data URL
-          try {
-            const dataUrl = canvas.toDataURL('image/png');
-            setAvatarDataUrl(dataUrl);
-          } catch (e) {
-            // If toDataURL fails (tainted canvas), fall back to the original URL
-            console.warn('Canvas tainted, using original URL');
-            if (user.picture) {
-              setAvatarDataUrl(user.picture);
-            }
-          }
-        }
-      };
-      
-      img.onerror = () => {
-        console.error('Error loading avatar image in Me page');
-        setAvatarError(true);
-        
-        // Try a direct approach as fallback
-        if (user.picture) {
-          setAvatarDataUrl(user.picture);
-        }
-      };
-      
-      // Set crossOrigin to anonymous to prevent tainting the canvas
-      img.crossOrigin = 'anonymous';
-      
-      // Add a cache-busting parameter to avoid caching issues
-      const cacheBuster = `?cb=${new Date().getTime()}`;
-      img.src = `${user.picture}${cacheBuster}`;
-    }
-  }, [user?.picture]);
+  // No need for useEffect or data URL state, we'll handle errors directly in the img tag
 
   if (isLoading) {
     return (
@@ -88,9 +35,9 @@ const Me: React.FC = () => {
         {/* Profile Card */}
         <div className="bg-white p-4 mb-4">
           <div className="flex items-center space-x-4">
-            {avatarDataUrl && !avatarError ? (
+            {user?.picture && !avatarError ? (
               <img 
-                src={avatarDataUrl} 
+                src={user.picture} 
                 alt={user.name} 
                 className="w-16 h-16 rounded-full object-cover border-2 border-indigo-100"
                 onError={() => {

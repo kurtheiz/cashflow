@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'primereact/chart';
 import { usePayPeriods, useEmployers } from '../hooks/useApiData';
+import { EmployerPayPeriods } from '../api/mockApi';
 import { format, parseISO, getYear } from 'date-fns';
 import StatisticalSummary from './StatisticalSummary';
 import IncomeByEmployerChart from './IncomeByEmployerChart';
@@ -90,7 +91,17 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
 
     // Process pay periods data
     payPeriodsData.forEach((employer: any) => {
+      if (!employer.periods || !Array.isArray(employer.periods)) {
+        console.warn(`Invalid periods data for employer ${employer.employer}:`, employer);
+        return;
+      }
+      
       employer.periods.forEach((period: any) => {
+        // Skip periods with no pay date or zero net pay
+        if (!period.payDate) {
+          return;
+        }
+        
         // Check if the period is in the selected year
         const payDate = parseISO(period.payDate);
         const payYear = getYear(payDate);
@@ -100,12 +111,15 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
           const monthAbbr = format(payDate, 'MMM');
 
           // Add employer data to the monthly data
-          monthlyData[monthAbbr].push({
-            employer: employer.employer,
-            employerId: employer.employerId,
-            color: getEmployerColor(employer.employerId, employersData),
-            netPay: period.netPay || 0
-          });
+          // Only add if there's actual net pay
+          if (period.netPay > 0) {
+            monthlyData[monthAbbr].push({
+              employer: employer.employer,
+              employerId: employer.employerId,
+              color: getEmployerColor(employer.employerId, employersData),
+              netPay: period.netPay || 0
+            });
+          }
         }
       });
     });
@@ -117,6 +131,13 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
         uniqueEmployers.add(data.employerId);
       });
     });
+    
+    // If no employers found in the data, check the raw data for employers
+    if (uniqueEmployers.size === 0) {
+      payPeriodsData.forEach((employer: EmployerPayPeriods) => {
+        uniqueEmployers.add(employer.employerId);
+      });
+    }
 
     // Blue color palette for employers
     const blueColors = [
@@ -134,15 +155,22 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
 
     // Create datasets for the chart
     const datasets: ChartDataset[] = Array.from(uniqueEmployers).map((employerId, index) => {
+      // Find the employer info from the employers data
       const employerInfo = employersData.find((e: any) => e.id === employerId);
-      const employerName = employerInfo?.name || 'Unknown';
+      
+      // Get the employer name directly from the pay periods data
+      const employerData = payPeriodsData.find((e: any) => e.employerId === employerId);
+      const employerName = employerData?.employer || employerInfo?.name || employerId;
+      
       // Use color from blue palette based on index
       const employerColor = blueColors[index % blueColors.length];
       
       // Get data for each month
       const data = months.map(month => {
-        const employerData = monthlyData[month].find(data => data.employerId === employerId);
-        return employerData ? employerData.netPay : 0;
+        // Find all entries for this employer in this month and sum them
+        const employerEntries = monthlyData[month].filter(data => data.employerId === employerId);
+        const totalForMonth = employerEntries.reduce((sum, entry) => sum + (entry.netPay || 0), 0);
+        return totalForMonth;
       });
       
       return {
@@ -260,27 +288,28 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
   const employerTotals: Record<string, number> = {};
   chartData.datasets.forEach((dataset: any) => {
     if (dataset.type === 'bar') {
-      employerTotals[dataset.label] = dataset.data.reduce((sum: number, v: number) => sum + v, 0);
+      const total = dataset.data.reduce((sum: number, v: number) => sum + v, 0);
+      // Only add employers with non-zero totals
+      if (total > 0) {
+        employerTotals[dataset.label] = total;
+      }
     }
   });
 
-  // Calculate total annual income
-  const totalAnnualIncome = chartData.datasets
-    .filter((dataset: any) => dataset.type === 'bar')
-    .flatMap((dataset: any) => dataset.data)
-    .reduce((sum: number, value: number) => sum + value, 0);
+  // Calculate total annual income (for reference, not displayed)
+  // const totalAnnualIncome = chartData.datasets
+  //   .filter((dataset: any) => dataset.type === 'bar')
+  //   .flatMap((dataset: any) => dataset.data)
+  //   .reduce((sum: number, value: number) => sum + value, 0);
 
   return (
     <div className="bg-white p-2">
       {/* Monthly Income Bar Chart */}
       <div className="mb-4">
-        <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">Monthly Income - {year}</h4>
         <div style={{ height: 400 }}>
           <Chart type="bar" data={chartData} options={chartOptions} style={{ height: 400 }} />
         </div>
-        <p className="text-sm text-gray-600 text-center mt-2">
-          Total Annual Income: <span className="font-semibold text-blue-600">${totalAnnualIncome.toFixed(2)}</span>
-        </p>
+        
       </div>
       
       {/* Pie chart for employer income breakdown */}

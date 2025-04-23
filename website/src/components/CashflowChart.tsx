@@ -156,7 +156,7 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
         };
       });
       
-      // Monthly totals calculation removed as requested
+      // Monthly totals and line dataset removed as requested
 
       // Create chart data
       const data = {

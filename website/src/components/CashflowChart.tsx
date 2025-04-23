@@ -340,12 +340,7 @@ const CashflowChart: React.FC<CashflowChartProps> = ({ year = new Date().getFull
       <div style={{ height: 400 }}>
           <Chart type="bar" data={chartData} options={chartOptions} style={{ height: 400 }} />
       </div>
-      {/* Bar chart summary */}
-      <div className="mt-4">
-        <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">Total Annual Income</h4>
-        <p className="text-sm text-gray-600 text-center"><span className="font-semibold text-blue-600">${totalAnnualIncome.toFixed(2)}</span></p>
-      </div>
-
+      
       {/* Pie chart for employer income breakdown */}
       <div className="mt-8">
         <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">Income by Employer</h4>

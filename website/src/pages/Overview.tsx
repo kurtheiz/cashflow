@@ -4,6 +4,7 @@ import { format, addMonths, startOfMonth, endOfMonth, isAfter, parseISO, isSameD
 import { useEmployers, useShifts, usePayPeriods, usePublicHolidays } from '../hooks/useApiData';
 import ShiftCard from '../components/ShiftCard';
 import PayDateCard from '../components/PayDateCard';
+import CashflowChart from '../components/CashflowChart';
 import { EmployerPayPeriods, PayPeriod } from '../api/mockApi';
 
 const Overview = () => {
@@ -298,6 +299,12 @@ const Overview = () => {
                   )}
                 </div>
               )}
+            </div>
+            
+            {/* Cashflow Chart Section */}
+            <div className="mt-4 mb-8">
+              <h2 className="text-xl font-semibold mb-4 text-center">Your Income This Year</h2>
+              <CashflowChart year={new Date().getFullYear()} />
             </div>
             
 

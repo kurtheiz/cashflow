@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UpcomingSchedule from '../components/UpcomingSchedule';
 import { ShiftsCalendar } from '../components/ShiftsCalendar';
-import { Calendar as CalendarIcon, X as CloseIcon, Plus as PlusIcon, Upload as UploadIcon, Info as InfoIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus as PlusIcon, Upload as UploadIcon, Info as InfoIcon } from 'lucide-react';
 import DetailModal from '../components/DetailModal';
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns';
 import { useShifts, usePayPeriods, useEmployers, usePublicHolidays } from '../hooks/useApiData';

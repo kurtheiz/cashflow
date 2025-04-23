@@ -30,6 +30,14 @@ interface Employer {
   applicableAllowances?: Allowance[];
 }
 
+// Helper function to fix special characters in text
+const fixSpecialChars = (text: string): string => {
+  // Replace encoded degree symbol with the actual degree symbol
+  return text
+    .replace(/\u00C2\u00B0/g, '°') // Fix double-encoded degree symbol
+    .replace(/\u00B0/g, '°'); // Fix single-encoded degree symbol
+};
+
 const EmployerCard: React.FC<EmployerCardProps> = ({ employerId }) => {
   const [showAwardRules, setShowAwardRules] = useState(false);
   // Fetch employer data from API
@@ -301,9 +309,9 @@ const EmployerCard: React.FC<EmployerCardProps> = ({ employerId }) => {
                   {employer.applicableAllowances.map((allowance: Allowance, index: number) => (
                     <div key={index} className="flex items-start justify-between border-b border-gray-100 pb-2">
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{allowance.name}</p>
+                        <p className="text-sm font-medium text-gray-900">{fixSpecialChars(allowance.name)}</p>
                         {allowance.notes && (
-                          <p className="text-xs text-gray-500 mt-1">{allowance.notes}</p>
+                          <p className="text-xs text-gray-500 mt-1">{fixSpecialChars(allowance.notes)}</p>
                         )}
                       </div>
                       <div className="ml-4 flex-shrink-0">

@@ -6,6 +6,7 @@ This script aggregates pay period totals from pre-calculated shift data.
 It reads data from:
 - shiftspay.json: Contains processed shift information with pay details
 - payperiods.json: Contains pay period information for each employer
+- user.json: Contains user and employer information
 
 The script updates the payperiods.json file with:
 - Shifts that fall within each pay period
@@ -15,6 +16,9 @@ The script updates the payperiods.json file with:
 - Net pay (sum of netPay from shifts)
 - Hours worked in each pay category (sum of hours from shift pay categories)
 
+The script also updates the user.json file with:
+- Updated next pay dates for each employer
+
 Usage:
     python calculate_pay_periods.py
 """
@@ -22,12 +26,14 @@ Usage:
 import json
 import os
 from typing import Dict, List, Any
+from datetime import datetime, timedelta
 
 # Paths to data files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "src", "api", "data")
 SHIFTSPAY_FILE = os.path.join(DATA_DIR, "shiftspay.json")
 PAYPERIODS_FILE = os.path.join(DATA_DIR, "payperiods.json")
+USER_FILE = os.path.join(DATA_DIR, "user.json")
 
 def load_json_file(file_path: str) -> Dict:
     """Load and parse a JSON file."""
@@ -39,11 +45,41 @@ def save_json_file(file_path: str, data: Dict) -> None:
     with open(file_path, 'w') as f:
         json.dump(data, f, indent=2)
 
+def get_next_pay_date(payday, days_to_add=0):
+    """Calculate the next pay date based on today's date, payday, and optional days to add."""
+    # Get today's date
+    today = datetime.now().date()
+    
+    # Map day names to weekday numbers (0 = Monday, 6 = Sunday)
+    day_map = {
+        "Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3,
+        "Friday": 4, "Saturday": 5, "Sunday": 6
+    }
+    
+    # Get the target weekday number
+    target_weekday = day_map[payday]
+    
+    # Calculate days until the next occurrence of payday
+    days_until_payday = (target_weekday - today.weekday()) % 7
+    
+    # If today is the payday and we want to include today, use today
+    if days_until_payday == 0:
+        next_pay_date = today
+    else:
+        next_pay_date = today + timedelta(days=days_until_payday)
+    
+    # Add any additional days if needed
+    if days_to_add > 0:
+        next_pay_date += timedelta(days=days_to_add)
+    
+    return next_pay_date.strftime("%Y-%m-%d")
+
 def calculate_pay_periods():
     """Aggregate pay period totals from pre-calculated shift data."""
     # Read the data files
     shiftspay_data = load_json_file(SHIFTSPAY_FILE)
     payperiods_data = load_json_file(PAYPERIODS_FILE)
+    user_data = load_json_file(USER_FILE)
     
     # Process each employer's pay periods
     for employer_data in payperiods_data["payPeriods"]:
@@ -154,7 +190,42 @@ def calculate_pay_periods():
     # Write the updated data back to the file
     save_json_file(PAYPERIODS_FILE, payperiods_data)
     
-    print("Pay periods updated successfully!")
+    # Update next pay dates in user.json based on today's date
+    for employer_data in payperiods_data["payPeriods"]:
+        employer_id = employer_data["employerId"]
+        
+        # Find the employer in user data
+        employer_info = next((emp for emp in user_data["employers"] if emp["id"] == employer_id), None)
+        
+        if employer_info:
+            # Get the payday from employer info
+            payday = employer_info["payday"]
+            
+            # Get today's date as a string
+            today_str = datetime.now().date().strftime("%Y-%m-%d")
+            
+            # If today is the employer's payday, use today's date
+            today_weekday = datetime.now().date().weekday()
+            day_map = {
+                "Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3,
+                "Friday": 4, "Saturday": 5, "Sunday": 6
+            }
+            payday_weekday = day_map[payday]
+            
+            if today_weekday == payday_weekday:
+                # Today is the payday, use today's date
+                next_pay_date = today_str
+            else:
+                # Find the next occurrence of the payday
+                next_pay_date = get_next_pay_date(payday)
+            
+            # Update the employer's next pay date
+            employer_info["nextPayDate"] = next_pay_date
+    
+    # Write the updated user data back to the file
+    save_json_file(USER_FILE, user_data)
+    
+    print("Pay periods and next pay dates updated successfully!")
 
 if __name__ == "__main__":
     calculate_pay_periods()

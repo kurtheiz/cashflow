@@ -1,80 +1,84 @@
 {
-    "user": "demo_user",
-    "name": "Demo User",
-    "employers": [
+  "user": "demo_user",
+  "name": "Demo User",
+  "employers": [
+    {
+      "id": "PETBARN",
+      "name": "Petbarn",
+      "state": "VIC",
+      "level": "retail_employee_level_1",
+      "awardDescription": "General Retail Industry Award Level 1",
+      "sgcPercentage": 11.5,
+      "taxFreeThreshold": true,
+      "paycycle": "weekly",
+      "payday": "Wednesday",
+      "superRate": 0.12,
+      "payPeriodStart": "Monday",
+      "payPeriodDays": 7,
+      "nextPayDate": "2025-04-23",
+      "applicableAllowances": [
         {
-            "id" : "PETBARN",
-            "name": "Petbarn",
-            "state": "VIC",
-            "level": "retail_employee_level_1",
-            "awardDescription": "General Retail Industry Award Level 1",
-            "sgcPercentage": 11.5,
-            "taxFreeThreshold": true,
-            "paycycle": "weekly",
-            "payday": "Wednesday",
-            "superRate": 0.12,
-            "payPeriodStart" : "Monday",
-            "payPeriodDays" : 7,
-            "nextPayDate" : "2025-04-23",
-            "applicableAllowances": [
-                {
-                    "name": "First aid allowance",
-                    "enabled": false,
-                    "notes": "First aid certification required"
-                },
-                {
-                    "name": "Laundry allowance - part-time or casual employees",
-                    "enabled": true
-                },
-                {
-                    "name": "Cold work allowance - 0°C and above",
-                    "enabled": false,
-                    "notes": "Applies when working in freezer section"
-                },
-                {
-                    "name": "Meal allowance",
-                    "enabled": false
-                },
-                {
-                    "name": "Transport reimbursement - late night or early morning shifts",
-                    "enabled": false
-                }
-            ]
+          "name": "First aid allowance",
+          "enabled": false,
+          "notes": "First aid certification required"
         },
         {
-            "id" : "EQSADDLERY",
-            "name": "EQ Saddlery",
-            "state": "VIC",
-            "level": "retail_employee_level_1",
-            "awardDescription": "General Retail Industry Award Level 1",
-            "sgcPercentage": 11.5,
-            "taxFreeThreshold": true,
-            "paycycle": "fortnightly",
-            "payday": "Thursday",
-            "superRate": 0.12,
-            "payPeriodStart" : "Thursday",
-            "payPeriodDays" : 14,
-            "nextPayDate" : "2025-04-24",
-            "applicableAllowances": [
-                {
-                    "name": "Laundry allowance - casual employees",
-                    "enabled": false
-                },
-                {
-                    "name": "Vehicle allowance",
-                    "enabled": false,
-                    "notes": "For deliveries and stock pickups"
-                },
-                {
-                    "name": "Meal allowance",
-                    "enabled": false
-                },
-                {
-                    "name": "Protective or special clothing reimbursement",
-                    "enabled": false,
-                    "notes": "For safety boots and work gloves"
-                }
-            ]
+          "name": "Laundry allowance - part-time or casual employees",
+          "enabled": true
+        },
+        {
+          "name": "Cold work allowance - 0\u00c2\u00b0C and above",
+          "enabled": false,
+          "notes": "Applies when working in freezer section"
+        },
+        {
+          "name": "Meal allowance",
+          "enabled": false
+        },
+        {
+          "name": "Transport reimbursement - late night or early morning shifts",
+          "enabled": false
         }
-    ]
+      ]
+    },
+    {
+      "id": "EQSADDLERY",
+      "name": "EQ Saddlery",
+      "state": "VIC",
+      "level": "retail_employee_level_1",
+      "awardDescription": "General Retail Industry Award Level 1",
+      "sgcPercentage": 11.5,
+      "taxFreeThreshold": true,
+      "paycycle": "fortnightly",
+      "payday": "Thursday",
+      "superRate": 0.12,
+      "payPeriodStart": "Thursday",
+      "payPeriodDays": 14,
+      "nextPayDate": "2025-04-24",
+      "applicableAllowances": [
+        {
+          "name": "First aid allowance",
+          "enabled": false,
+          "notes": "First aid certification required"
+        },
+        {
+          "name": "Laundry allowance - part-time or casual employees",
+          "enabled": false
+        },
+        {
+          "name": "Cold work allowance - 0°C and above",
+          "enabled": false,
+          "notes": "Applies when working in freezer section"
+        },
+        {
+          "name": "Meal allowance",
+          "enabled": false
+        },
+        {
+          "name": "Transport reimbursement - late night or early morning shifts",
+          "enabled": false
+        }
+      ]
+    }
+  ]
 }

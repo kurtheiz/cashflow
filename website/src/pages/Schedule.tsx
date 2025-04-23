@@ -127,41 +127,26 @@ const Schedule: React.FC = () => {
           </div>
         </div>
         
-        {calendarOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="relative w-full sm:max-w-md mx-auto p-0 bg-white sm:rounded-md overflow-hidden shadow-xl">
-              <div className="sticky top-0 py-2 px-3 flex items-center justify-between bg-blue-50 z-10 border-b border-blue-100">
-                <h3 className="text-lg font-medium leading-6 text-blue-900">Calendar</h3>
-                <button 
-                  type="button"
-                  className="p-1 rounded hover:bg-blue-100"
-                  onClick={() => setCalendarOpen(false)}
-                  aria-label="Close calendar"
-                >
-                  <CloseIcon className="w-5 h-5 text-blue-700" />
-                </button>
-              </div>
-              <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100">
-                Click on a date with a shift or payment to view it in the list below. Click on an empty date to add a new shift.
-              </div>
-              <div className="p-2">
-                {shiftsLoading || payPeriodsLoading ? (
-                  <div className="bg-white p-4 text-center">
-                    Loading calendar data...
-                  </div>
-                ) : (
-                  <ShiftsCalendar
-                    shifts={shifts}
-                    payPeriods={payPeriods}
-                    publicHolidays={publicHolidays}
-                    selectedDate={selectedDate}
-                    onDateChange={handleDateSelect}
-                  />
-                )}
-              </div>
+        <DetailModal
+          isOpen={calendarOpen}
+          onClose={() => setCalendarOpen(false)}
+          title={<span className="flex items-center gap-2"><CalendarIcon className="w-5 h-5" /> Calendar View</span>}
+          subtitle="Click on a date with a shift or payment to view it in the list below. Click on an empty date to add a new shift."
+        >
+          {shiftsLoading || payPeriodsLoading ? (
+            <div className="bg-white p-4 text-center">
+              Loading calendar data...
             </div>
-          </div>
-        )}
+          ) : (
+            <ShiftsCalendar
+              shifts={shifts}
+              payPeriods={payPeriods}
+              publicHolidays={publicHolidays}
+              selectedDate={selectedDate}
+              onDateChange={handleDateSelect}
+            />
+          )}
+        </DetailModal>
         {!user ? (
           <div className="text-center p-4">
             Please log in to view your schedule
@@ -206,10 +191,7 @@ const Schedule: React.FC = () => {
                 <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
                 <span className="text-sm">Shifts (dot indicators in calendar)</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-4 h-4 bg-blue-50 inline-block rounded-sm"></span>
-                <span className="text-sm">Today's date (in schedule list)</span>
-              </div>
+
             </div>
           </div>
           

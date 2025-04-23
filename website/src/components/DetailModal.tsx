@@ -78,7 +78,7 @@ const DetailModal: React.FC<DetailModalProps> = ({
               </button>
               <button 
                 onClick={onClose} 
-                className="flex-1 py-2.5 px-4 bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+                className="flex-1 py-2.5 px-4 bg-blue-500 text-white font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
                 Close
               </button>
@@ -86,7 +86,7 @@ const DetailModal: React.FC<DetailModalProps> = ({
           ) : (
             <button 
               onClick={onClose} 
-              className="w-full py-2.5 px-4 bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+              className="w-full py-2.5 px-4 bg-blue-500 text-white font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
             >
               Close
             </button>

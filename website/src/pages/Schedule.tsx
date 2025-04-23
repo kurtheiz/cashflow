@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UpcomingSchedule from '../components/UpcomingSchedule';
 import { ShiftsCalendar } from '../components/ShiftsCalendar';
-import { Calendar as CalendarIcon, Plus as PlusIcon, Upload as UploadIcon, Info as InfoIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus as PlusIcon, Upload as UploadIcon } from 'lucide-react';
 import DetailModal from '../components/DetailModal';
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns';
 import { useShifts, usePayPeriods, useEmployers, usePublicHolidays, useCurrentUser } from '../hooks/useApiData';
@@ -11,7 +11,7 @@ const Schedule: React.FC = () => {
   const [scrollToTodayTrigger, setScrollToTodayTrigger] = useState(0);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showInfoModal, setShowInfoModal] = useState(false);
+
   
   // Function to handle adding a new shift (placeholder for now)
   const handleAddShift = () => {
@@ -91,18 +91,7 @@ const Schedule: React.FC = () => {
               <span className="text-[10px] mt-1 text-gray-600 text-center">View Calendar</span>
             </div>
             
-            {/* Info Button */}
-            <div className="flex flex-col items-center">
-              <button
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                onClick={() => setShowInfoModal(true)}
-                type="button"
-                aria-label="Show information"
-              >
-                <InfoIcon className="w-5 h-5" />
-              </button>
-              <span className="text-[10px] mt-1 text-gray-600 text-center">Info</span>
-            </div>
+
             
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
@@ -172,45 +161,7 @@ const Schedule: React.FC = () => {
         )}
       </div>
       
-      {/* Info Modal */}
-      <DetailModal
-        isOpen={showInfoModal}
-        onClose={() => setShowInfoModal(false)}
-        title="Schedule & Calendar"
-        subtitle="View and manage your shifts and payments"
-      >
-        <div className="space-y-4">
-          <div>
-            <h4 className="text-md font-semibold text-gray-900 mb-2">Calendar Color Legend</h4>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-4 h-4 bg-red-100 border border-red-300 inline-block rounded-sm"></span>
-                <span className="text-sm">Public Holidays</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-4 h-4 bg-green-100 border border-green-300 inline-block rounded-sm"></span>
-                <span className="text-sm">Pay Days</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
-                <span className="text-sm">Shifts (dot indicators in calendar)</span>
-              </div>
 
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-md font-semibold text-gray-900 mb-2">Available Actions</h4>
-            <ul className="list-disc pl-5 text-sm space-y-2">
-              <li><strong>View Calendar:</strong> Click to open a monthly calendar view of your shifts and payments</li>
-              <li><strong>Upload Screenshot:</strong> Upload a roster screenshot to automatically add shifts (coming soon)</li>
-              <li><strong>Add Shift:</strong> Manually add a new shift to your schedule</li>
-              <li><strong>Tap on a shift:</strong> View details and edit shift information</li>
-              <li><strong>Tap on a pay day:</strong> View payment details including gross pay and tax</li>
-            </ul>
-          </div>
-        </div>
-      </DetailModal>
     </div>
   );
 };

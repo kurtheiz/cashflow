@@ -29,4 +29,4 @@ export const ALLOWED_USERS: string[] = [
 // Enable access control
 // Set to true to restrict access to only the users in ALLOWED_USERS
 // Set to false to allow any Google user to access the app
-export const ENABLE_ACCESS_CONTROL = true;
+export const ENABLE_ACCESS_CONTROL = false;

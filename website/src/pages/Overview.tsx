@@ -53,61 +53,38 @@ const Overview = () => {
   const payPeriodsData = payPeriodsResp?.data || [];
 
   
-  // Get the next shift for each employer, sorted by date
-  const nextShiftsByEmployer = useMemo(() => {
+  // Get the next 3 upcoming shifts (across all employers), sorted by start time
+  const nextUpcomingShifts = useMemo(() => {
     if (!shiftsData || !Array.isArray(shiftsData)) {
       console.log('shiftsData is not an array:', shiftsData);
       return [];
     }
     
-    console.log('Processing shifts data in Overview:', shiftsData);
-    
-    // Use current date and time as 'now' to ensure consistent behavior
     const now = new Date();
-    
-    // Group shifts by employer
-    const shiftsByEmployer: Record<string, any[]> = {};
+    const allUpcomingShifts: any[] = [];
     
     // Process each shift with thorough validation
     shiftsData.forEach((shift: any) => {
       try {
-        // Make sure shift has all required properties
         if (shift && shift.date && shift.start && shift.end && shift.employerId) {
-          // Combine date and start/end time into Date objects
           const shiftDate = shift.date;
-          
-          // Ensure times have proper format with leading zeros
           const formatTime = (timeStr: string) => {
-            // If time is in format H:MM, add leading zero
             if (timeStr.length === 4 && timeStr.indexOf(':') === 1) {
               return `0${timeStr}`;
             }
             return timeStr;
           };
-          
           const shiftStart = new Date(`${shiftDate}T${formatTime(shift.start)}`);
           const shiftEnd = new Date(`${shiftDate}T${formatTime(shift.end)}`);
-          
           if (isNaN(shiftStart.getTime()) || isNaN(shiftEnd.getTime())) {
             console.error('Invalid shift date/time:', shift);
             return;
           }
-
-          // Check if the shift is today and hasn't ended yet, or is in the future
           const isToday = shiftDate === format(now, 'yyyy-MM-dd');
           const hasEnded = shiftEnd < now;
           const isInFuture = shiftStart > now;
-          
-          // Include shifts that are either:
-          // 1. Today and hasn't ended yet, or
-          // 2. In the future
           if ((isToday && !hasEnded) || isInFuture) {
-            if (!shiftsByEmployer[shift.employerId]) {
-              shiftsByEmployer[shift.employerId] = [];
-            }
-            
-            // Add shift with its start time for sorting
-            shiftsByEmployer[shift.employerId].push({
+            allUpcomingShifts.push({
               ...shift,
               startDateTime: shiftStart
             });
@@ -117,31 +94,10 @@ const Overview = () => {
         console.error('Error processing shift:', shift, error);
       }
     });
-    
-    // Get the next shift for each employer
-    const nextShifts: any[] = [];
-    
-    // For each employer, get their next shift
-    Object.keys(shiftsByEmployer).forEach(employerId => {
-      const employerShifts = shiftsByEmployer[employerId];
-      if (employerShifts.length > 0) {
-        // Sort shifts by start datetime
-        employerShifts.sort((a: any, b: any) => {
-          return a.startDateTime.getTime() - b.startDateTime.getTime();
-        });
-        
-        // Get the next shift
-        nextShifts.push(employerShifts[0]);
-      }
-    });
-    
-    // Sort the next shifts by date
-    nextShifts.sort((a: any, b: any) => {
-      return a.startDateTime.getTime() - b.startDateTime.getTime();
-    });
-    
-    console.log('Next shifts by employer sorted by date:', nextShifts);
-    return nextShifts;
+    // Sort all upcoming shifts by startDateTime
+    allUpcomingShifts.sort((a: any, b: any) => a.startDateTime.getTime() - b.startDateTime.getTime());
+    // Return only the next 3
+    return allUpcomingShifts.slice(0, 3);
   }, [shiftsData]);
   
   // Get upcoming pay dates for each employer
@@ -223,8 +179,8 @@ const Overview = () => {
                 </div>
               ) : (
                 <div className="w-full">
-                  {nextShiftsByEmployer.length > 0 ? (
-                    nextShiftsByEmployer.map((shift: any, index: number) => {
+                  {nextUpcomingShifts.length > 0 ? (
+                    nextUpcomingShifts.map((shift: any, index: number) => {
                       // Find the employer for this shift
                       const employer = employersData.find((emp: any) => emp.id === shift.employerId);
                       if (!employer) return null;
